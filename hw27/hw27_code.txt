@@ -1,0 +1,85 @@
+*data mining hw 27;
+*
+1.  The data set math5305Lab6Data.txt 
+	contains 4 columns, Y, X1, X2, and 
+	X3 respectively. Perform the 
+	following using SAS.;
+
+	data math5305lab2;
+	    infile '/folders/myshortcuts/sas_folder/math5305Lab6Data.txt' dlm=',';
+	    input Y X1 X2 X3;
+	proc print data=math5305lab2;
+	run;
+
+	***
+	(a) Fit the multiple regression model 
+	
+		Y_i = beta_0 + beta_1 X_{i1} + 
+			  beta_2 X_{i2} + beta_3 X_{i3} + eps_i;
+
+		proc reg data=math5305lab2;
+		    model Y=X1 X2 X3;
+		    output out = mult_reg_model
+		    r = mult_reg_e
+		    predicted=mult_reg_pred;
+		run;
+
+		proc print data=math5305lab2;
+		run;
+	***
+	(b) What are the estimates 
+		beta.hat.1, beta.hat.2 and beta.hat.3?;
+
+	***
+	(c) Find the t-statistic and corresponding 
+		p-value for each of X1, X2 and X3;
+
+	***
+	(d) Find the t-statistic and corresponding 
+		p-value for testing H0: beta1 = beta2 = beta3 = 0;
+
+	***
+	(e) Find R^2 for this model;
+
+	***
+	(f) Investigate normality of the residuals 
+		for this model using a qq-plot and the 
+		Shapiro-Wilk test;
+	
+		proc univariate data=mult_reg_model normal;
+			var mult_reg_e;
+			qqplot mult_reg_e;
+		run;
+
+	***
+	(g) Use the /SPEC option to assess 
+		homoestadicity of the residuals;
+		
+		proc reg data=math5305lab2;
+		    model Y=X1 X2 X3/SPEC;
+		run;
+
+	***
+	(h) Recall that e is the vector of 
+		residuals and Yhat is the vector of 
+		predicted values. Produce the following 
+		plots:
+		* Y vs. X_j, j = 1, 2, 3
+		* Y vs. Yhat
+		* e vs X_j, j = 1, 2, 3
+		* e vs Yhat;
+
+		proc plot data=mult_reg_model;
+			plot Y * X1
+				 Y * X2
+				 Y * X3
+				 Y * mult_reg_pred
+				 mult_reg_e * X1
+				 mult_reg_e * X2
+				 mult_reg_e * X3
+				 mult_reg_e * mult_reg_pred;
+		run;
+		
+	***
+	(i) Overall, do the typical linear regression 
+		model assumptions appear to hold for this model?;

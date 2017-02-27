@@ -1,0 +1,358 @@
+#This is a brief introduction to the statistical programming package R,
+#presented mostly through examples.
+
+
+#DOWNLOADING R AND R STUDIO
+
+#R can be downloaded for free at www.r-project.org/.
+
+#R studio is a nice "front end" for R and can be downloaded for free at
+#http://rstudio.org/.
+
+
+#SCRIPTS AND THE CONSOLE
+
+#The two windows you will work with most in R are the script window, where
+#programs are written/edited, and the console window, where commands are
+#executed.
+
+#This document is a script, a text file for keeping R code neat and 
+#organized.
+
+#Highlight the command below and press "ctrl + r".
+
+2+2
+
+#R copied this command into the console window and executed it.
+
+#You can also type commands directly into the console.  Try typing
+
+x=7
+x
+y=5
+y
+x+y
+
+#Note that the variables x and y now appear in the workspace window to the
+#right.  You can also see a list of variables in your workspace using the
+#command 
+
+ls()
+
+#Scripts can be saved as files with the extension .R.  In the workspace
+#window, you can save all the data in your workspace as a .RData file.
+
+#The Clear All command in the Workspace window deletes all objects from your
+#workspace.  You can delete the variable x with this command
+
+remove(x)
+
+#Go to "Edit", "Clear Console" (or "ctrl + l") to clear all the text from 
+#the console.  This doesn't actually delete anything -- it just clears the
+#text from the window.
+
+#The comment character in R is "#".  Lines of code starting with this
+#character are ignored by R.  This allows you to write comments in your
+#scripts without generating errors when the entire script is executed.
+
+
+#BASIC ARITHMETIC
+
+2+2
+8-5
+4*7
+7/3
+2^3
+
+#The "=" replaces the variable on the left with what's on the right.
+x=5
+x
+
+x=x+20
+x
+
+
+#VECTORS
+
+x=c(7,9,3,-8,5)
+x
+x[1]
+x[4]
+
+x=3:9
+x
+
+x=rep(15,4)
+x
+
+x=1:5
+y=6:10
+x+y
+
+z=c(x,y)
+z
+
+length(x)
+length(z)
+
+#Once nice feature of R and Matlab is the ability to perform operations on
+#vectors and matrices "elementwise".
+
+x*y
+x^2
+x/y
+
+#Matrix multiplication in R is given by %*%.
+
+x%*%y
+
+#Vectors in R do not have a strict identity as a row-vector or
+#column-vector.  R will interpret them to be whatever makes the expression
+#sensible.  In the above, R assumes that x%*%y makes sense, even though it
+#wouldn't if they were both row-vectors or both column-vectors.
+
+
+#HELP
+
+help(rep)
+
+#The args command tells you what the arguments (input parameters) are for
+#a fucntion, which can be helpful.
+
+args(rep)
+
+#Google.  In my experience, using google to get help on something is often
+#more effective than the help menu itself.
+
+
+#MATRICES
+
+#The command cbind takes vectors and binds them together to form a matrix,
+#where those vectors are the columns.
+
+x=1:3
+y=4:6
+z=7:9
+
+A=cbind(x,y,z)
+A
+
+B=matrix(c(10,11,12,50,51,52),3,2)
+B
+
+B=matrix(c(10,11,12,50,51,52),3,2,byrow='true')
+B
+
+dim(B)      #Returns the dimensions of B.  It's a 3x2 matrix.
+dim(B)[1]   #Number of rows in B.
+dim(B)[2]   #Number of cols in B.
+
+A=matrix(1:4,2,2,byrow='true')
+B=matrix(5:8,2,2,byrow='true')
+A
+B
+A+B
+
+
+A*B         #Elementwise multiplication
+A%*%B       #Matrix multiplication
+A^2         #Square each element
+A+7         #Add 7 to each element of A
+A%*%A       #Square A using matrix multiplication
+t(A)        #Transpose of A
+diag(A)     #Returns the diagonal of A as a vector.
+diag(3)     #Creates the 3x3 identity matrix.
+help(diag)  #Other uses for diag
+
+A^(-1)      #Find the reciprocal of each entry in A.
+solve(A)    #Matrix inverse of A
+
+solve(A)%*%A  #Gives the identity matrix as expected, with some
+              #round off error, due to the numberical instability
+              #of finding matrix inverses.
+
+
+#More on Solve.  Why is it called that?
+
+A=matrix(1:4,2,2,byrow='true')
+C=matrix(20:23,2,2,byrow='true')
+A
+C
+
+#Suppose we want to solve the equation AB=C for B.
+#The solution is B=inverse(A)C, and can be found with Gaussian elimination.
+
+#Try this command.
+
+B=solve(A,C)
+B
+
+A%*%B
+
+#The result is equal to C, as expected.
+
+#Now, inverse of A is the solution to the equation AB=I, where I is the
+#2x2 identity matrix.
+
+I=diag(2)
+
+B=solve(A,I)
+B
+
+A%*%B       #Returns I as expected, with round-off error.
+
+B=solve(A)  #We can leave out the second argument, and the default is the
+B           #identity matrix.
+
+
+#MATRIX ENTRIES
+
+x=(1:5)^2
+x
+
+x[3]
+x[c(1,2,5)]
+x[2:4]
+
+A=matrix(1:15,3,5,byrow='true')
+A
+
+A[3,4]
+A[1,]
+A[,4]
+A[c(1,3),c(1,2,4)]
+
+
+#LOGICAL OPERATIONS
+
+3==7
+3!=7
+3<7
+3>7
+3<=7
+3>=7
+
+x=1:10
+x==7
+x<=7
+
+x[x<=7]
+
+#Some more logical operations:
+#"&" is AND
+#"|" is OR
+#"!" is NOT
+
+TRUE & FALSE
+1 & 0
+
+TRUE | FALSE
+
+!TRUE
+
+P=c(TRUE,TRUE,FALSE,FALSE)
+Q=c(TRUE,FALSE,TRUE,FALSE)
+
+cbind(P,Q,P&Q)
+
+cbind(P,Q,P|Q)
+
+cbind(P,!P)
+
+
+#SOME PROGRAMMING TOOLS
+
+if(5>1){print('Yes, it is.')}
+
+if(5<1){print('Yes, it is.')}
+
+if(5>1){print('Yes, it is.')}else{
+    print('No, it is not')}
+
+if(5<1){print('Yes, it is.')}else{
+  print('No, it is not')}
+
+
+x=rep(1,10)
+x
+
+for(i in 1:10){
+  x[i]=i^2
+}
+
+x
+
+
+#Functions
+
+mysum=function(x,y){
+  x+y
+}
+
+mysum(5,3)
+
+
+#The next function uses an R object called a list.  Here's an example to 
+#show how lists work.
+
+L=list(x=5,y=1:4,z=diag(7))
+
+L$x
+L$y
+L$z
+
+
+myops=function(x,y){
+  mysum=x+y
+  mydiff=x-y
+  myprod=x*y
+  myquot=x/y
+  list(sum=mysum,diff=mydiff,prod=myprod,quot=myquot)
+}
+
+myops(5,3)$sum
+myops(5,3)$diff
+myops(5,3)$prod
+myops(5,3)$quot
+
+
+#STATISTICAL FUNCTIONS
+
+#R is equipped with many statistical functions.
+
+x=rnorm(1000,100,15)  #Generates a sample of size 1000 from a normal
+x                     #distribution with mu=100 and sigma=15
+
+mean(x)   #Computes the sample mean.
+sd(x)     #Computes the sample st dev.
+
+sum(x)    #Computes the sum of the elements of x.
+hist(x)   #Plots a histogram for x.
+
+
+
+u=runif(1000,10,20)  #Generates a sample of size 1000 from a uniform
+                     #Distribution on the interval [10,20].
+
+min(u)    #Finds the smallest component of u.
+max(u)    #Finds the largest component of u.
+
+sortedu=sort(u)
+sortedu
+sortedu[1]
+sortedu[1000]
+
+x=rnorm(1000,100,15)       #Random x values.
+epsilon=rnorm(1000,0,5)    #Random "errors".
+y=x+epsilon                #Random y values dependent on x.
+
+plot(x,y)                  #Scatterplot of (x,y) pairs.
+
+
+plot(-10:10,(-10:10)^2)    #Plot of the parabola y=x^2.
+plot(-10:10,(-10:10)^2,type='l')
+
+
+plot(x,y)
+lines(50:150,50:150,col='red')   #Adds the line y=x to the plot.
+

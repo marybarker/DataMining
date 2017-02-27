@@ -1,0 +1,1637 @@
+load('~/Dropbox/Tarleton/data_mining/generic_functions/dataset_ops.R')
+#dataset functions: #
+#
+#splitdata - splits a dataframe into test and train sets#
+#  inputs: #
+#    1. dataset to be split#
+#    2. (decimal) percent to be used for training set#
+#    3. boolean to decide whether to take a sample with replacement#
+#  output: #
+#    list of length 3, #
+#    list[[1]] = traindata#
+#    list[[2]] = testdata#
+#    list[[3]] = train (vector of indices from original set for train)#
+#
+#kfold_val - performs cross-validation on a dataset#
+#  inputs:#
+#    1. integer (k) for how many folds to use.#
+#    2. type (0 or 1) for what type of tree to use #
+#       (ctree or rpart resp)#
+#    3. data set #
+#    4. column index for which variable is being predicted#
+#    5. optional argument if naiveBayes is used for laplace value#
+#  output: #
+#    avg. error for either ctree or rpart w.r.t. dataset#
+#
+#error_leave_one_out - performs leave-one-out cross-validation.#
+#  inputs: #
+#    1. type (0 or 1) for what type of tree to use #
+#       (ctree or rpart resp)#
+#    2. data set #
+#    3. column index for which variable is being predicted#
+#    4. column index for which variable is being predicted#
+#    5. optional argument if naiveBayes is used for laplace value#
+#  outputs: #
+#   see kfold_val#
+#
+#delete_d_cv - performs delte-d cross validation#
+#  inputs: #
+#    1. integer: number of times to iterate (m)#
+#    2. integer: number of entries to leave out (d)#
+#    3. type (0 or 1) for ctree or rpart respectively#
+#    4. data set#
+#    5. column index for which variable is being predicted#
+#  outputs: #
+#   see kfold_val#
+#
+#bootstrap - performs bootstrap validation#
+#  inputs:#
+#    1. integer: number of times to iterate (b)#
+#    2. type(0 or 1) for (ctree, rpart) resp.#
+#    3. data set#
+#    4. column index for which variable is being predicted#
+#  outputs: #
+#   see kfold_val#
+#confmatrix - compute the confusionmatrix for a tree w.r.t. #
+#             predicted variable V#
+#  inputs: #
+#    1. V the predicted variable#
+#    2. prediction method #
+#  outputs: #
+#    1. list with entries: #
+#       1.1: table of predicted vs. actual V#
+#       1.2: accuracy#
+#       1.3: error#
+#
+#standardize - scale data in set with normal #
+#  inputs #
+#
+splitdata = function(data, trainfrac, rep){#
+	if((trainfrac > 1) | (trainfrac < 0)){#
+		print("error in function splitdata: trainfrac not in [0 1]")#
+	}#
+#
+	tot_size = nrow(data)#
+	train_list = sample(tot_size, round(trainfrac * tot_size, digits=0), #
+	                    replace = rep)#
+	traindata <- data[train_list, ]#
+	testdata <- data[-train_list, ]#
+	mylist <- list(traindata = traindata, testdata = testdata, train = train_list)#
+    return(mylist)#
+}#
+#
+kfold_val = function(k, treetype, wdbc, idx = 1, val = 0){#
+  test_acc <- rep(-1, k)#
+#
+  n1 <- names(wdbc)[idx]#
+  names(wdbc)[idx] <- 'mynewtestidx'#
+  size = ceiling(nrow(wdbc)/k)#
+  folds = sample(rep(1:k,size))#
+  myvec = folds[1:nrow(wdbc)]#
+#
+  for(i in 1:k){#
+    testdata <- wdbc[myvec==i,]#
+    traindata <- wdbc[myvec!=i,]#
+    if(treetype < 1){#
+      mynewtree <- ctree(mynewtestidx~., traindata)#
+      p_tree_train <- predict(mynewtree, testdata)#
+    }else if(treetype < 2){#
+      mynewtree <- rpart(mynewtestidx~., traindata)#
+      p_tree_train <- predict(mynewtree, testdata)#
+    }else if(treetype < 3){#
+      mynewtree <- naiveBayes(mynewtestidx~., traindata)#
+      p_tree_train <- predict(mynewtree, testdata)#
+    }else if(treetype < 4){#
+      mynewtree <- naiveBayes(mynewtestidx~., traindata, laplace = val)    	#
+      p_tree_train <- predict(mynewtree, testdata)#
+    }else if(treetype < 5){#
+      mynewtree <- nnet(mynewtestidx~., traindata, size = val, linout=FALSE)#
+      p_tree_train <- predict(mynewtree, testdata, type='class')#
+    }else if(treetype < 6){#
+      mynewtree <- nnet(mynewtestidx~., traindata, size = val, linout=TRUE)#
+      p_tree_train <- predict(mynewtree, testdata)#
+    }#
+    m_tree = table(testdata$mynewtestidx, p_tree_train)#
+#
+    test_acc[i] = (sum(diag(m_tree)) / sum(m_tree))#
+  }#
+  total_acc = sum(test_acc) / k#
+  names(wdbc)[idx] <- n1#
+#
+#  return(1 - total_acc)#
+  mynewlist <- list(error = 1 - total_acc, accuracy = 1 - test_acc)#
+  return(mynewlist)#
+}#
+#
+error_leave_one_out = function(treetype, wdbc, idx, val = 0){#
+	myerror = kfold_val(nrow(wdbc), treetype, wdbc, idx)#
+	return(myerror)#
+}#
+#
+delete_d_cv = function(m, d, mytree, wdbc, idx){#
+  total_acc = 0#
+  n1 <- names(wdbc)[idx]#
+  names(wdbc)[idx] <- 'mynewtestidx'#
+#
+  for(i in 1:m){#
+	splitlist <- splitdata(wdbc, 1 - d / nrow(wdbc), FALSE)#
+    traindata <- splitlist$traindata#
+    testdata <- splitlist$testdata#
+    if(mytree < 1){#
+      mynewtree = ctree(mynewtestidx~., traindata)#
+    }else{#
+      mynewtree = rpart(mynewtestidx~., traindata, type='class')#
+    }#
+#
+    p_tree_train <- predict(mynewtree, testdata)#
+#
+    m_tree = table(testdata$mynewtestidx, p_tree_train)#
+    test_acc = (sum(diag(m_tree)) / sum(m_tree))#
+    total_acc = total_acc + test_acc#
+  }#
+  total_acc = total_acc / m#
+  names(wdbc)[idx] <- n1#
+  return(1 - total_acc)#
+}#
+#
+bootstrap = function(b, mytree, wdbc, idx){#
+	n1 <- names(wdbc)[idx]#
+	names(wdbc)[idx] <- 'mynewidx'#
+    total_acc = 0#
+    n = nrow(wdbc)#
+    for(i in 1:b){#
+      	 splitlist <- splitdata(wdbc, 1, TRUE)#
+      	 traindata <- splitlist$traindata#
+      	 testdata <- splitlist$testdata#
+      	 if(mytree < 1){#
+      	 	mynewtree = ctree(mynewidx~., traindata)#
+      	 }else{#
+      	    mynewtree = rpart(mynewidx~., traindata)	#
+      	 }#
+      	 p_tree_train <- predict(mynewtree, testdata)#
+   	     m_tree = table(testdata$mynewidx, p_tree_train)#
+   	     test_acc = sum(diag(m_tree)) / sum(m_tree)#
+   	     total_acc = total_acc + test_acc#
+    }#
+#
+    names(wdbc)[idx] <- n1#
+    total_acc = total_acc / b#
+    return(1 - total_acc)#
+}#
+#
+euclidean = function(x1, x2){#
+  return(sqrt((x1 - x2) %*% (x1 - x2)))#
+}#
+#
+confmatrix = function(predy, y){#
+  matrix = table(predy, y)#
+  accuracy = sum(diag(matrix))/sum(matrix)#
+  return(list(matrix=matrix,accuracy=accuracy,error=1 - accuracy))#
+}#
+#
+standardize = function(myset, cols){#
+#
+ xbar <- apply(myset[,cols], 2, mean) # mean for each column#
+ s <- apply(myset[,cols], 2, sd)      # standard dev. for each col.#
+#
+ xbarMatrix <- cbind(rep(1,nrow(myset))) %*% xbar # matrix with each row xbar#
+ sMatrix <- cbind(rep(1,nrow(myset))) %*% s       # matrix with each row s#
+#
+ sdized <- (myset[,cols] - xbarMatrix)#
+ sdized <- sdized / sMatrix#
+ sdized <- cbind(V2 = myset[,1], sdized[,1:ncol(sdized),drop=F])#
+#
+ return(sdized)#
+}#
+#
+w_acc = function(mytable, w){#
+  tp = as.numeric(mytable[1, 1])#
+  tn = as.numeric(mytable[2, 2])#
+  fp = as.numeric(mytable[2, 1])#
+  fn = as.numeric(mytable[1, 2])#
+#
+  return( (w[1] * tp + w[4] * tn) / #
+          (w[1] * tp + w[2] * fp + w[3] * fn + w[4] * tn) )#
+}#
+accuracy = function(mytable){#
+  w = rep(1, 4)#
+  return(w_acc(mytable, w))#
+}#
+sensitivity = function(mytable){#
+  w = c(1, 0, 1, 0)#
+  return(w_acc(mytable, w))#
+}#
+specificity = function(mytable){#
+  w = c(0, 1, 0, 1)#
+  return(w_acc(mytable, w))#
+}#
+precision = function(mytable){#
+  w = c(1, 1, 0, 0)#
+  return(w_acc(mytable, w))#
+}#
+F1 = function(mytable){#
+  w = c(2, 1, 1, 0)#
+  return(w_acc(mytable, w))#
+}
+library(doMC)#
+source('~/Dropbox/Tarleton/data_mining/generic_functions/dataset_ops.R')#
+#
+#1 Use gradient descent to minimize the function f(x, y) = x^2 + y^2 + y#
+#  on the open disk x^2 + y^2 < 1. This is essentially the example on #
+#  p. 7 of the Lagrange multipliers slides, except that we are only #
+#  interested in interior points on this problem. #
+#
+#  (Hints: Start by randomly selecting a vector (x, y) in the disk, and #
+#   then apply gradient descent. If the vector excapes the disk during the #
+#   algorithm, randomly select a new vector. Store vectors that converge #
+#   to a minimum in a matrix, and repeat the entire process a large number #
+#   of times to ensure that there is only one local minimum inside the disk. #
+#   You may need to take some care with the learning rate to prevent vectors #
+#   from escaping the disk too often.)#
+#
+f <- function(x, y){#
+  return( sum(x^2) + sum(y * y) + y)#
+}#
+#
+grad_f <- function(x){#
+   return(c(2*x[1], 2*x[2] + 1))#
+}#
+#
+params <- function(x){#
+  if( sum(x^2) < 1){#
+  	return(TRUE)#
+  }else{#
+  	return(FALSE)#
+  }#
+}#
+#
+initial_guess <- function(){#
+  x <- runif(2, -1, 1)#
+  return(x)#
+}#
+#
+grad_descent <- function(x0, eps, tol, niter){#
+  i = 1; NOT_ZERO = TRUE#
+  x = x0#
+  while((i < niter) && (NOT_ZERO)){#
+    i = i + 1#
+    x = x - eps * grad_f(x)#
+    if(params(x)){#
+      if(abs(sum(grad_f(x))) < tol){#
+        NOT_ZERO = FALSE#
+      }#
+    }else{#
+      x <- initial_guess()#
+      eps = 0.75 * eps#
+      i = 1#
+    }#
+  }#
+  return(list(grad = grad_f(x), x = x, dx = eps, #
+              nit = i, converged = !NOT_ZERO))#
+}#
+n_guesses = 100#
+x_m <- matrix(runif(n_guesses * 2, -1, 1), nrow = n_guesses, ncol = 2)#
+vals <- matrix(,nrow=n_guesses,ncol=2)#
+#
+vals <- foreach(icount(n_guesses), .combine=rbind) %dopar% {#
+  grad_descent(x_m[i,], 0.5, 1.0e-15, 10000)$x#
+}
+vals <- foreach(icount(n_guesses), .combine=rbind) %dopar% {#
+  grad_descent(x_m[icount,], 0.5, 1.0e-15, 10000)$x#
+}
+vals <- foreach(i=1:n_guesses) %dopar% {#
+  grad_descent(x_m[icount,], 0.5, 1.0e-15, 10000)$x#
+}
+foreach(i=1:n_guesses) %dopar% {#
+  grad_descent(x_m[icount,], 0.5, 1.0e-15, 10000)$x#
+}
+vals
+x_m
+vals <- foreach(i=1:n_guesses, .combine=rbind) %dopar% {#
+  grad_descent(x_m[i,], 0.5, 1.0e-15, 10000)$x#
+}
+vals
+levels(vals)
+#######################################################################
+# Initialize matrix of initial guesses and compute gradient descent  ##
+#######################################################################
+n_guesses = 300#
+x_m <- matrix(runif(n_guesses * 2, -1, 1), nrow = n_guesses, ncol = 2)#
+vals <- matrix(,nrow=n_guesses,ncol=2)#
+#
+vals <- foreach(i=1:n_guesses, .combine=rbind) %dopar% {#
+  grad_descent(x_m[i,], 0.5, 1.0e-15, 10000)$x#
+}
+vals
+print(max(vals[,1]) - min(vals[,1]))#
+print(max(vals[,2]) - min(vals[,2]))
+print('TOTAL VARIATION IN COMPUTED CRITICAL POINT')#
+print(c('variation in x-values: ',max(vals[,1]) - min(vals[,1])))#
+print(c('variation in y-values: ',max(vals[,2]) - min(vals[,2])))
+print('TOTAL VARIATION IN COMPUTED CRITICAL POINT')#
+print(c('variation in x-values->',max(vals[,1]) - min(vals[,1])))#
+print(c('variation in y-values->',max(vals[,2]) - min(vals[,2])))
+library(doMC)#
+source('~/Dropbox/Tarleton/data_mining/generic_functions/dataset_ops.R')#
+#
+#1 Use gradient descent to minimize the function f(x, y) = x^2 + y^2 + y#
+#  on the open disk x^2 + y^2 < 1. This is essentially the example on #
+#  p. 7 of the Lagrange multipliers slides, except that we are only #
+#  interested in interior points on this problem. #
+#
+#  (Hints: Start by randomly selecting a vector (x, y) in the disk, and #
+#   then apply gradient descent. If the vector excapes the disk during the #
+#   algorithm, randomly select a new vector. Store vectors that converge #
+#   to a minimum in a matrix, and repeat the entire process a large number #
+#   of times to ensure that there is only one local minimum inside the disk. #
+#   You may need to take some care with the learning rate to prevent vectors #
+#   from escaping the disk too often.)#
+#
+f <- function(x, y){#
+  return( sum(x^2) + sum(y * y) + y)#
+}#
+#
+grad_f <- function(x){#
+   return(c(2*x[1], 2*x[2] + 1))#
+}#
+#
+params <- function(x){#
+  if( sum(x^2) < 1){#
+  	return(TRUE)#
+  }else{#
+  	return(FALSE)#
+  }#
+}#
+#
+initial_guess <- function(){#
+  x <- runif(2, -1, 1)#
+  return(x)#
+}#
+#
+grad_descent <- function(x0, eps, tol, niter){#
+  i = 1; NOT_ZERO = TRUE#
+  x = x0#
+  while((i < niter) && (NOT_ZERO)){#
+    i = i + 1#
+    x = x - eps * grad_f(x)#
+    if(params(x)){#
+      if(abs(sum(grad_f(x))) < tol){#
+        NOT_ZERO = FALSE#
+      }#
+    }else{#
+      x <- initial_guess()#
+      eps = 0.75 * eps#
+      i = 1#
+    }#
+  }#
+  return(list(grad = grad_f(x), x = x, dx = eps, #
+              nit = i, converged = !NOT_ZERO))#
+}#
+#
+#######################################################################
+# Initialize matrix of initial guesses and compute gradient descent  ##
+#######################################################################
+n_guesses = 300#
+x_m <- matrix(runif(n_guesses * 2, -1, 1), nrow = n_guesses, ncol = 2)#
+vals <- matrix(,nrow=n_guesses,ncol=2)#
+#
+vals <- foreach(i=1:n_guesses, .combine=rbind) %dopar% {#
+  grad_descent(x_m[i,], 0.5, 1.0e-15, 10000)$x#
+}#
+print('TOTAL VARIATION IN COMPUTED CRITICAL POINT')#
+print(c('variation in x-values->',max(vals[,1]) - min(vals[,1])))#
+print(c('variation in y-values->',max(vals[,2]) - min(vals[,2])))
+#######################################################################
+# Initialize matrix of initial guesses and compute gradient descent  ##
+#######################################################################
+n_guesses = 1000#
+x_m <- matrix(runif(n_guesses * 2, -1, 1), nrow = n_guesses, ncol = 2)#
+vals <- matrix(,nrow=n_guesses,ncol=2)#
+#
+vals <- foreach(i=1:n_guesses, .combine=rbind) %dopar% {#
+  grad_descent(x_m[i,], 0.5, 1.0e-15, 10000)$x#
+}#
+print('TOTAL VARIATION IN COMPUTED CRITICAL POINT')#
+print(c('variation in x-values->',max(vals[,1]) - min(vals[,1])))#
+print(c('variation in y-values->',max(vals[,2]) - min(vals[,2])))
+vals
+#######################################################################
+# Initialize matrix of initial guesses and compute gradient descent  ##
+#######################################################################
+n_guesses = 1000#
+x_m <- matrix(runif(n_guesses * 2, -1, 1), nrow = n_guesses, ncol = 2)#
+vals <- matrix(,nrow=n_guesses,ncol=2)#
+#
+vals <- foreach(i=1:n_guesses, .combine=rbind) %dopar% {#
+  grad_descent(x_m[i,], 0.9, 1.0e-15, 10000)$x#
+}#
+print('TOTAL VARIATION IN COMPUTED CRITICAL POINT')#
+print(c('variation in x-values->',max(vals[,1]) - min(vals[,1])))#
+print(c('variation in y-values->',max(vals[,2]) - min(vals[,2])))
+vals
+grad_descent <- function(x0, eps, tol, niter){#
+  i = 1; NOT_ZERO = TRUE#
+  x = x0#
+  while((i < niter) && (NOT_ZERO)){#
+    i = i + 1#
+    x = x - eps * grad_f(x)#
+    if(params(x)){#
+      if(abs(sum(grad_f(x))) < tol){#
+        NOT_ZERO = FALSE#
+      }#
+    }else{#
+x <- c('NA','NA')#
+i = niter + 5#
+      # x <- initial_guess()#
+      # eps = 0.75 * eps#
+      # i = 1#
+    }#
+  }#
+  return(list(grad = grad_f(x), x = x, dx = eps, #
+              nit = i, converged = !NOT_ZERO))#
+}#
+#
+#######################################################################
+# Initialize matrix of initial guesses and compute gradient descent  ##
+#######################################################################
+n_guesses = 1000#
+x_m <- matrix(runif(n_guesses * 2, -1, 1), nrow = n_guesses, ncol = 2)#
+vals <- matrix(,nrow=n_guesses,ncol=2)#
+#
+vals <- foreach(i=1:n_guesses, .combine=rbind) %dopar% {#
+  grad_descent(x_m[i,], 0.9, 1.0e-15, 10000)$x#
+}#
+print('TOTAL VARIATION IN COMPUTED CRITICAL POINT')#
+print(c('variation in x-values->',max(vals[,1]) - min(vals[,1])))#
+print(c('variation in y-values->',max(vals[,2]) - min(vals[,2])))
+vals <- !is.na(vals)
+print('TOTAL VARIATION IN COMPUTED CRITICAL POINT')#
+print(c('variation in x-values->',max(vals[,1]) - min(vals[,1])))#
+print(c('variation in y-values->',max(vals[,2]) - min(vals[,2])))
+vals
+vals <- vals[!is.na(vals[,1]) * 1,]
+print('TOTAL VARIATION IN COMPUTED CRITICAL POINT')#
+print(c('variation in x-values->',max(vals[,1]) - min(vals[,1])))#
+print(c('variation in y-values->',max(vals[,2]) - min(vals[,2])))
+vals
+vals <- foreach(i=1:n_guesses, .combine=rbind) %dopar% {#
+  grad_descent(x_m[i,], 0.9, 1.0e-15, 10000)$x#
+}#
+#
+vals <- vals[!is.na(vals[,1]) * 1,]#
+print('TOTAL VARIATION IN COMPUTED CRITICAL POINT')#
+print(c('variation in x-values->',max(vals[,1]) - min(vals[,1])))#
+print(c('variation in y-values->',max(vals[,2]) - min(vals[,2])))
+vals
+n_guesses = 1000#
+x_m <- matrix(runif(n_guesses * 2, -1, 1), nrow = n_guesses, ncol = 2)#
+vals <- matrix(,nrow=n_guesses,ncol=2)#
+#
+vals <- foreach(i=1:n_guesses, .combine=rbind) %dopar% {#
+  grad_descent(x_m[i,], 0.9, 1.0e-15, 10000)$x#
+}
+#Data Mining hw 14#
+#
+library(doMC)#
+source('~/Dropbox/Tarleton/data_mining/generic_functions/dataset_ops.R')#
+#
+#1 Use gradient descent to minimize the function f(x, y) = x^2 + y^2 + y#
+#  on the open disk x^2 + y^2 < 1. This is essentially the example on #
+#  p. 7 of the Lagrange multipliers slides, except that we are only #
+#  interested in interior points on this problem. #
+#
+#  (Hints: Start by randomly selecting a vector (x, y) in the disk, and #
+#   then apply gradient descent. If the vector excapes the disk during the #
+#   algorithm, randomly select a new vector. Store vectors that converge #
+#   to a minimum in a matrix, and repeat the entire process a large number #
+#   of times to ensure that there is only one local minimum inside the disk. #
+#   You may need to take some care with the learning rate to prevent vectors #
+#   from escaping the disk too often.)#
+#
+f <- function(x, y){#
+  return( sum(x^2) + sum(y * y) + y)#
+}#
+#
+grad_f <- function(x){#
+   return(c(2*x[1], 2*x[2] + 1))#
+}#
+#
+params <- function(x){#
+  if( sum(x^2) < 1){#
+  	return(TRUE)#
+  }else{#
+  	return(FALSE)#
+  }#
+}#
+#
+initial_guess <- function(){#
+  x <- runif(2, -1, 1)#
+  return(x)#
+}#
+#
+grad_descent <- function(x0, eps, tol, niter){#
+  i = 1; NOT_ZERO = TRUE#
+  x = x0#
+  while((i < niter) && (NOT_ZERO)){#
+    i = i + 1#
+    x = x - eps * grad_f(x)#
+    if(params(x)){#
+      if(abs(sum(grad_f(x))) < tol){#
+        NOT_ZERO = FALSE#
+      }#
+    }else{#
+      # x <- initial_guess()#
+      # eps = 0.75 * eps#
+      # i = 1#
+    }#
+  }#
+  return(list(grad = grad_f(x), x = x, dx = eps, #
+              nit = i, converged = !NOT_ZERO))#
+}#
+#
+#######################################################################
+# Initialize matrix of initial guesses and compute gradient descent  ##
+#######################################################################
+n_guesses = 1000#
+x_m <- matrix(runif(n_guesses * 2, -1, 1), nrow = n_guesses, ncol = 2)#
+vals <- matrix(,nrow=n_guesses,ncol=2)#
+#
+vals <- foreach(i=1:n_guesses, .combine=rbind) %dopar% {#
+  grad_descent(x_m[i,], 0.9, 1.0e-15, 10000)$x#
+}#
+print('TOTAL VARIATION IN COMPUTED CRITICAL POINT')#
+print(c('variation in x-values->',max(vals[,1]) - min(vals[,1])))#
+print(c('variation in y-values->',max(vals[,2]) - min(vals[,2])))#
+#
+#2 Compare the merits of using a 2-layer neural network (with 1 hidden layer) #
+#  and a multi-layer neural network to the wdbc data set. Let's say you only #
+#  have 10 minutes to train a network with nnet or mlp. Which approach produces #
+#  the model with the higher classification accuracy? It may be interesting to #
+#  compare the two packages for a variety of time frames and to consider #
+#  different network topologies for mlp, e.g., size=c(2, 4) vs. size=c(2, 2, 2).
+registerDoMC()
+#Data Mining hw 14#
+#
+library(doMC)#
+source('~/Dropbox/Tarleton/data_mining/generic_functions/dataset_ops.R')#
+#
+#1 Use gradient descent to minimize the function f(x, y) = x^2 + y^2 + y#
+#  on the open disk x^2 + y^2 < 1. This is essentially the example on #
+#  p. 7 of the Lagrange multipliers slides, except that we are only #
+#  interested in interior points on this problem. #
+#
+#  (Hints: Start by randomly selecting a vector (x, y) in the disk, and #
+#   then apply gradient descent. If the vector excapes the disk during the #
+#   algorithm, randomly select a new vector. Store vectors that converge #
+#   to a minimum in a matrix, and repeat the entire process a large number #
+#   of times to ensure that there is only one local minimum inside the disk. #
+#   You may need to take some care with the learning rate to prevent vectors #
+#   from escaping the disk too often.)#
+#
+f <- function(x, y){#
+  return( sum(x^2) + sum(y * y) + y)#
+}#
+#
+grad_f <- function(x){#
+   return(c(2*x[1], 2*x[2] + 1))#
+}#
+#
+params <- function(x){#
+  if( sum(x^2) < 1){#
+  	return(TRUE)#
+  }else{#
+  	return(FALSE)#
+  }#
+}#
+#
+initial_guess <- function(){#
+  x <- runif(2, -1, 1)#
+  return(x)#
+}#
+#
+grad_descent <- function(x0, eps, tol, niter){#
+  i = 1; NOT_ZERO = TRUE#
+  x = x0#
+  while((i < niter) && (NOT_ZERO)){#
+    i = i + 1#
+    x = x - eps * grad_f(x)#
+    if(params(x)){#
+      if(abs(sum(grad_f(x))) < tol){#
+        NOT_ZERO = FALSE#
+      }#
+    }else{#
+      # x <- initial_guess()#
+      # eps = 0.75 * eps#
+      # i = 1#
+    }#
+  }#
+  return(list(grad = grad_f(x), x = x, dx = eps, #
+              nit = i, converged = !NOT_ZERO))#
+}#
+#
+#######################################################################
+# Initialize matrix of initial guesses and compute gradient descent  ##
+#######################################################################
+n_guesses = 1000#
+x_m <- matrix(runif(n_guesses * 2, -1, 1), nrow = n_guesses, ncol = 2)#
+vals <- matrix(,nrow=n_guesses,ncol=2)#
+#
+vals <- foreach(i=1:n_guesses, .combine=rbind) %dopar% {#
+  grad_descent(x_m[i,], 0.9, 1.0e-15, 10000)$x#
+}#
+print('TOTAL VARIATION IN COMPUTED CRITICAL POINT')#
+print(c('variation in x-values->',max(vals[,1]) - min(vals[,1])))#
+print(c('variation in y-values->',max(vals[,2]) - min(vals[,2])))#
+#
+#2 Compare the merits of using a 2-layer neural network (with 1 hidden layer) #
+#  and a multi-layer neural network to the wdbc data set. Let's say you only #
+#  have 10 minutes to train a network with nnet or mlp. Which approach produces #
+#  the model with the higher classification accuracy? It may be interesting to #
+#  compare the two packages for a variety of time frames and to consider #
+#  different network topologies for mlp, e.g., size=c(2, 4) vs. size=c(2, 2, 2).
+vlas
+vals
+print('TOTAL VARIATION IN COMPUTED CRITICAL POINT')#
+print(c('variation in x-values->',max(vals[,1]) - min(vals[,1])))#
+print(c('variation in y-values->',max(vals[,2]) - min(vals[,2])))
+dx <- toString(max(vals[,1]) - min(vals[,1]))
+dx
+dx <- toString(max(vals[,1]) - min(vals[,1]))#
+dy <- toString(max(vals[,2]) - min(vals[,2]))#
+paste('variation in x-values-> ',dx,'\n','variation in y-values-> ',dy)#
+#paste('variation in y-values-> ',dy)#
+#
+print('TOTAL VARIATION IN COMPUTED CRITICAL POINT')#
+print(dx)
+dx <- toString(max(vals[,1]) - min(vals[,1]))#
+dy <- toString(max(vals[,2]) - min(vals[,2]))#
+paste('TOTAL VARIATION IN COMPUTED CRITICAL POINT \nvariation in x-values-> ',#
+       dx,'\n','variation in y-values-> ',dy)#
+print(dx)
+paste('TOTAL VARIATION IN COMPUTED CRITICAL POINT \n variation in x-values-> ',#
+       dx,'\n','variation in y-values-> ',dy)#
+print(dx)
+writeLines(dx)
+dx <- paste('TOTAL VARIATION IN COMPUTED CRITICAL POINT \n variation in x-values-> ',#
+       dx,'\n','variation in y-values-> ',dy)
+paste('TOTAL VARIATION IN COMPUTED CRITICAL POINT \n variation in x-values-> ',#
+       dx,'\n','variation in y-values-> ',dy)#
+print(dx)
+writeLines(dx)
+dx <- paste('TOTAL VARIATION IN COMPUTED CRITICAL POINT', #
+          '\n variation in x-values-> ',#
+       dx,'\n','variation in y-values-> ',dy)#
+writeLines(dx)
+dx <- toString(max(vals[,1]) - min(vals[,1]))#
+dy <- toString(max(vals[,2]) - min(vals[,2]))#
+#
+dx <- paste('TOTAL VARIATION IN COMPUTED CRITICAL POINT', #
+          '\n variation in x-values-> ',#
+       dx,'\n','variation in y-values-> ',dy)#
+writeLines(dx)
+dx <- paste('TOTAL VARIATION IN COMPUTED CRITICAL POINT', #
+            '\n variation in x-values-> ', #
+            toString(max(vals[,1]) - min(vals[,1])),#
+            '\n','variation in y-values-> ',#
+             toString(max(vals[,2]) - min(vals[,2])))
+writeLines(dx)
+#Data Mining hw 14#
+#
+library(doMC)#
+registerDoMC()#
+#
+source('~/Dropbox/Tarleton/data_mining/generic_functions/dataset_ops.R')#
+#
+#1 Use gradient descent to minimize the function f(x, y) = x^2 + y^2 + y#
+#  on the open disk x^2 + y^2 < 1. This is essentially the example on #
+#  p. 7 of the Lagrange multipliers slides, except that we are only #
+#  interested in interior points on this problem. #
+#
+#  (Hints: Start by randomly selecting a vector (x, y) in the disk, and #
+#   then apply gradient descent. If the vector excapes the disk during the #
+#   algorithm, randomly select a new vector. Store vectors that converge #
+#   to a minimum in a matrix, and repeat the entire process a large number #
+#   of times to ensure that there is only one local minimum inside the disk. #
+#   You may need to take some care with the learning rate to prevent vectors #
+#   from escaping the disk too often.)#
+#
+f <- function(x, y){#
+  return( sum(x^2) + sum(y * y) + y)#
+}#
+#
+grad_f <- function(x){#
+   return(c(2*x[1], 2*x[2] + 1))#
+}#
+#
+params <- function(x){#
+  if( sum(x^2) < 1){#
+  	return(TRUE)#
+  }else{#
+  	return(FALSE)#
+  }#
+}#
+#
+initial_guess <- function(){#
+  x <- runif(2, -1, 1)#
+  return(x)#
+}#
+#
+grad_descent <- function(x0, eps, tol, niter){#
+  i = 1; NOT_ZERO = TRUE#
+  x = x0#
+  while((i < niter) && (NOT_ZERO)){#
+    i = i + 1#
+    x = x - eps * grad_f(x)#
+    if(params(x)){#
+      if(abs(sum(grad_f(x))) < tol){#
+        NOT_ZERO = FALSE#
+      }#
+    }else{#
+      x <- initial_guess()#
+      eps = 0.75 * eps#
+      i = 1#
+    }#
+  }#
+  return(list(grad = grad_f(x), x = x, dx = eps, #
+              nit = i, converged = !NOT_ZERO))#
+}#
+#
+#######################################################################
+# Initialize matrix of initial guesses and compute gradient descent  ##
+#######################################################################
+n_guesses = 1000#
+x_m <- matrix(runif(n_guesses * 2, -1, 1), nrow = n_guesses, ncol = 2)#
+vals <- matrix(,nrow=n_guesses,ncol=2)#
+#
+vals <- foreach(i=1:n_guesses, .combine=rbind) %dopar% {#
+  grad_descent(x_m[i,], 0.9, 1.0e-15, 10000)$x#
+}#
+#
+dx <- paste('TOTAL VARIATION IN COMPUTED CRITICAL POINT', #
+            '\n variation in x-values -> ', #
+            toString(max(vals[,1]) - min(vals[,1])),#
+            '\n','variation in y-values -> ',#
+             toString(max(vals[,2]) - min(vals[,2])))#
+writeLines(dx)#
+#
+#2 Compare the merits of using a 2-layer neural network (with 1 hidden layer) #
+#  and a multi-layer neural network to the wdbc data set. Let's say you only #
+#  have 10 minutes to train a network with nnet or mlp. Which approach produces #
+#  the model with the higher classification accuracy? It may be interesting to #
+#  compare the two packages for a variety of time frames and to consider #
+#  different network topologies for mlp, e.g., size=c(2, 4) vs. size=c(2, 2, 2).
+#Data Mining hw 14#
+#
+library(doMC)#
+registerDoMC()#
+#
+source('~/Dropbox/Tarleton/data_mining/generic_functions/dataset_ops.R')#
+#
+if(FALSE){#
+1 Use gradient descent to minimize the function f(x, y) = x^2 + y^2 + y#
+ on the open disk x^2 + y^2 < 1. This is essentially the example on #
+ p. 7 of the Lagrange multipliers slides, except that we are only #
+ interested in interior points on this problem. #
+#
+ (Hints: Start by randomly selecting a vector (x, y) in the disk, and #
+  then apply gradient descent. If the vector excapes the disk during the #
+  algorithm, randomly select a new vector. Store vectors that converge #
+  to a minimum in a matrix, and repeat the entire process a large number #
+  of times to ensure that there is only one local minimum inside the disk. #
+  You may need to take some care with the learning rate to prevent vectors #
+  from escaping the disk too often.)#
+}#
+f <- function(x, y){#
+  return( sum(x^2) + sum(y * y) + y)#
+}#
+#
+grad_f <- function(x){#
+   return(c(2*x[1], 2*x[2] + 1))#
+}#
+#
+params <- function(x){#
+  if( sum(x^2) < 1){#
+  	return(TRUE)#
+  }else{#
+  	return(FALSE)#
+  }#
+}#
+#
+initial_guess <- function(){#
+  x <- runif(2, -1, 1)#
+  return(x)#
+}#
+#
+grad_descent <- function(x0, eps, tol, niter){#
+  i = 1; NOT_ZERO = TRUE#
+  x = x0#
+  while((i < niter) && (NOT_ZERO)){#
+    i = i + 1#
+    x = x - eps * grad_f(x)#
+    if(params(x)){#
+      if(abs(sum(grad_f(x))) < tol){#
+        NOT_ZERO = FALSE#
+      }#
+    }else{#
+      x <- initial_guess()#
+      eps = 0.75 * eps#
+      i = 1#
+    }#
+  }#
+  return(list(grad = grad_f(x), x = x, dx = eps, #
+              nit = i, converged = !NOT_ZERO))#
+}#
+#
+#######################################################################
+# Initialize matrix of initial guesses and compute gradient descent  ##
+#######################################################################
+n_guesses = 1000#
+x_m <- matrix(runif(n_guesses * 2, -1, 1), nrow = n_guesses, ncol = 2)#
+vals <- matrix(,nrow=n_guesses,ncol=2)#
+#
+vals <- foreach(i=1:n_guesses, .combine=rbind) %dopar% {#
+  grad_descent(x_m[i,], 0.9, 1.0e-15, 10000)$x#
+}#
+#
+dx <- paste('TOTAL VARIATION IN COMPUTED CRITICAL POINT', #
+            '\n variation in x-values -> ', #
+            toString(max(vals[,1]) - min(vals[,1])),#
+            '\n','variation in y-values -> ',#
+             toString(max(vals[,2]) - min(vals[,2])))#
+writeLines(dx)#
+if(FALSE){#
+2 Compare the merits of using a 2-layer neural network (with 1 hidden layer) #
+ and a multi-layer neural network to the wdbc data set. Let's say you only #
+ have 10 minutes to train a network with nnet or mlp. Which approach produces #
+ the model with the higher classification accuracy? It may be interesting to #
+ compare the two packages for a variety of time frames and to consider #
+ different network topologies for mlp, e.g., size=c(2, 4) vs. size=c(2, 2, 2).#
+}#
+#
+wdbc <- read.csv(`~/Dropbox/Tarleton/data_mining/dfiles/wdbc.data`, #
+                  header=F, sep=',')#
+wdbc <- wdbc[,-1]
+if( FALSE ){#
+1 Use gradient descent to minimize the function f(x, y) = x^2 + y^2 + y#
+ on the open disk x^2 + y^2 < 1. This is essentially the example on #
+ p. 7 of the Lagrange multipliers slides, except that we are only #
+ interested in interior points on this problem. #
+#
+ (Hints: Start by randomly selecting a vector (x, y) in the disk, and #
+  then apply gradient descent. If the vector excapes the disk during the #
+  algorithm, randomly select a new vector. Store vectors that converge #
+  to a minimum in a matrix, and repeat the entire process a large number #
+  of times to ensure that there is only one local minimum inside the disk. #
+  You may need to take some care with the learning rate to prevent vectors #
+  from escaping the disk too often.)#
+}
+library(doMC)#
+registerDoMC()#
+#
+source('~/Dropbox/Tarleton/data_mining/generic_functions/dataset_ops.R')#
+#
+#1 Use gradient descent to minimize the function f(x, y) = x^2 + y^2 + y#
+#  on the open disk x^2 + y^2 < 1. This is essentially the example on #
+#  p. 7 of the Lagrange multipliers slides, except that we are only #
+#  interested in interior points on this problem. #
+#
+#  (Hints: Start by randomly selecting a vector (x, y) in the disk, and #
+#   then apply gradient descent. If the vector excapes the disk during the #
+#   algorithm, randomly select a new vector. Store vectors that converge #
+#   to a minimum in a matrix, and repeat the entire process a large number #
+#   of times to ensure that there is only one local minimum inside the disk. #
+#   You may need to take some care with the learning rate to prevent vectors #
+#   from escaping the disk too often.)#
+#
+f <- function(x, y){#
+  return( sum(x^2) + sum(y * y) + y)#
+}#
+#
+grad_f <- function(x){#
+   return(c(2*x[1], 2*x[2] + 1))#
+}#
+#
+params <- function(x){#
+  if( sum(x^2) < 1){#
+  	return(TRUE)#
+  }else{#
+  	return(FALSE)#
+  }#
+}#
+#
+initial_guess <- function(){#
+  x <- runif(2, -1, 1)#
+  return(x)#
+}#
+#
+grad_descent <- function(x0, eps, tol, niter){#
+  i = 1; NOT_ZERO = TRUE#
+  x = x0#
+  while((i < niter) && (NOT_ZERO)){#
+    i = i + 1#
+    x = x - eps * grad_f(x)#
+    if(params(x)){#
+      if(abs(sum(grad_f(x))) < tol){#
+        NOT_ZERO = FALSE#
+      }#
+    }else{#
+      x <- initial_guess()#
+      eps = 0.75 * eps#
+      i = 1#
+    }#
+  }#
+  return(list(grad = grad_f(x), x = x, dx = eps, #
+              nit = i, converged = !NOT_ZERO))#
+}#
+#
+#######################################################################
+# Initialize matrix of initial guesses and compute gradient descent  ##
+#######################################################################
+n_guesses = 1000#
+x_m <- matrix(runif(n_guesses * 2, -1, 1), nrow = n_guesses, ncol = 2)#
+vals <- matrix(,nrow=n_guesses,ncol=2)#
+#
+vals <- foreach(i=1:n_guesses, .combine=rbind) %dopar% {#
+  grad_descent(x_m[i,], 0.9, 1.0e-15, 10000)$x#
+}#
+#
+dx <- paste('TOTAL VARIATION IN COMPUTED CRITICAL POINT', #
+            '\n variation in x-values -> ', #
+            toString(max(vals[,1]) - min(vals[,1])),#
+            '\n','variation in y-values -> ',#
+             toString(max(vals[,2]) - min(vals[,2])))#
+writeLines(dx)
+#Data Mining Hw 12#
+library(e1071)#
+source('~/Dropbox/Tarleton/data_mining/generic_functions/dataset_ops.R')#
+#
+#1a. Create a version of the iris data set, where the class labels #
+#    "versicolor" and "virginica" are replaced by "nonsetosa". This #
+#    problem involves building an SVM to classify iris flowers as #
+#    setosa or nonsetosa#
+#
+new_iris <- iris#
+idx <- (new_iris$Species == 'setosa') * 1#
+Species <- rep('',length(idx))#
+Species[idx == 1] <- 'setosa'#
+Species[idx != 1] <- 'nonsetosa'#
+new_iris$Species <- Species#
+levels(new_iris$Species) <- c('setosa', 'nonsetosa')#
+#
+# 1b Fit a linear support vector machine to the data with cost = 1000 #
+#    and plot the SVM#
+#
+#Separate model for comparison#
+petalmodel <- svm(as.factor(Species)~Petal.Length + Petal.Width, #
+                  new_iris, kernel='linear',cost=1000)#
+plot(petalmodel, new_iris, Petal.Width~Petal.Length, )#
+#saved in svm_petal#
+#
+sepalmodel <- svm(as.factor(Species)~Sepal.Length + Sepal.Width, #
+                  new_iris, kernel='linear',cost=1000)#
+plot(sepalmodel, new_iris, Sepal.Width~Sepal.Length, )#
+#saved in svm_sepal
+petalmodel
+sepalmodel
+sum(petalmodel$nSV)
+sum(sepalmodel$nSV)
+w = t(petalmodel$coefs) %*% (petalmodel$SV)
+w
+petalmodel$rho
+w = t(sepalmodel$coefs) %*% (sepalmodel$SV)
+2
+w
+-sepalmodel$rho
+table(predict(speciesmodel, new_iris))
+#Data Mining Hw 12#
+library(e1071)#
+source('~/Dropbox/Tarleton/data_mining/generic_functions/dataset_ops.R')#
+#
+#1a. Create a version of the iris data set, where the class labels #
+#    "versicolor" and "virginica" are replaced by "nonsetosa". This #
+#    problem involves building an SVM to classify iris flowers as #
+#    setosa or nonsetosa#
+#
+new_iris <- iris#
+idx <- (new_iris$Species == 'setosa') * 1#
+Species <- rep('',length(idx))#
+Species[idx == 1] <- 'setosa'#
+Species[idx != 1] <- 'nonsetosa'#
+new_iris$Species <- Species#
+levels(new_iris$Species) <- c('setosa', 'nonsetosa')#
+#
+# 1b Fit a linear support vector machine to the data with cost = 1000 #
+#    and plot the SVM#
+#
+#Separate model for comparison#
+petalmodel <- svm(as.factor(Species)~Petal.Length + Petal.Width, #
+                  new_iris, kernel='linear',cost=1000)#
+plot(petalmodel, new_iris, Petal.Width~Petal.Length, )#
+#saved in svm_petal#
+#
+sepalmodel <- svm(as.factor(Species)~Sepal.Length + Sepal.Width, #
+                  new_iris, kernel='linear',cost=1000)#
+plot(sepalmodel, new_iris, Sepal.Width~Sepal.Length, )#
+#saved in svm_sepal#
+#
+speciesmodel <- svm(as.factor(Species)~., new_iris, kernel='linear',cost = 1000)#
+plot(speciesmodel, new_iris, Petal.Width~Petal.Length)#
+#saved in svm_iris#
+#
+# 1c Is the data set linearly seperable? #
+#yes #
+#
+# 1d How many support vectors are there? #
+sum(speciesmodel$nSV)#
+#4 support vectors#
+#
+#1e Fnd the parameters w and b that define the decision boundary#
+w = t(speciesmodel$coefs) %*% (speciesmodel$SV)#
+b = -speciesmodel$rho#
+#w   -0.4402915   0.3329121   -0.8948921  -0.9260634#
+#b   -1.474086#
+#
+#2 Split wdbc.data into 70% training and 30% test data#
+#
+wdbc <- read.table("~/Dropbox/Tarleton/data_mining/dfiles/wdbc.data", #
+        header = FALSE, sep = ",")#
+wdbc <- wdbc[,-1]#
+splitset <- splitdata(wdbc, 0.7, FALSE)#
+train <- splitset$train#
+#
+#2a Fit an SVM to the training data.#
+#
+wdbcmodel <- svm(V2~., wdbc[train,])#
+#
+#2b What type of kernel was used? #
+#radial#
+#
+#2c Find the classification accuracy of this SVM on the training and test data#
+predwdbc <- predict(wdbcmodel, newdata = wdbc[-train,])#
+predwdbc <- predict(wdbcmodel, newdata = wdbc[train,])#
+confmatrix(wdbc$V2[train], predwdbc)#
+# test accuracy: 97.07602 %#
+# train accuracy: 98.49246 %#
+#     y#
+# predy   B   M#
+    # B 240   1#
+    # M   5 152#
+#
+#2d Use the tune.svm command to tune the values of cost and gamma. It may #
+#   take some experimentation to find suitable ranges for these parameters. #
+ogamma <- wdbcmodel$gamma#
+ocost <- wdbcmodel$cost#
+tunewdbc <- tune.svm(V2~., data=wdbc[train,], gamma=10^(-4:1), cost=10^(-1:2))#
+#
+ngamma <- (tunewdbc$best.parameters)[1]#
+ncost <- (tunewdbc$best.parameters)[2]#
+#
+#2e Refit the SVM using the tuned cost and gamma values#
+wdbcmodel2 <- svm(V2~., data=wdbc[train,],gamma=ngamma,cost=ncost)#
+predwdbc2 <- predict(wdbcmodel2, newdata = wdbc[-train,])#
+confmatrix(wdbc$V2[-train], predwdbc2)#
+#
+#2f Find the classification accuracy of the tuned SVM on the training #
+#   and test data#
+#
+#test accuracy: 95.32164 %#
+#train accuracy: 98.49246 %#
+     # y#
+# predy   B   M#
+    # B 241   0#
+    # M   6 151#
+#
+#3a Create a data set similar to the one below, where there are four #
+#   normally distributed clusters, each containing 50 points, centered at #
+#                    (0, 0), (0, 6), (6, 0), (6, 6)#
+#   for all four clusters, sigma_x = sigma_y = 1.5.#
+bcx <- rnorm(50, 0, 1.5)#
+bcy <- rnorm(50, 0, 1.5)#
+bcx <- c(bcx, rnorm(50, 6, 1.5))#
+bcy <- c(bcy, rnorm(50, 6, 1.5))#
+#
+rtx <- rnorm(50, 6, 1.5)#
+rty <- rnorm(50, 0, 1.5)#
+rtx <- c(rtx, rnorm(50, 0, 1.5))#
+rty <- c(rty, rnorm(50, 6, 1.5))#
+#
+x <- c(bcx, rtx)#
+y <- c(bcy, rty)#
+type <- rep('square', 100)#
+type <- c(type, rep('triangle', 100))#
+#
+plot(bcx, bcy, type='p',col='blue', pch = 15)#
+lines(rtx, rty, type='p',col='green', pch=17)#
+#
+points <- data.frame(x = x, y = y, type = type)#
+#3b Create an SVM for distinguishing between the blue and green nodes, plot the #
+#   SVM, and calculate its classification accuracy.#
+pointmodel <- svm(as.factor(type)~., points, cost=1000)#
+plot(pointmodel, points)#
+predpoint <- predict(pointmodel, newdata = points)#
+confmatrix(points$type, predpoint)#
+#accuracy: 97%#
+cmat:#
+#          y#
+# predy      square triangle#
+  # square       97        3#
+  # triangle      3       97
+table(predict(speciesmodel, new_iris))
+table(predict(speciesmodel, new_iris), new_iris$Species)
+source('~/Dropbox/Tarleton/data_mining/generic_functions/dataset_ops.R')
+library(nnet)#
+library(RSNNS)#
+#
+source('~/Dropbox/Tarleton/data_mining/class_notes/extras.R')#
+wdbc <- read.csv('~/Dropbox/Tarleton/data_mining/dfiles/wdbc.data', #
+                  header=F, sep=',')#
+wdbc <- wdbc[,-1]#
+splitset <- splitdata(wdbc,0.7,F)#
+train <- splitset$train#
+#
+## Consider first merely increasing size#
+len = 30#
+#
+accnnet <- rep(-1,len)#
+for(i in 1:len){#
+  model <- nnet(V2~., wdbc[train,], size=i,trace=F)#
+  predvals <- predict(model,wdbc[-train,],type='class')#
+  accnnet[i] <- confmatrix(wdbc$V2[-train], predvals)$accuracy#
+}#
+#
+trainvals <- wdbc[train,-1]#
+traintarg <- wdbc[train,1]#
+testvals <- wdbc[-train,-1]#
+testtarg <- wdbc[-train,1]
+ls -ltra
+x <- c(rnorm(100,  5, 2.5), rnorm(100, 15, 2.5), #
+       rnorm(100,  5, 2.5), rnorm(100, 15, 2.5))#
+y <- c(rnorm(100, 10, 2.5), rnorm(100, 20, 2.5), #
+       rnorm(100, 10, 2.5), rnorm(100, 20, 2.5))
+x
+y
+plot(x,y)
+x <- c(rnorm(100,  5, 2.5), rnorm(100, 15, 2.5), #
+       rnorm(100,  5, 2.5), rnorm(100, 15, 2.5))#
+y <- c(rnorm(100, 10, 2.5), rnorm(100, 10, 2.5), #
+       rnorm(100, 20, 2.5), rnorm(100, 20, 2.5))
+plot(x,y)
+x <- c(rnorm(100,  5, 1.5), rnorm(100, 15, 1.5), #
+       rnorm(100,  5, 1.5), rnorm(100, 15, 1.5))#
+y <- c(rnorm(100, 10, 1.5), rnorm(100, 10, 1.5), #
+       rnorm(100, 20, 1.5), rnorm(100, 20, 1.5))
+plot(x,y)
+library(stats)
+points <- data.frame(x = x, y = y)#
+#   (a) Perform a K-means clustering with K = 4 and 1000 repetitions.#
+kmeans(points, centers=4, iter.max=1000)
+mycluster <- kmeans(points, centers=4, iter.max=1000)
+plot(x,y,col='slate')
+plot(x,y,col='slategray')
+plot(x,y,col='olivegreen')
+plot(x,y,col='olive')
+plot(x, y, col=('blue',#
+                'green',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew4',#
+                'orange',#
+                'brown')[mycluster$cluster])
+mycluster <- kmeans(points, centers=4, iter.max=1000)
+plot(x, y, col=c('blue',#
+                'green',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew4',#
+                'orange',#
+                'brown')[mycluster$cluster])
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew4',#
+                'orange',#
+                'brown')[mycluster$cluster])
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[mycluster$cluster])
+mycluster$totss#
+mycluster$tot.withinss#
+mycluster$betweenss
+myclster$centers
+mycluster$centers
+plot(2^(c(1:4)), accmlpnet[2,2:num], #
+type = 'p', pch = 16, cex = mlp_times[2,2:num], #
+xlab='total # neurons', ylab='accuracy ', main = '2 hidden layers')
+library(doMC)#
+registerDoMC()#
+#
+source('~/Dropbox/Tarleton/data_mining/generic_functions/dataset_ops.R')#
+#
+#1 Use gradient descent to minimize the function f(x, y) = x^2 + y^2 + y#
+#  on the open disk x^2 + y^2 < 1. This is essentially the example on #
+#  p. 7 of the Lagrange multipliers slides, except that we are only #
+#  interested in interior points on this problem. #
+#
+#  (Hints: Start by randomly selecting a vector (x, y) in the disk, and #
+#   then apply gradient descent. If the vector excapes the disk during the #
+#   algorithm, randomly select a new vector. Store vectors that converge #
+#   to a minimum in a matrix, and repeat the entire process a large number #
+#   of times to ensure that there is only one local minimum inside the disk. #
+#   You may need to take some care with the learning rate to prevent vectors #
+#   from escaping the disk too often.)#
+#
+f <- function(x){#
+  return( sum(x^2) + x[2])#
+}#
+#
+grad_f <- function(x){#
+   return(c(2*x[1], 2*x[2] + 1))#
+}#
+#
+params <- function(x){#
+  if( sum(x^2) < 1){#
+  	return(TRUE)#
+  }else{#
+  	return(FALSE)#
+  }#
+}#
+#
+initial_guess <- function(){#
+  x <- runif(2, -1, 1)#
+  return(x)#
+}#
+#
+grad_descent <- function(f, grad_f, params, initial_guess, x0, eps, tol, niter){#
+  i = 1; NOT_ZERO = TRUE#
+  x = x0#
+  while((i < niter) && (NOT_ZERO)){#
+    i = i + 1#
+    xo = x#
+    x = xo - eps * grad_f(x)#
+    if(f(x) < f(xo)){#
+    	  eps = eps * 1.1#
+    }else{#
+    	  eps = eps * 0.5#
+    	}#
+    if(params(x)){#
+      if(abs(sum(grad_f(x)^2)) < tol){#
+        NOT_ZERO = FALSE#
+      }#
+    }else{#
+      x <- initial_guess()#
+      eps = 0.75 * eps#
+      i = 1#
+    }#
+  }#
+  return(list(grad = grad_f(x), x = x, dx = eps, #
+              nit = i, converged = !NOT_ZERO))#
+}#
+#
+#######################################################################
+# Initialize matrix of initial guesses and compute gradient descent  ##
+#######################################################################
+n_guesses = 300#
+x_m <- matrix(runif(n_guesses * 2, -1, 1), nrow = n_guesses, ncol = 2)#
+vals <- matrix(,nrow=n_guesses,ncol=2)#
+#
+vals <- foreach(i=1:n_guesses, .combine=rbind) %dopar% {#
+  grad_descent(f, grad_f, params, initial_guess, x_m[i,], 0.9, 1.0e-17, 10000)$x#
+}#
+#
+dx <- paste('TOTAL VARIATION IN COMPUTED CRITICAL POINT', #
+            '\n variation in x-values -> ', #
+            toString(max(vals[,1]) - min(vals[,1])),#
+            '\n','variation in y-values -> ',#
+             toString(max(vals[,2]) - min(vals[,2])))#
+writeLines(dx)#
+print(apply(vals, 1, grad_f))#
+#
+#2 Compare the merits of using a 2-layer neural network (with 1 hidden layer) #
+#  and a multi-layer neural network to the wdbc data set. Let's say you only #
+#  have 10 minutes to train a network with nnet or mlp. Which approach produces #
+#  the model with the higher classification accuracy? It may be interesting to #
+#  compare the two packages for a variety of time frames and to consider #
+#  different network topologies for mlp, e.g., size=c(2, 4) vs. size=c(2, 2, 2).#
+#
+library(nnet)#
+library(RSNNS)#
+#
+source('~/Dropbox/Tarleton/data_mining/class_notes/extras.R')#
+wdbc <- read.csv('~/Dropbox/Tarleton/data_mining/dfiles/wdbc.data', #
+                  header=F, sep=',')#
+wdbc <- wdbc[,-1]#
+splitset <- splitdata(wdbc,0.7,F)#
+train <- splitset$train#
+#
+## Consider first merely increasing size#
+len = 30#
+# 1   2     4      8        16#
+#    11     22     44       88 #
+#          1111   2222     4444#
+#               11111111 22222222#
+#                    1111111111111111#
+#
+accnnet <- rep(-1,len)#
+nnet_times <- rep(-1, len)#
+#
+for(i in 1:len){#
+  t_0 <- proc.time()#
+  model <- nnet(V2~., wdbc[train,], size=i,trace=F)#
+  t_1 <- proc.time()#
+  nnet_times[i] <- t_1[3] - t_0[3]#
+  predvals <- predict(model,wdbc[-train,],type='class')#
+  accnnet[i] <- confmatrix(wdbc$V2[-train], predvals)$accuracy#
+}#
+#
+normwdbc <- standardize(wdbc, 2:ncol(wdbc))#
+train_vals <- normwdbc[train,-1]#
+train_targ <- decodeClassLabels(normwdbc[train,1])#
+test_vals <- normwdbc[-train,-1]#
+test_targ <- decodeClassLabels(normwdbc[-train,1])#
+#
+num = 5#
+accmlpnet <- matrix(-1, num, num)#
+mlp_times <- matrix(-1, num, num)#
+#
+for(i in 1:num){#
+#
+  for(j in 1:num){#
+    if(j >= i){#
+      reps <- 2^(i - 1)#
+      vec <- rep(2^(j - i), reps)#
+      t_0 <- proc.time()#
+      model <- mlp(train_vals, #
+                   train_targ, #
+                   size=vec,  #
+                   maxit = 50, #
+                   learnFuncParams = c(0.1),#
+                   inputsTest = test_vals,#
+                   targetsTest = test_targ,#
+                   linout = TRUE)#
+      t_1 <- proc.time()#
+      mlp_times[i,j] <- t_1[3] - t_0[3]#
+      idx <- (model$fittedTestValues[,1] >= 0.5) * 1#
+      predvals <- idx#
+      predvals[idx == 1] <- 'B'#
+      predvals[idx == 0] <- 'M'#
+      accmlpnet[i,j] <- confmatrix(wdbc$V2[-train], predvals)$accuracy#
+    }#
+  }#
+}#
+mlp_times#
+plot(1:length(accnnet), accnnet, type = 'p', pch = 16, cex = 0.5 + nnet_times, xlab='# neurons', ylab='accuracy ')#
+#
+plot(2^(c(1:4)), accmlpnet[2,2:num], #
+type = 'p', pch = 16, cex = mlp_times[2,2:num], #
+xlab='total # neurons', ylab='accuracy ', main = '2 hidden layers')
+plot(2^(c(2:4)), accmlpnet[3,3:num],#
+type = 'p', pch = 16, cex = mlp_times[3,3:num], #
+xlab='total # neurons', ylab='accuracy ', main = '3 hidden layers')
+plot(2^(c(3:4)), accmlpnet[4,4:num], #
+type = 'p', pch = 16, cex = mlp_times[4,4:num], #
+xlab='total # neurons', ylab='accuracy ', main = '4 hidden layers')
+plot(2^(c(4:4)), accmlpnet[5,5:num], #
+type = 'p', pch = 16, cex = mlp_times[5,5:num], #
+xlab='total # neurons', ylab='accuracy ', main = '5 hidden layers')
+plot(2^(c(1:4)), accmlpnet[2,2:num], #
+type = 'p', pch = 16, cex = mlp_times[2,2:num], xlim = c(0,2^(num - 1))#
+xlab='total # neurons', ylab='accuracy ', main = '2 hidden layers')
+plot(2^(c(1:4)), accmlpnet[2,2:num], #
+type = 'p', pch = 16, cex = mlp_times[2,2:num], xlim = c(0,2^(num - 1)),#
+xlab='total # neurons', ylab='accuracy ', main = '2 hidden layers')
+plot(2^(c(1:4)), accmlpnet[2,2:num], #
+type = 'p', pch = 1, cex = mlp_times[2,2:num], xlim = c(0,2^(num - 1)),#
+xlab='total # neurons', ylab='accuracy ', main = '2 hidden layers')#
+#
+lines(2^(c(2:4)), accmlpnet[3,3:num],#
+type = 'p', pch = 2, cex = mlp_times[3,3:num])#
+#
+lines(2^(c(3:4)), accmlpnet[4,4:num],#
+type = 'p', pch = 3, cex = mlp_times[4,4:num])#
+#
+lines(2^(c(4:4)), accmlpnet[5,5:num],#
+type = 'p', pch = 4, cex = mlp_times[5,5:num])
+plot(2^(c(1:4)), accmlpnet[2,2:num], #
+type = 'p', pch = 1, cex = mlp_times[2,2:num], xlim = c(0,2^(num - 1)),#
+xlab='total # neurons', ylab='accuracy ', main = '2 hidden layers')#
+#
+lines(2^(c(2:4)), accmlpnet[3,3:num],#
+type = 'p', pch = 2, cex = mlp_times[3,3:num],col='blue')#
+#
+lines(2^(c(3:4)), accmlpnet[4,4:num],#
+type = 'p', pch = 3, cex = mlp_times[4,4:num],col='gray')#
+#
+lines(2^(c(4:4)), accmlpnet[5,5:num],#
+type = 'p', pch = 4, cex = mlp_times[5,5:num],col='green')
+plot(2^(c(1:4)), accmlpnet[2,2:num], #
+type = 'p', pch = 1, cex = mlp_times[2,2:num], xlim = c(0,2^(num - 1)),#
+xlab='total # neurons', ylab='accuracy ')
+lines(2^(c(2:4)), accmlpnet[3,3:num],#
+type = 'p', pch = 2, cex = mlp_times[3,3:num],col='blue')
+lines(2^(c(2:4)), accmlpnet[3,3:num],#
+type = 'p', pch = 2,col='blue')
+lines(2^(c(2:4)), accmlpnet[3,3:num], cex = mlp_times[3,3:num],col='blue')
+accmlpnet[3,3:num]
+plot(2^(c(1:4)), accmlpnet[2,2:num], #
+type = 'p', pch = 1, cex = mlp_times[2,2:num], xlim = c(0,2^(num - 1),ylim=c(0.5:1.0)),#
+xlab='total # neurons', ylab='accuracy ')#
+#
+lines(2^(c(2:4)), accmlpnet[3,3:num],#
+type = 'p', pch = 2, cex = mlp_times[3,3:num],col='blue')#
+#
+lines(2^(c(3:4)), accmlpnet[4,4:num],#
+type = 'p', pch = 3, cex = mlp_times[4,4:num],col='gray')#
+#
+lines(2^(c(4:4)), accmlpnet[5,5:num],#
+type = 'p', pch = 4, cex = mlp_times[5,5:num],col='green')
+plot(2^(c(1:4)), accmlpnet[2,2:num], #
+type = 'p', pch = 1, cex = mlp_times[2,2:num], xlim = c(0,2^(num - 1),ylim=c(0.5,1.0)),#
+xlab='total # neurons', ylab='accuracy ')#
+#
+lines(2^(c(2:4)), accmlpnet[3,3:num],#
+type = 'p', pch = 2, cex = mlp_times[3,3:num],col='blue')#
+#
+lines(2^(c(3:4)), accmlpnet[4,4:num],#
+type = 'p', pch = 3, cex = mlp_times[4,4:num],col='gray')#
+#
+lines(2^(c(4:4)), accmlpnet[5,5:num],#
+type = 'p', pch = 4, cex = mlp_times[5,5:num],col='green')
+plot(2^(c(1:4)), accmlpnet[2,2:num], #
+type = 'p', pch = 1, cex = mlp_times[2,2:num], xlim = c(0,2^(num - 1)) ,ylim=c(0.5,1.0),#
+xlab='total # neurons', ylab='accuracy ')
+lines(2^(c(2:4)), accmlpnet[3,3:num],#
+type = 'p', pch = 2, cex = mlp_times[3,3:num],col='blue')#
+#
+lines(2^(c(3:4)), accmlpnet[4,4:num],#
+type = 'p', pch = 3, cex = mlp_times[4,4:num],col='gray')#
+#
+lines(2^(c(4:4)), accmlpnet[5,5:num],#
+type = 'p', pch = 4, cex = mlp_times[5,5:num],col='green')
+plot(2^(c(1:4)), accmlpnet[2,2:num], #
+type = 'p', pch = 1, cex = mlp_times[2,2:num], xlim = c(0,2^(num - 1)) ,ylim=c(0.2,1.0),#
+xlab='total # neurons', ylab='accuracy ')#
+#
+lines(2^(c(2:4)), accmlpnet[3,3:num],#
+type = 'p', pch = 2, cex = mlp_times[3,3:num],col='blue')#
+#
+lines(2^(c(3:4)), accmlpnet[4,4:num],#
+type = 'p', pch = 3, cex = mlp_times[4,4:num],col='gray')#
+#
+lines(2^(c(4:4)), accmlpnet[5,5:num],#
+type = 'p', pch = 4, cex = mlp_times[5,5:num],col='green')
+plot(2^(c(1:4)), accmlpnet[2,2:num], #
+type = 'p', pch = 1, cex = mlp_times[2,2:num], xlim = c(0,2^(num - 1)) ,ylim=c(0.2,1.0),#
+xlab='total # neurons', ylab='accuracy ',col='black')#
+#
+lines(2^(c(2:4)), accmlpnet[3,3:num],#
+type = 'p', pch = 2, cex = mlp_times[3,3:num],col='blue')#
+#
+lines(2^(c(3:4)), accmlpnet[4,4:num],#
+type = 'p', pch = 3, cex = mlp_times[4,4:num],col='orange')#
+#
+lines(2^(c(4:4)), accmlpnet[5,5:num],#
+type = 'p', pch = 4, cex = mlp_times[5,5:num],col='green')
+plot(2^(c(1:4)), accmlpnet[2,2:num], #
+type = 'p', pch = 1, cex = mlp_times[2,2:num], xlim = c(0,2^(num - 1)) ,ylim=c(0.2,1.0),#
+xlab='total # neurons', ylab='accuracy ',col='black')#
+#
+lines(2^(c(2:4)), accmlpnet[3,3:num],#
+type = 'p', pch = 2, cex = mlp_times[3,3:num],col='blue')#
+#
+lines(2^(c(3:4)), accmlpnet[4,4:num],#
+type = 'p', pch = 4, cex = mlp_times[4,4:num],col='orange')#
+#
+lines(2^(c(4:4)), accmlpnet[5,5:num],#
+type = 'p', pch = 5, cex = mlp_times[5,5:num],col='green')
+num = 6#
+accmlpnet <- matrix(-1, num, num)#
+mlp_times <- matrix(-1, num, num)#
+#
+for(i in 1:num){#
+#
+  for(j in 1:num){#
+    if(j >= i){#
+      reps <- 2^(i - 1)#
+      vec <- rep(2^(j - i), reps)#
+      t_0 <- proc.time()#
+      model <- mlp(train_vals, #
+                   train_targ, #
+                   size=vec,  #
+                   maxit = 50, #
+                   learnFuncParams = c(0.1),#
+                   inputsTest = test_vals,#
+                   targetsTest = test_targ,#
+                   linout = TRUE)#
+      t_1 <- proc.time()#
+      mlp_times[i,j] <- t_1[3] - t_0[3]#
+      idx <- (model$fittedTestValues[,1] >= 0.5) * 1#
+      predvals <- idx#
+      predvals[idx == 1] <- 'B'#
+      predvals[idx == 0] <- 'M'#
+      accmlpnet[i,j] <- confmatrix(wdbc$V2[-train], predvals)$accuracy#
+    }#
+  }#
+}#
+mlp_times#
+plot(1:length(accnnet), accnnet, type = 'p', pch = 16, cex = 0.5 + nnet_times, xlab='# neurons', ylab='accuracy ')#
+#
+plot(2^(c(1:4)), accmlpnet[2,2:num], #
+type = 'p', pch = 1, cex = mlp_times[2,2:num], xlim = c(0,2^(num - 1)) ,ylim=c(0.2,1.0),#
+xlab='total # neurons', ylab='accuracy ',col='black')#
+#
+lines(2^(c(2:4)), accmlpnet[3,3:num],#
+type = 'p', pch = 2, cex = mlp_times[3,3:num],col='blue')#
+#
+lines(2^(c(3:4)), accmlpnet[4,4:num],#
+type = 'p', pch = 4, cex = mlp_times[4,4:num],col='orange')#
+#
+lines(2^(c(4:4)), accmlpnet[5,5:num],#
+type = 'p', pch = 5, cex = mlp_times[5,5:num],col='green')
+plot(2^(c(1:num-1)), accmlpnet[2,2:num], #
+type = 'p', pch = 1, cex = mlp_times[2,2:num], xlim = c(0,2^(num - 1)) ,ylim=c(0.2,1.0),#
+xlab='total # neurons', ylab='accuracy ',col='black')#
+#
+lines(2^(c(2:num-1)), accmlpnet[3,3:num],#
+type = 'p', pch = 2, cex = mlp_times[3,3:num],col='blue')#
+#
+lines(2^(c(3:num-1)), accmlpnet[4,4:num],#
+type = 'p', pch = 4, cex = mlp_times[4,4:num],col='orange')#
+#
+lines(2^(c(4:num-1)), accmlpnet[5,5:num],#
+type =
+plot(2^(c(1:num-1)), accmlpnet[2,2:num], #
+type = 'p', pch = 1, cex = mlp_times[2,2:num], xlim = c(0,2^(num - 1)) ,ylim=c(0.2,1.0),#
+xlab='total # neurons', ylab='accuracy ',col='black')#
+#
+lines(2^(c(2:num-1)), accmlpnet[3,3:num],#
+type = 'p', pch = 2, cex = mlp_times[3,3:num],col='blue')#
+#
+lines(2^(c(3:num-1)), accmlpnet[4,4:num],#
+type = 'p', pch = 4, cex = mlp_times[4,4:num],col='orange')#
+#
+lines(2^(c(4:num-1)), accmlpnet[5,5:num],#
+type = 'p', pch = 5, cex = mlp_times[5,5:num],col='green')
+plot(2^(c(1:(num-1))), accmlpnet[2,2:num], #
+type = 'p', pch = 1, cex = mlp_times[2,2:num], xlim = c(0,2^(num - 1)) ,ylim=c(0.2,1.0),#
+xlab='total # neurons', ylab='accuracy ',col='black')#
+#
+lines(2^(c(2:(num-1))), accmlpnet[3,3:num],#
+type = 'p', pch = 2, cex = mlp_times[3,3:num],col='blue')#
+#
+lines(2^(c(3:(num-1))), accmlpnet[4,4:num],#
+type = 'p', pch = 4, cex = mlp_times[4,4:num],col='orange')#
+#
+lines(2^(c(4:(num-1))), accmlpnet[5,5:num],#
+type = 'p', pch = 5, cex = mlp_times[5,5:num],col='green')
+legend(0, 0.2, c('2 hidden layers', '3 hidden layers', '4 hidden layers', '5 hidden layers'), col = c('black', 'blue', 'orange', 'green'), #
+lty = c(1, 2, 4, 5))
+plot(2^(c(1:(num-1))), accmlpnet[2,2:num], #
+type = 'p', pch = 1, cex = mlp_times[2,2:num], xlim = c(0,2^(num - 1)) ,ylim=c(0.2,1.0),#
+xlab='total # neurons', ylab='accuracy ',col='black')#
+#
+lines(2^(c(2:(num-1))), accmlpnet[3,3:num],#
+type = 'p', pch = 2, cex = mlp_times[3,3:num],col='blue')#
+#
+lines(2^(c(3:(num-1))), accmlpnet[4,4:num],#
+type = 'p', pch = 4, cex = mlp_times[4,4:num],col='orange')#
+#
+lines(2^(c(4:(num-1))), accmlpnet[5,5:num],#
+type = 'p', pch = 5, cex = mlp_times[5,5:num],col='green')#
+legend(0, 0.6, c('2 hidden layers', '3 hidden layers', '4 hidden layers', '5 hidden layers'), col = c('black', 'blue', 'orange', 'green'), #
+lty = c(1, 2, 4, 5))
+lines(2^(c(4:(num-1))), accmlpnet[5,5:num],#
+type = 'p', pch = 5, cex = mlp_times[5,5:num],col='green')#
+legend(0, 0.6, c('2 hidden layers', '3 hidden layers', '4 hidden layers', '5 hidden layers'), col = c('black', 'blue', 'orange', 'green'), #
+pty = c(1, 2, 4, 5))
+lines(2^(c(4:(num-1))), accmlpnet[5,5:num],#
+type = 'p', pch = 5, cex = mlp_times[5,5:num],col='green')#
+legend(0, 0.6, c('2 hidden layers', '3 hidden layers', '4 hidden layers', '5 hidden layers'), col = c('black', 'blue', 'orange', 'green'), #
+pch = c(1, 2, 4, 5))
+plot(2^(c(1:(num-1))), accmlpnet[2,2:num], #
+type = 'p', pch = 1, cex = mlp_times[2,2:num], xlim = c(0,2^(num - 1)) ,ylim=c(0.2,1.0),#
+xlab='total # neurons', ylab='accuracy ',col='black')#
+#
+lines(2^(c(2:(num-1))), accmlpnet[3,3:num],#
+type = 'p', pch = 2, cex = mlp_times[3,3:num],col='blue')#
+#
+lines(2^(c(3:(num-1))), accmlpnet[4,4:num],#
+type = 'p', pch = 4, cex = mlp_times[4,4:num],col='orange')#
+#
+lines(2^(c(4:(num-1))), accmlpnet[5,5:num],#
+type = 'p', pch = 5, cex = mlp_times[5,5:num],col='green')#
+legend(0, 0.4, c('2 hidden layers', '3 hidden layers', '4 hidden layers', '5 hidden layers'), col = c('black', 'blue', 'orange', 'green'), #
+pch = c(1, 2, 4, 5))#
+#
+plot(2^(c(1:4)), accmlpnet[2,2:num], #
+type = 'p', pch = 1, cex = mlp_times[2,2:num], xlim = c(0,2^(num - 1)),#
+xlab='total # neurons', ylab='accuracy ', main = '2 hidden layers')
+mlp_times[mlp_times < 0]
+mlp_times[mlp_times < 0] <- 0
+mlp_times
+sum(mlp_times[1:5,1:5]) / 15
+max(accmlpnet)
+which.max(accmlpnet)
+accmlpnet

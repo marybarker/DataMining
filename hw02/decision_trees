@@ -1,0 +1,32 @@
+======================================
+week 2 pt 1 class 9/1 Decision Trees
+
+go to faculty.tarleton.edu/crawford
+
+see ppt for notes. 
+
+******************************************
+Decision TREES are flowcharts, basically. 
+******************************************
+
+so long set of if/else sort of codes
+
+
+So, how do we construct such a tree? 
+
+1. start off with a single node. 
+	Based on this node, the prediction for  
+	the outcome of a random sample selection
+	is just the majority probability for the
+	entire bunch. 
+N.B. FOR EACH NODE, HAVE 'OBSERVATIONS', 
+WHICH ARE THE NUMBER OF Y/N OF WHAT WE'RE 
+LOOKING FOR IN THE END. WE ONLY REACH THE END
+OF THE TREE WHEN EVERY NODE IS 'PURE' (ALL 
+OBSERVATIONS IN THIS NODE ARE EITHER Y or N)
+
+
+
+******************************************
+******************************************
+

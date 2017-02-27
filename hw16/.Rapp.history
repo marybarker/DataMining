@@ -1,0 +1,3333 @@
+data(fgl,package='MASS')
+levels(fgl$type)
+v1v2idx <- ((fgl$type == 'WinF') | (fgl$type == 'WinNF')) * 1#
+viv2idx[-train] = 0#
+v1v2 <- model(type~.,fgl[viv2idx,])#
+v1v3idx <- ((fgl$type == 'WinF') | (fgl$type == 'Veh')) * 1#
+viv3idx[-train] = 0#
+v1v3 <- model(type~.,fgl[v1v3idx,])#
+v1v4idx <- ((fgl$type == 'WinF') | (fgl$type == 'Con')) * 1#
+viv4idx[-train] = 0#
+v1v4 <- model(type~.,fgl[v1v4idx,])#
+v1v5idx <- ((fgl$type == 'WinF') | (fgl$type == 'Tabl')) * 1#
+viv5idx[-train] = 0#
+v1v5 <- model(type~.,fgl[v1v5idx,])#
+v1v6idx <- ((fgl$type == 'WinF') | (fgl$type == 'Head')) * 1#
+viv6idx[-train] = 0#
+v1v6 <- model(type~.,fgl[viv6idx,])#
+#
+v2v1idx <- ((fgl$type == 'WinNF') | (fgl$type == 'WinF')) * 1#
+v2v1idx[-train] = 0#
+v2v1 <- model(type~.,fgl[v2v1idx,])#
+v2v3idx <- ((fgl$type == 'WinNF') | (fgl$type == 'Veh')) * 1#
+v2v3idx[-train] = 0#
+v2v3 <- model(type~.,fgl[v2v3idx,])#
+v2v4idx <- ((fgl$type == 'WinNF') | (fgl$type == 'Con')) * 1#
+v2v4idx[-train] = 0#
+v2v4 <- model(type~.,fgl[v2v4idx,])#
+v2v5idx <- ((fgl$type == 'WinNF') | (fgl$type == 'Tabl')) * 1#
+v2v5idx[-train] = 0#
+v2v5 <- model(type~.,fgl[v2v5idx,])#
+v2v6idx <- ((fgl$type == 'WinNF') | (fgl$type == 'Head')) * 1#
+v2v6idx[-train] = 0#
+v2v6 <- model(type~.,fgl[v2v6idx,])#
+#
+v3v1idx <- ((fgl$type == 'Veh') | (fgl$type == 'WinF')) * 1#
+v3v1idx[-train] = 0#
+v3v1 <- model(type~.,fgl[v3v1idx,])#
+v3v2idx <- ((fgl$type == 'Veh') | (fgl$type == 'WinNF')) * 1#
+v3v2idx[-train] = 0#
+v3v2 <- model(type~.,fgl[v3v2idx,])#
+v3v4idx <- ((fgl$type == 'Veh') | (fgl$type == 'Con')) * 1#
+v3v4idx[-train] = 0#
+v3v4 <- model(type~.,fgl[v3v4idx,])#
+v3v5idx <- ((fgl$type == 'Veh') | (fgl$type == 'Tabl')) * 1#
+v3v5idx[-train] = 0#
+v3v5 <- model(type~.,fgl[v3v5idx,])#
+v3v6idx <- ((fgl$type == 'Veh') | (fgl$type == 'Head')) * 1#
+v3v6idx[-train] = 0#
+v3v6 <- model(type~.,fgl[v3v6idx,])#
+#
+v4v1idx <- ((fgl$type == 'Con') | (fgl$type == 'WinF')) * 1#
+v4v1idx[-train] = 0#
+v4v1 <- model(type~.,fgl[v4v1idx,])#
+v4v2idx <- ((fgl$type == 'Con') | (fgl$type == 'WinNF')) * 1#
+v4v2idx[-train] = 0#
+v4v2 <- model(type~.,fgl[v4v2idx,])#
+v4v3idx <- ((fgl$type == 'Con') | (fgl$type == 'Veh')) * 1#
+v4v3idx[-train] = 0#
+v4v3 <- model(type~.,fgl[v4v3idx,])#
+v4v5idx <- ((fgl$type == 'Con') | (fgl$type == 'Tabl')) * 1#
+v4v5idx[-train] = 0#
+v4v5 <- model(type~.,fgl[v4v5idx,])#
+v4v6idx <- ((fgl$type == 'Con') | (fgl$type == 'Head')) * 1#
+v4v6idx[-train] = 0#
+v4v6 <- model(type~.,fgl[v4v6idx,])#
+#
+v5v1idx <- ((fgl$type == 'Tabl') | (fgl$type == 'WinF')) * 1#
+v5v1idx[-train] = 0#
+v5v1 <- model(type~.,fgl[v5v1idx,])#
+v5v2idx <- ((fgl$type == 'Tabl') | (fgl$type == 'WinNF')) * 1#
+v5v2idx[-train] = 0#
+v5v2 <- model(type~.,fgl[v5v2idx,])#
+v5v3idx <- ((fgl$type == 'Tabl') | (fgl$type == 'Veh')) * 1#
+v5v3idx[-train] = 0#
+v5v3 <- model(type~.,fgl[v5v3idx,])#
+v5v4idx <- ((fgl$type == 'Tabl') | (fgl$type == 'Con')) * 1#
+v5v4idx[-train] = 0#
+v5v4 <- model(type~.,fgl[v5v4idx,])#
+v5v6idx <- ((fgl$type == 'Tabl') | (fgl$type == 'Head')) * 1#
+v5v6idx[-train] = 0#
+v5v6 <- model(type~.,fgl[v5v6idx,])#
+#
+v6v1idx <- ((fgl$type == 'Head') | (fgl$type == 'WinF')) * 1#
+v6v1idx[-train] = 0#
+v6v1 <- model(type~.,fgl[v6v1idx,])#
+v6v2idx <- ((fgl$type == 'Head') | (fgl$type == 'WinNF')) * 1#
+v6v2idx[-train] = 0#
+v6v2 <- model(type~.,fgl[v6v2idx,])#
+v6v3idx <- ((fgl$type == 'Head') | (fgl$type == 'Veh')) * 1#
+v6v3idx[-train] = 0#
+v6v3 <- model(type~.,fgl[v6v3idx,])#
+v6v4idx <- ((fgl$type == 'Head') | (fgl$type == 'Con')) * 1#
+v6v4idx[-train] = 0#
+v6v4 <- model(type~.,fgl[v6v4idx,])#
+v6v5idx <- ((fgl$type == 'Head') | (fgl$type == 'Tabl')) * 1#
+v6v5idx[-train] = 0#
+v6v5 <- model(type~.,fgl[v6v5idx,])
+source('~/Dropbox/Tarleton/data_mining/class_notes/extras.R')#
+source('~/Dropbox/Tarleton/data_mining/generic_functions/dataset_ops.R')
+splitset <- splitdata(fgl,0.7,F)#
+train <- splitset$train
+a_model <- svm(type~., fgl[train,])#
+a_pred <- predict(a_model,fgl[-train,])#
+a_acc <- confmatrix(fgl$type[-train],a_pred)
+library(e1071)
+a_model <- svm(type~., fgl[train,])#
+a_pred <- predict(a_model,fgl[-train,])#
+a_acc <- confmatrix(fgl$type[-train],a_pred)
+comp_preds <- function(idx1, idx2, var, train, dset){#
+  tmpname <- names(dset)[var]#
+  names(dset)[var] <- 'my_var_name'#
+  myvar <- dset[,var]#
+#
+  n1 <- levels(myvar)[idx1]#
+  n2 <- levels(myvar)[idx2]#
+#
+  idx <- (((myvar == n1) | (myvar == n2) )) * 1#
+  idx[-train] = 0#
+#
+  v1_v2_train <- dset[idx == 1,]#
+  v1_v2_model <- svm(my_var_name~., v1_v2_train)#
+  v1_v2_pred <- predict(v1_v2_model, dset[-train,], type='class')#
+#
+  names(dset)[var] <- tmpname#
+#
+  return(v1_v2_pred)#
+}#
+#
+comp_votes <- function(preds, dset, v_idx){#
+#
+  nr = length(preds[[1]][[1]])#
+  nc = length(levels(dset[,v_idx]))#
+#
+  votes <- matrix(0,nrow=nr, ncol=nc)#
+  for(k in 1:nc){#
+    name1 <- levels(dset[,v_idx])[k]#
+#
+    for(i in 1:nc){#
+      for(j in 1:nc){#
+        if(j != i){#
+          votes[,k] <- votes[,k] + (preds[[i]][[j]] == name1) * 1#
+        }#
+      }#
+    }#
+  }#
+  return(votes)#
+}#
+#
+one_against_one <- function(v_idx, dset, train, predicted){#
+  tmpname <- (names(dset))[v_idx]#
+  varname <- 'mytempname'#
+  names(dset)[v_idx] <- 'mytempname'#
+#
+  list_of_preds <- list()#
+  tmplist <- list()#
+  acc <- matrix(-1, nrow = ncol(dset), ncol = ncol(dset))#
+  len <- length( levels(dset$mytempname) )#
+#
+  for(i in 1:len ){#
+    for(j in 1:len ){#
+      if(i != j){#
+        tmplist[[j]] <- comp_preds(i, j, v_idx, train, dset)#
+      }else{#
+      	tmplist[[j]] = rep(-1, nrow(dset) - length(train))#
+      }#
+    }#
+    list_of_preds[[i]] <- tmplist#
+  }#
+  votes <- comp_votes(list_of_preds, dset, v_idx)#
+  one_against_one_pred <- (levels(dset$mytempname))[apply(votes,1,which.max)]#
+  print(length(one_against_one_pred))#
+  return(table(predicted, one_against_one_pred))#
+}#
+tab1 <- one_against_one(ncol(fgl),fgl,train, a_pred)#
+v1v2idx <- ((fgl$type == 'WinF') | (fgl$type == 'WinNF')) * 1#
+viv2idx[-train] = 0#
+v1v2 <- model(type~.,fgl[viv2idx,])#
+v1v3idx <- ((fgl$type == 'WinF') | (fgl$type == 'Veh')) * 1#
+viv3idx[-train] = 0#
+v1v3 <- model(type~.,fgl[v1v3idx,])#
+v1v4idx <- ((fgl$type == 'WinF') | (fgl$type == 'Con')) * 1#
+viv4idx[-train] = 0#
+v1v4 <- model(type~.,fgl[v1v4idx,])#
+v1v5idx <- ((fgl$type == 'WinF') | (fgl$type == 'Tabl')) * 1#
+viv5idx[-train] = 0#
+v1v5 <- model(type~.,fgl[v1v5idx,])#
+v1v6idx <- ((fgl$type == 'WinF') | (fgl$type == 'Head')) * 1#
+viv6idx[-train] = 0#
+v1v6 <- model(type~.,fgl[viv6idx,])#
+#
+v2v1idx <- ((fgl$type == 'WinNF') | (fgl$type == 'WinF')) * 1#
+v2v1idx[-train] = 0#
+v2v1 <- model(type~.,fgl[v2v1idx,])#
+v2v3idx <- ((fgl$type == 'WinNF') | (fgl$type == 'Veh')) * 1#
+v2v3idx[-train] = 0#
+v2v3 <- model(type~.,fgl[v2v3idx,])#
+v2v4idx <- ((fgl$type == 'WinNF') | (fgl$type == 'Con')) * 1#
+v2v4idx[-train] = 0#
+v2v4 <- model(type~.,fgl[v2v4idx,])#
+v2v5idx <- ((fgl$type == 'WinNF') | (fgl$type == 'Tabl')) * 1#
+v2v5idx[-train] = 0#
+v2v5 <- model(type~.,fgl[v2v5idx,])#
+v2v6idx <- ((fgl$type == 'WinNF') | (fgl$type == 'Head')) * 1#
+v2v6idx[-train] = 0#
+v2v6 <- model(type~.,fgl[v2v6idx,])#
+#
+v3v1idx <- ((fgl$type == 'Veh') | (fgl$type == 'WinF')) * 1#
+v3v1idx[-train] = 0#
+v3v1 <- model(type~.,fgl[v3v1idx,])#
+v3v2idx <- ((fgl$type == 'Veh') | (fgl$type == 'WinNF')) * 1#
+v3v2idx[-train] = 0#
+v3v2 <- model(type~.,fgl[v3v2idx,])#
+v3v4idx <- ((fgl$type == 'Veh') | (fgl$type == 'Con')) * 1#
+v3v4idx[-train] = 0#
+v3v4 <- model(type~.,fgl[v3v4idx,])#
+v3v5idx <- ((fgl$type == 'Veh') | (fgl$type == 'Tabl')) * 1#
+v3v5idx[-train] = 0#
+v3v5 <- model(type~.,fgl[v3v5idx,])#
+v3v6idx <- ((fgl$type == 'Veh') | (fgl$type == 'Head')) * 1#
+v3v6idx[-train] = 0#
+v3v6 <- model(type~.,fgl[v3v6idx,])#
+#
+v4v1idx <- ((fgl$type == 'Con') | (fgl$type == 'WinF')) * 1#
+v4v1idx[-train] = 0#
+v4v1 <- model(type~.,fgl[v4v1idx,])#
+v4v2idx <- ((fgl$type == 'Con') | (fgl$type == 'WinNF')) * 1#
+v4v2idx[-train] = 0#
+v4v2 <- model(type~.,fgl[v4v2idx,])#
+v4v3idx <- ((fgl$type == 'Con') | (fgl$type == 'Veh')) * 1#
+v4v3idx[-train] = 0#
+v4v3 <- model(type~.,fgl[v4v3idx,])#
+v4v5idx <- ((fgl$type == 'Con') | (fgl$type == 'Tabl')) * 1#
+v4v5idx[-train] = 0#
+v4v5 <- model(type~.,fgl[v4v5idx,])#
+v4v6idx <- ((fgl$type == 'Con') | (fgl$type == 'Head')) * 1#
+v4v6idx[-train] = 0#
+v4v6 <- model(type~.,fgl[v4v6idx,])#
+#
+v5v1idx <- ((fgl$type == 'Tabl') | (fgl$type == 'WinF')) * 1#
+v5v1idx[-train] = 0#
+v5v1 <- model(type~.,fgl[v5v1idx,])#
+v5v2idx <- ((fgl$type == 'Tabl') | (fgl$type == 'WinNF')) * 1#
+v5v2idx[-train] = 0#
+v5v2 <- model(type~.,fgl[v5v2idx,])#
+v5v3idx <- ((fgl$type == 'Tabl') | (fgl$type == 'Veh')) * 1#
+v5v3idx[-train] = 0#
+v5v3 <- model(type~.,fgl[v5v3idx,])#
+v5v4idx <- ((fgl$type == 'Tabl') | (fgl$type == 'Con')) * 1#
+v5v4idx[-train] = 0#
+v5v4 <- model(type~.,fgl[v5v4idx,])#
+v5v6idx <- ((fgl$type == 'Tabl') | (fgl$type == 'Head')) * 1#
+v5v6idx[-train] = 0#
+v5v6 <- model(type~.,fgl[v5v6idx,])#
+#
+v6v1idx <- ((fgl$type == 'Head') | (fgl$type == 'WinF')) * 1#
+v6v1idx[-train] = 0#
+v6v1 <- model(type~.,fgl[v6v1idx,])#
+v6v2idx <- ((fgl$type == 'Head') | (fgl$type == 'WinNF')) * 1#
+v6v2idx[-train] = 0#
+v6v2 <- model(type~.,fgl[v6v2idx,])#
+v6v3idx <- ((fgl$type == 'Head') | (fgl$type == 'Veh')) * 1#
+v6v3idx[-train] = 0#
+v6v3 <- model(type~.,fgl[v6v3idx,])#
+v6v4idx <- ((fgl$type == 'Head') | (fgl$type == 'Con')) * 1#
+v6v4idx[-train] = 0#
+v6v4 <- model(type~.,fgl[v6v4idx,])#
+v6v5idx <- ((fgl$type == 'Head') | (fgl$type == 'Tabl')) * 1#
+v6v5idx[-train] = 0#
+v6v5 <- model(type~.,fgl[v6v5idx,])
+v1v2idx <- ((fgl$type == 'WinF') | (fgl$type == 'WinNF')) * 1#
+viv2idx[-train] = 0#
+v1v2 <- svm(type~.,fgl[viv2idx,])#
+v1v3idx <- ((fgl$type == 'WinF') | (fgl$type == 'Veh')) * 1#
+viv3idx[-train] = 0#
+v1v3 <- svm(type~.,fgl[v1v3idx,])#
+v1v4idx <- ((fgl$type == 'WinF') | (fgl$type == 'Con')) * 1#
+viv4idx[-train] = 0#
+v1v4 <- svm(type~.,fgl[v1v4idx,])#
+v1v5idx <- ((fgl$type == 'WinF') | (fgl$type == 'Tabl')) * 1#
+viv5idx[-train] = 0#
+v1v5 <- svm(type~.,fgl[v1v5idx,])#
+v1v6idx <- ((fgl$type == 'WinF') | (fgl$type == 'Head')) * 1#
+viv6idx[-train] = 0#
+v1v6 <- svm(type~.,fgl[viv6idx,])#
+#
+v2v1idx <- ((fgl$type == 'WinNF') | (fgl$type == 'WinF')) * 1#
+v2v1idx[-train] = 0#
+v2v1 <- svm(type~.,fgl[v2v1idx,])#
+v2v3idx <- ((fgl$type == 'WinNF') | (fgl$type == 'Veh')) * 1#
+v2v3idx[-train] = 0#
+v2v3 <- svm(type~.,fgl[v2v3idx,])#
+v2v4idx <- ((fgl$type == 'WinNF') | (fgl$type == 'Con')) * 1#
+v2v4idx[-train] = 0#
+v2v4 <- svm(type~.,fgl[v2v4idx,])#
+v2v5idx <- ((fgl$type == 'WinNF') | (fgl$type == 'Tabl')) * 1#
+v2v5idx[-train] = 0#
+v2v5 <- svm(type~.,fgl[v2v5idx,])#
+v2v6idx <- ((fgl$type == 'WinNF') | (fgl$type == 'Head')) * 1#
+v2v6idx[-train] = 0#
+v2v6 <- svm(type~.,fgl[v2v6idx,])#
+#
+v3v1idx <- ((fgl$type == 'Veh') | (fgl$type == 'WinF')) * 1#
+v3v1idx[-train] = 0#
+v3v1 <- svm(type~.,fgl[v3v1idx,])#
+v3v2idx <- ((fgl$type == 'Veh') | (fgl$type == 'WinNF')) * 1#
+v3v2idx[-train] = 0#
+v3v2 <- svm(type~.,fgl[v3v2idx,])#
+v3v4idx <- ((fgl$type == 'Veh') | (fgl$type == 'Con')) * 1#
+v3v4idx[-train] = 0#
+v3v4 <- svm(type~.,fgl[v3v4idx,])#
+v3v5idx <- ((fgl$type == 'Veh') | (fgl$type == 'Tabl')) * 1#
+v3v5idx[-train] = 0#
+v3v5 <- svm(type~.,fgl[v3v5idx,])#
+v3v6idx <- ((fgl$type == 'Veh') | (fgl$type == 'Head')) * 1#
+v3v6idx[-train] = 0#
+v3v6 <- svm(type~.,fgl[v3v6idx,])#
+#
+v4v1idx <- ((fgl$type == 'Con') | (fgl$type == 'WinF')) * 1#
+v4v1idx[-train] = 0#
+v4v1 <- svm(type~.,fgl[v4v1idx,])#
+v4v2idx <- ((fgl$type == 'Con') | (fgl$type == 'WinNF')) * 1#
+v4v2idx[-train] = 0#
+v4v2 <- svm(type~.,fgl[v4v2idx,])#
+v4v3idx <- ((fgl$type == 'Con') | (fgl$type == 'Veh')) * 1#
+v4v3idx[-train] = 0#
+v4v3 <- svm(type~.,fgl[v4v3idx,])#
+v4v5idx <- ((fgl$type == 'Con') | (fgl$type == 'Tabl')) * 1#
+v4v5idx[-train] = 0#
+v4v5 <- svm(type~.,fgl[v4v5idx,])#
+v4v6idx <- ((fgl$type == 'Con') | (fgl$type == 'Head')) * 1#
+v4v6idx[-train] = 0#
+v4v6 <- svm(type~.,fgl[v4v6idx,])#
+#
+v5v1idx <- ((fgl$type == 'Tabl') | (fgl$type == 'WinF')) * 1#
+v5v1idx[-train] = 0#
+v5v1 <- svm(type~.,fgl[v5v1idx,])#
+v5v2idx <- ((fgl$type == 'Tabl') | (fgl$type == 'WinNF')) * 1#
+v5v2idx[-train] = 0#
+v5v2 <- svm(type~.,fgl[v5v2idx,])#
+v5v3idx <- ((fgl$type == 'Tabl') | (fgl$type == 'Veh')) * 1#
+v5v3idx[-train] = 0#
+v5v3 <- svm(type~.,fgl[v5v3idx,])#
+v5v4idx <- ((fgl$type == 'Tabl') | (fgl$type == 'Con')) * 1#
+v5v4idx[-train] = 0#
+v5v4 <- svm(type~.,fgl[v5v4idx,])#
+v5v6idx <- ((fgl$type == 'Tabl') | (fgl$type == 'Head')) * 1#
+v5v6idx[-train] = 0#
+v5v6 <- svm(type~.,fgl[v5v6idx,])#
+#
+v6v1idx <- ((fgl$type == 'Head') | (fgl$type == 'WinF')) * 1#
+v6v1idx[-train] = 0#
+v6v1 <- svm(type~.,fgl[v6v1idx,])#
+v6v2idx <- ((fgl$type == 'Head') | (fgl$type == 'WinNF')) * 1#
+v6v2idx[-train] = 0#
+v6v2 <- svm(type~.,fgl[v6v2idx,])#
+v6v3idx <- ((fgl$type == 'Head') | (fgl$type == 'Veh')) * 1#
+v6v3idx[-train] = 0#
+v6v3 <- svm(type~.,fgl[v6v3idx,])#
+v6v4idx <- ((fgl$type == 'Head') | (fgl$type == 'Con')) * 1#
+v6v4idx[-train] = 0#
+v6v4 <- svm(type~.,fgl[v6v4idx,])#
+v6v5idx <- ((fgl$type == 'Head') | (fgl$type == 'Tabl')) * 1#
+v6v5idx[-train] = 0#
+v6v5 <- svm(type~.,fgl[v6v5idx,])
+v1v2idx <- ((fgl$type == 'WinF') | (fgl$type == 'WinNF')) * 1#
+viv2idx[-train] = 0#
+v1v2 <- svm(type~.,fgl[viv2idx,])#
+v1v3idx <- ((fgl$type == 'WinF') | (fgl$type == 'Veh')) * 1#
+v1v3idx[-train] = 0#
+v1v3 <- svm(type~.,fgl[v1v3idx,])#
+v1v4idx <- ((fgl$type == 'WinF') | (fgl$type == 'Con')) * 1#
+v1v4idx[-train] = 0#
+v1v4 <- svm(type~.,fgl[v1v4idx,])#
+v1v5idx <- ((fgl$type == 'WinF') | (fgl$type == 'Tabl')) * 1#
+viv5idx[-train] = 0#
+v1v5 <- svm(type~.,fgl[v1v5idx,])#
+v1v6idx <- ((fgl$type == 'WinF') | (fgl$type == 'Head')) * 1#
+v1v6idx[-train] = 0#
+v1v6 <- svm(type~.,fgl[viv6idx,])
+v1v2idx <- ((fgl$type == 'WinF') | (fgl$type == 'WinNF')) * 1#
+viv2idx[-train] = 0#
+v1v2 <- svm(type~.,fgl[v1v2idx,])#
+v1v3idx <- ((fgl$type == 'WinF') | (fgl$type == 'Veh')) * 1#
+v1v3idx[-train] = 0#
+v1v3 <- svm(type~.,fgl[v1v3idx,])#
+v1v4idx <- ((fgl$type == 'WinF') | (fgl$type == 'Con')) * 1#
+v1v4idx[-train] = 0#
+v1v4 <- svm(type~.,fgl[v1v4idx,])#
+v1v5idx <- ((fgl$type == 'WinF') | (fgl$type == 'Tabl')) * 1#
+viv5idx[-train] = 0#
+v1v5 <- svm(type~.,fgl[v1v5idx,])#
+v1v6idx <- ((fgl$type == 'WinF') | (fgl$type == 'Head')) * 1#
+v1v6idx[-train] = 0#
+v1v6 <- svm(type~.,fgl[v1v6idx,])
+v1v2idx <- ((fgl$type == 'WinF') | (fgl$type == 'WinNF')) * 1#
+viv2idx[-train] = 0#
+v1v2 <- svm(type~.,fgl[v1v2idx,])#
+v1v3idx <- ((fgl$type == 'WinF') | (fgl$type == 'Veh')) * 1#
+v1v3idx[-train] = 0#
+v1v3 <- svm(type~.,fgl[v1v3idx,])#
+v1v4idx <- ((fgl$type == 'WinF') | (fgl$type == 'Con')) * 1#
+v1v4idx[-train] = 0#
+v1v4 <- svm(type~.,fgl[v1v4idx,])#
+v1v5idx <- ((fgl$type == 'WinF') | (fgl$type == 'Tabl')) * 1#
+viv5idx[-train] = 0#
+v1v5 <- svm(type~.,fgl[v1v5idx,])#
+v1v6idx <- ((fgl$type == 'WinF') | (fgl$type == 'Head')) * 1#
+v1v6idx[-train] = 0#
+v1v6 <- svm(type~.,fgl[v1v6idx,])
+v1v2idx <- ((fgl$type == 'WinF') | (fgl$type == 'WinNF')) * 1#
+v1v2idx[-train] = 0#
+v1v2 <- svm(type~.,fgl[v1v2idx,])#
+v1v3idx <- ((fgl$type == 'WinF') | (fgl$type == 'Veh')) * 1#
+v1v3idx[-train] = 0#
+v1v3 <- svm(type~.,fgl[v1v3idx,])#
+v1v4idx <- ((fgl$type == 'WinF') | (fgl$type == 'Con')) * 1#
+v1v4idx[-train] = 0#
+v1v4 <- svm(type~.,fgl[v1v4idx,])#
+v1v5idx <- ((fgl$type == 'WinF') | (fgl$type == 'Tabl')) * 1#
+viv5idx[-train] = 0#
+v1v5 <- svm(type~.,fgl[v1v5idx,])#
+v1v6idx <- ((fgl$type == 'WinF') | (fgl$type == 'Head')) * 1#
+v1v6idx[-train] = 0#
+v1v6 <- svm(type~.,fgl[v1v6idx,])
+v1v2idx <- ((fgl$type == 'WinF') | (fgl$type == 'WinNF')) * 1#
+v1v2idx[-train] = 0#
+v1v2 <- svm(type~.,fgl[v1v2idx,])#
+v1v3idx <- ((fgl$type == 'WinF') | (fgl$type == 'Veh')) * 1#
+v1v3idx[-train] = 0#
+v1v3 <- svm(type~.,fgl[v1v3idx,])#
+v1v4idx <- ((fgl$type == 'WinF') | (fgl$type == 'Con')) * 1#
+v1v4idx[-train] = 0#
+v1v4 <- svm(type~.,fgl[v1v4idx,])#
+v1v5idx <- ((fgl$type == 'WinF') | (fgl$type == 'Tabl')) * 1#
+v1v5idx[-train] = 0#
+v1v5 <- svm(type~.,fgl[v1v5idx,])#
+v1v6idx <- ((fgl$type == 'WinF') | (fgl$type == 'Head')) * 1#
+v1v6idx[-train] = 0#
+v1v6 <- svm(type~.,fgl[v1v6idx,])
+v1v2idx <- ((fgl$type == 'WinF') | (fgl$type == 'WinNF')) * 1#
+v1v2idx[-train] = 0#
+v1v2dat <- fgl[v1v2idx,]#
+v1v2 <- svm(type~.,v1v2dat)
+v1v2idx <- ((fgl$type == 'WinF') | (fgl$type == 'WinNF')) * 1#
+v1v2idx[-train] = 0#
+v1v2 <- svm(as.factor(type)~.,fgl[v1v2idx,])
+data(fgl,package='MASS')
+v1v2idx <- ((fgl$type == 'WinF') | (fgl$type == 'WinNF')) * 1
+v1v2idx[-train] = 0
+v1v2 <- svm(type~.,fgl[v1v2idx,])
+v1v2idx
+v1v2 <- svm(type~.,fgl[v1v2idx == 1,])
+v1v2idx <- ((fgl$type == 'WinF') | (fgl$type == 'WinNF')) * 1#
+v1v2idx[-train] = 0#
+v1v2 <- svm(type~.,fgl[v1v2idx == 1,])#
+v1v3idx <- ((fgl$type == 'WinF') | (fgl$type == 'Veh')) * 1#
+v1v3idx[-train] = 0#
+v1v3 <- svm(type~.,fgl[v1v3idx == 1,])#
+v1v4idx <- ((fgl$type == 'WinF') | (fgl$type == 'Con')) * 1#
+v1v4idx[-train] = 0#
+v1v4 <- svm(type~.,fgl[v1v4idx == 1,])#
+v1v5idx <- ((fgl$type == 'WinF') | (fgl$type == 'Tabl')) * 1#
+v1v5idx[-train] = 0#
+v1v5 <- svm(type~.,fgl[v1v5idx == 1,])#
+v1v6idx <- ((fgl$type == 'WinF') | (fgl$type == 'Head')) * 1#
+v1v6idx[-train] = 0#
+v1v6 <- svm(type~.,fgl[v1v6idx == 1,])#
+#
+v2v1idx <- ((fgl$type == 'WinNF') | (fgl$type == 'WinF')) * 1#
+v2v1idx[-train] = 0#
+v2v1 <- svm(type~.,fgl[v2v1idx == 1,])#
+v2v3idx <- ((fgl$type == 'WinNF') | (fgl$type == 'Veh')) * 1#
+v2v3idx[-train] = 0#
+v2v3 <- svm(type~.,fgl[v2v3idx == 1,])#
+v2v4idx <- ((fgl$type == 'WinNF') | (fgl$type == 'Con')) * 1#
+v2v4idx[-train] = 0#
+v2v4 <- svm(type~.,fgl[v2v4idx == 1,])#
+v2v5idx <- ((fgl$type == 'WinNF') | (fgl$type == 'Tabl')) * 1#
+v2v5idx[-train] = 0#
+v2v5 <- svm(type~.,fgl[v2v5idx == 1,])#
+v2v6idx <- ((fgl$type == 'WinNF') | (fgl$type == 'Head')) * 1#
+v2v6idx[-train] = 0#
+v2v6 <- svm(type~.,fgl[v2v6idx == 1,])#
+#
+v3v1idx <- ((fgl$type == 'Veh') | (fgl$type == 'WinF')) * 1#
+v3v1idx[-train] = 0#
+v3v1 <- svm(type~.,fgl[v3v1idx == 1,])#
+v3v2idx <- ((fgl$type == 'Veh') | (fgl$type == 'WinNF')) * 1#
+v3v2idx[-train] = 0#
+v3v2 <- svm(type~.,fgl[v3v2idx == 1,])#
+v3v4idx <- ((fgl$type == 'Veh') | (fgl$type == 'Con')) * 1#
+v3v4idx[-train] = 0#
+v3v4 <- svm(type~.,fgl[v3v4idx == 1,])#
+v3v5idx <- ((fgl$type == 'Veh') | (fgl$type == 'Tabl')) * 1#
+v3v5idx[-train] = 0#
+v3v5 <- svm(type~.,fgl[v3v5idx == 1,])#
+v3v6idx <- ((fgl$type == 'Veh') | (fgl$type == 'Head')) * 1#
+v3v6idx[-train] = 0#
+v3v6 <- svm(type~.,fgl[v3v6idx == 1,])#
+#
+v4v1idx <- ((fgl$type == 'Con') | (fgl$type == 'WinF')) * 1#
+v4v1idx[-train] = 0#
+v4v1 <- svm(type~.,fgl[v4v1idx == 1,])#
+v4v2idx <- ((fgl$type == 'Con') | (fgl$type == 'WinNF')) * 1#
+v4v2idx[-train] = 0#
+v4v2 <- svm(type~.,fgl[v4v2idx == 1,])#
+v4v3idx <- ((fgl$type == 'Con') | (fgl$type == 'Veh')) * 1#
+v4v3idx[-train] = 0#
+v4v3 <- svm(type~.,fgl[v4v3idx == 1,])#
+v4v5idx <- ((fgl$type == 'Con') | (fgl$type == 'Tabl')) * 1#
+v4v5idx[-train] = 0#
+v4v5 <- svm(type~.,fgl[v4v5idx == 1,])#
+v4v6idx <- ((fgl$type == 'Con') | (fgl$type == 'Head')) * 1#
+v4v6idx[-train] = 0#
+v4v6 <- svm(type~.,fgl[v4v6idx == 1,])#
+#
+v5v1idx <- ((fgl$type == 'Tabl') | (fgl$type == 'WinF')) * 1#
+v5v1idx[-train] = 0#
+v5v1 <- svm(type~.,fgl[v5v1idx == 1,])#
+v5v2idx <- ((fgl$type == 'Tabl') | (fgl$type == 'WinNF')) * 1#
+v5v2idx[-train] = 0#
+v5v2 <- svm(type~.,fgl[v5v2idx == 1,])#
+v5v3idx <- ((fgl$type == 'Tabl') | (fgl$type == 'Veh')) * 1#
+v5v3idx[-train] = 0#
+v5v3 <- svm(type~.,fgl[v5v3idx == 1,])#
+v5v4idx <- ((fgl$type == 'Tabl') | (fgl$type == 'Con')) * 1#
+v5v4idx[-train] = 0#
+v5v4 <- svm(type~.,fgl[v5v4idx == 1,])#
+v5v6idx <- ((fgl$type == 'Tabl') | (fgl$type == 'Head')) * 1#
+v5v6idx[-train] = 0#
+v5v6 <- svm(type~.,fgl[v5v6idx == 1,])#
+#
+v6v1idx <- ((fgl$type == 'Head') | (fgl$type == 'WinF')) * 1#
+v6v1idx[-train] = 0#
+v6v1 <- svm(type~.,fgl[v6v1idx == 1,])#
+v6v2idx <- ((fgl$type == 'Head') | (fgl$type == 'WinNF')) * 1#
+v6v2idx[-train] = 0#
+v6v2 <- svm(type~.,fgl[v6v2idx == 1,])#
+v6v3idx <- ((fgl$type == 'Head') | (fgl$type == 'Veh')) * 1#
+v6v3idx[-train] = 0#
+v6v3 <- svm(type~.,fgl[v6v3idx == 1,])#
+v6v4idx <- ((fgl$type == 'Head') | (fgl$type == 'Con')) * 1#
+v6v4idx[-train] = 0#
+v6v4 <- svm(type~.,fgl[v6v4idx == 1,])#
+v6v5idx <- ((fgl$type == 'Head') | (fgl$type == 'Tabl')) * 1#
+v6v5idx[-train] = 0#
+v6v5 <- svm(type~.,fgl[v6v5idx == 1,])
+pv1v2 <- pred(v1v2,fgl[v1v2idx==1,],type='class')#
+pv1v3 <- pred(v1v3,fgl[v1v3idx==1,],type='class')#
+pv1v4 <- pred(v1v4,fgl[v1v4idx==1,],type='class')#
+pv1v5 <- pred(v1v5,fgl[v1v5idx==1,],type='class')#
+pv1v6 <- pred(v1v6,fgl[v1v6idx==1,],type='class')#
+#
+pv2v1 <- pred(v2v1,fgl[v2v1idx==1,],type='class')#
+pv2v3 <- pred(v2v3,fgl[v2v3idx==1,],type='class')#
+pv2v4 <- pred(v2v4,fgl[v2v4idx==1,],type='class')#
+pv2v5 <- pred(v2v5,fgl[v2v5idx==1,],type='class')#
+pv2v6 <- pred(v2v6,fgl[v2v6idx==1,],type='class')#
+#
+pv3v1 <- pred(v3v1,fgl[v3v1idx==1,],type='class')#
+pv3v2 <- pred(v3v2,fgl[v3v2idx==1,],type='class')#
+pv3v4 <- pred(v3v4,fgl[v3v4idx==1,],type='class')#
+pv3v5 <- pred(v3v5,fgl[v3v5idx==1,],type='class')#
+pv3v6 <- pred(v3v6,fgl[v3v6idx==1,],type='class')#
+#
+pv4v1 <- pred(v4v1,fgl[v4v1idx==1,],type='class')#
+pv4v2 <- pred(v4v2,fgl[v4v2idx==1,],type='class')#
+pv4v3 <- pred(v4v3,fgl[v4v3idx==1,],type='class')#
+pv4v5 <- pred(v4v5,fgl[v4v5idx==1,],type='class')#
+pv4v6 <- pred(v4v6,fgl[v4v6idx==1,],type='class')#
+#
+pv5v1 <- pred(v5v1,fgl[v5v1idx==1,],type='class')#
+pv5v2 <- pred(v5v2,fgl[v5v2idx==1,],type='class')#
+pv5v3 <- pred(v5v3,fgl[v5v3idx==1,],type='class')#
+pv5v4 <- pred(v5v4,fgl[v5v4idx==1,],type='class')#
+pv5v6 <- pred(v5v6,fgl[v5v6idx==1,],type='class')#
+#
+pv6v1 <- pred(v6v1,fgl[v6v1idx==1,],type='class')#
+pv6v2 <- pred(v6v2,fgl[v6v2idx==1,],type='class')#
+pv6v3 <- pred(v6v3,fgl[v6v3idx==1,],type='class')#
+pv6v4 <- pred(v6v4,fgl[v6v4idx==1,],type='class')#
+pv6v5 <- pred(v6v5,fgl[v6v5idx==1,],type='class')
+pv1v2 <- predict(v1v2,fgl[v1v2idx==1,],type='class')#
+pv1v3 <- predict(v1v3,fgl[v1v3idx==1,],type='class')#
+pv1v4 <- predict(v1v4,fgl[v1v4idx==1,],type='class')#
+pv1v5 <- predict(v1v5,fgl[v1v5idx==1,],type='class')#
+pv1v6 <- predict(v1v6,fgl[v1v6idx==1,],type='class')#
+#
+pv2v1 <- predict(v2v1,fgl[v2v1idx==1,],type='class')#
+pv2v3 <- predict(v2v3,fgl[v2v3idx==1,],type='class')#
+pv2v4 <- predict(v2v4,fgl[v2v4idx==1,],type='class')#
+pv2v5 <- predict(v2v5,fgl[v2v5idx==1,],type='class')#
+pv2v6 <- predict(v2v6,fgl[v2v6idx==1,],type='class')#
+#
+pv3v1 <- predict(v3v1,fgl[v3v1idx==1,],type='class')#
+pv3v2 <- predict(v3v2,fgl[v3v2idx==1,],type='class')#
+pv3v4 <- predict(v3v4,fgl[v3v4idx==1,],type='class')#
+pv3v5 <- predict(v3v5,fgl[v3v5idx==1,],type='class')#
+pv3v6 <- predict(v3v6,fgl[v3v6idx==1,],type='class')#
+#
+pv4v1 <- predict(v4v1,fgl[v4v1idx==1,],type='class')#
+pv4v2 <- predict(v4v2,fgl[v4v2idx==1,],type='class')#
+pv4v3 <- predict(v4v3,fgl[v4v3idx==1,],type='class')#
+pv4v5 <- predict(v4v5,fgl[v4v5idx==1,],type='class')#
+pv4v6 <- predict(v4v6,fgl[v4v6idx==1,],type='class')#
+#
+pv5v1 <- predict(v5v1,fgl[v5v1idx==1,],type='class')#
+pv5v2 <- predict(v5v2,fgl[v5v2idx==1,],type='class')#
+pv5v3 <- predict(v5v3,fgl[v5v3idx==1,],type='class')#
+pv5v4 <- predict(v5v4,fgl[v5v4idx==1,],type='class')#
+pv5v6 <- predict(v5v6,fgl[v5v6idx==1,],type='class')#
+#
+pv6v1 <- predict(v6v1,fgl[v6v1idx==1,],type='class')#
+pv6v2 <- predict(v6v2,fgl[v6v2idx==1,],type='class')#
+pv6v3 <- predict(v6v3,fgl[v6v3idx==1,],type='class')#
+pv6v4 <- predict(v6v4,fgl[v6v4idx==1,],type='class')#
+pv6v5 <- predict(v6v5,fgl[v6v5idx==1,],type='class')
+votes_1 <- (pv1v2 == 'WinF') + (pv1v3 == 'WinF') + (pv1v4 == 'WinF') + (pv1v5 == 'WinF') + (pv1v6 == 'WinF') + #
+           (pv2v1 == 'WinF') + (pv2v3 == 'WinF') + (pv2v4 == 'WinF') + (pv2v5 == 'WinF') + (pv2v6 == 'WinF') + #
+           (pv3v1 == 'WinF') + (pv3v2 == 'WinF') + (pv3v4 == 'WinF') + (pv3v5 == 'WinF') + (pv3v6 == 'WinF') #
+           (pv4v1 == 'WinF') + (pv4v2 == 'WinF') + (pv4v3 == 'WinF') + (pv4v5 == 'WinF') + (pv4v6 == 'WinF') + #
+           (pv5v1 == 'WinF') + (pv5v2 == 'WinF') + (pv5v3 == 'WinF') + (pv5v4 == 'WinF') + (pv5v6 == 'WinF') + #
+           (pv6v1 == 'WinF') + (pv6v2 == 'WinF') + (pv6v3 == 'WinF') + (pv6v4 == 'WinF') + (pv6v5 == 'WinF')
+warnings()
+votes_1 <- (pv1v2 == 'WinF') + (pv1v3 == 'WinF') + (pv1v4 == 'WinF') + (pv1v5 == 'WinF') + (pv1v6 == 'WinF') + #
+           (pv2v1 == 'WinF') + (pv2v3 == 'WinF') + (pv2v4 == 'WinF') + (pv2v5 == 'WinF') + (pv2v6 == 'WinF') + #
+           (pv3v1 == 'WinF') + (pv3v2 == 'WinF') + (pv3v4 == 'WinF') + (pv3v5 == 'WinF') + (pv3v6 == 'WinF') #
+           (pv4v1 == 'WinF') + (pv4v2 == 'WinF') + (pv4v3 == 'WinF') + (pv4v5 == 'WinF') + (pv4v6 == 'WinF') + #
+           (pv5v1 == 'WinF') + (pv5v2 == 'WinF') + (pv5v3 == 'WinF') + (pv5v4 == 'WinF') + (pv5v6 == 'WinF') + #
+           (pv6v1 == 'WinF') + (pv6v2 == 'WinF') + (pv6v3 == 'WinF') + (pv6v4 == 'WinF') + (pv6v5 == 'WinF')#
+votes_2 <- (pv1v2 == 'WinNF') + (pv1v3 == 'WinNF') + (pv1v4 == 'WinNF') + (pv1v5 == 'WinNF') + (pv1v6 == 'WinNF') + #
+           (pv2v1 == 'WinNF') + (pv2v3 == 'WinNF') + (pv2v4 == 'WinNF') + (pv2v5 == 'WinNF') + (pv2v6 == 'WinNF') + #
+           (pv3v1 == 'WinNF') + (pv3v2 == 'WinNF') + (pv3v4 == 'WinNF') + (pv3v5 == 'WinNF') + (pv3v6 == 'WinNF') #
+           (pv4v1 == 'WinNF') + (pv4v2 == 'WinNF') + (pv4v3 == 'WinNF') + (pv4v5 == 'WinNF') + (pv4v6 == 'WinNF') + #
+           (pv5v1 == 'WinNF') + (pv5v2 == 'WinNF') + (pv5v3 == 'WinNF') + (pv5v4 == 'WinNF') + (pv5v6 == 'WinNF') + #
+           (pv6v1 == 'WinNF') + (pv6v2 == 'WinNF') + (pv6v3 == 'WinNF') + (pv6v4 == 'WinNF') + (pv6v5 == 'WinNF')#
+votes_3 <- (pv1v2 == 'Veh') + (pv1v3 == 'Veh') + (pv1v4 == 'Veh') + (pv1v5 == 'Veh') + (pv1v6 == 'Veh') + #
+           (pv2v1 == 'Veh') + (pv2v3 == 'Veh') + (pv2v4 == 'Veh') + (pv2v5 == 'Veh') + (pv2v6 == 'Veh') + #
+           (pv3v1 == 'Veh') + (pv3v2 == 'Veh') + (pv3v4 == 'Veh') + (pv3v5 == 'Veh') + (pv3v6 == 'Veh') #
+           (pv4v1 == 'Veh') + (pv4v2 == 'Veh') + (pv4v3 == 'Veh') + (pv4v5 == 'Veh') + (pv4v6 == 'Veh') + #
+           (pv5v1 == 'Veh') + (pv5v2 == 'Veh') + (pv5v3 == 'Veh') + (pv5v4 == 'Veh') + (pv5v6 == 'Veh') + #
+           (pv6v1 == 'Veh') + (pv6v2 == 'Veh') + (pv6v3 == 'Veh') + (pv6v4 == 'Veh') + (pv6v5 == 'Veh')#
+votes_4 <- (pv1v2 == 'Con') + (pv1v3 == 'Con') + (pv1v4 == 'Con') + (pv1v5 == 'Con') + (pv1v6 == 'Con') + #
+           (pv2v1 == 'Con') + (pv2v3 == 'Con') + (pv2v4 == 'Con') + (pv2v5 == 'Con') + (pv2v6 == 'Con') + #
+           (pv3v1 == 'Con') + (pv3v2 == 'Con') + (pv3v4 == 'Con') + (pv3v5 == 'Con') + (pv3v6 == 'Con') #
+           (pv4v1 == 'Con') + (pv4v2 == 'Con') + (pv4v3 == 'Con') + (pv4v5 == 'Con') + (pv4v6 == 'Con') + #
+           (pv5v1 == 'Con') + (pv5v2 == 'Con') + (pv5v3 == 'Con') + (pv5v4 == 'Con') + (pv5v6 == 'Con') + #
+           (pv6v1 == 'Con') + (pv6v2 == 'Con') + (pv6v3 == 'Con') + (pv6v4 == 'Con') + (pv6v5 == 'Con')#
+votes_5 <- (pv1v2 == 'Tabl') + (pv1v3 == 'Tabl') + (pv1v4 == 'Tabl') + (pv1v5 == 'Tabl') + (pv1v6 == 'Tabl') + #
+           (pv2v1 == 'Tabl') + (pv2v3 == 'Tabl') + (pv2v4 == 'Tabl') + (pv2v5 == 'Tabl') + (pv2v6 == 'Tabl') + #
+           (pv3v1 == 'Tabl') + (pv3v2 == 'Tabl') + (pv3v4 == 'Tabl') + (pv3v5 == 'Tabl') + (pv3v6 == 'Tabl') #
+           (pv4v1 == 'Tabl') + (pv4v2 == 'Tabl') + (pv4v3 == 'Tabl') + (pv4v5 == 'Tabl') + (pv4v6 == 'Tabl') + #
+           (pv5v1 == 'Tabl') + (pv5v2 == 'Tabl') + (pv5v3 == 'Tabl') + (pv5v4 == 'Tabl') + (pv5v6 == 'Tabl') + #
+           (pv6v1 == 'Tabl') + (pv6v2 == 'Tabl') + (pv6v3 == 'Tabl') + (pv6v4 == 'Tabl') + (pv6v5 == 'Tabl')#
+votes_6 <- (pv1v2 == 'Head') + (pv1v3 == 'Head') + (pv1v4 == 'Head') + (pv1v5 == 'Head') + (pv1v6 == 'Head') + #
+           (pv2v1 == 'Head') + (pv2v3 == 'Head') + (pv2v4 == 'Head') + (pv2v5 == 'Head') + (pv2v6 == 'Head') + #
+           (pv3v1 == 'Head') + (pv3v2 == 'Head') + (pv3v4 == 'Head') + (pv3v5 == 'Head') + (pv3v6 == 'Head') #
+           (pv4v1 == 'Head') + (pv4v2 == 'Head') + (pv4v3 == 'Head') + (pv4v5 == 'Head') + (pv4v6 == 'Head') + #
+           (pv5v1 == 'Head') + (pv5v2 == 'Head') + (pv5v3 == 'Head') + (pv5v4 == 'Head') + (pv5v6 == 'Head') + #
+           (pv6v1 == 'Head') + (pv6v2 == 'Head') + (pv6v3 == 'Head') + (pv6v4 == 'Head') + (pv6v5 == 'Head')
+votes <- c(votes_1,votes_2,votes_3,votes_4,votes_5,votes_6)#
+one_against_one_pred_11 <- c('WinF','WinNF','Veh','Con','Tabl','Head')[apply(votes,1,which.max)]
+votes <- cbind(votes_1,votes_2,votes_3,votes_4,votes_5,votes_6)#
+one_against_one_pred_11 <- c('WinF','WinNF','Veh','Con','Tabl','Head')[apply(votes,1,which.max)]
+one_against_one_pred_11
+table(a_pred,one_against_one_pred_11)
+v1v2idx <- ((fgl$type == 'WinF') | (fgl$type == 'WinNF')) * 1#
+v1v2idx[-train] = 0#
+v1v2 <- svm(type~.,fgl[v1v2idx == 1,])#
+v1v3idx <- ((fgl$type == 'WinF') | (fgl$type == 'Veh')) * 1#
+v1v3idx[-train] = 0#
+v1v3 <- svm(type~.,fgl[v1v3idx == 1,])#
+v1v4idx <- ((fgl$type == 'WinF') | (fgl$type == 'Con')) * 1#
+v1v4idx[-train] = 0#
+v1v4 <- svm(type~.,fgl[v1v4idx == 1,])#
+v1v5idx <- ((fgl$type == 'WinF') | (fgl$type == 'Tabl')) * 1#
+v1v5idx[-train] = 0#
+v1v5 <- svm(type~.,fgl[v1v5idx == 1,])#
+v1v6idx <- ((fgl$type == 'WinF') | (fgl$type == 'Head')) * 1#
+v1v6idx[-train] = 0#
+v1v6 <- svm(type~.,fgl[v1v6idx == 1,])#
+#
+v2v1idx <- ((fgl$type == 'WinNF') | (fgl$type == 'WinF')) * 1#
+v2v1idx[-train] = 0#
+v2v1 <- svm(type~.,fgl[v2v1idx == 1,])#
+v2v3idx <- ((fgl$type == 'WinNF') | (fgl$type == 'Veh')) * 1#
+v2v3idx[-train] = 0#
+v2v3 <- svm(type~.,fgl[v2v3idx == 1,])#
+v2v4idx <- ((fgl$type == 'WinNF') | (fgl$type == 'Con')) * 1#
+v2v4idx[-train] = 0#
+v2v4 <- svm(type~.,fgl[v2v4idx == 1,])#
+v2v5idx <- ((fgl$type == 'WinNF') | (fgl$type == 'Tabl')) * 1#
+v2v5idx[-train] = 0#
+v2v5 <- svm(type~.,fgl[v2v5idx == 1,])#
+v2v6idx <- ((fgl$type == 'WinNF') | (fgl$type == 'Head')) * 1#
+v2v6idx[-train] = 0#
+v2v6 <- svm(type~.,fgl[v2v6idx == 1,])#
+#
+v3v1idx <- ((fgl$type == 'Veh') | (fgl$type == 'WinF')) * 1#
+v3v1idx[-train] = 0#
+v3v1 <- svm(type~.,fgl[v3v1idx == 1,])#
+v3v2idx <- ((fgl$type == 'Veh') | (fgl$type == 'WinNF')) * 1#
+v3v2idx[-train] = 0#
+v3v2 <- svm(type~.,fgl[v3v2idx == 1,])#
+v3v4idx <- ((fgl$type == 'Veh') | (fgl$type == 'Con')) * 1#
+v3v4idx[-train] = 0#
+v3v4 <- svm(type~.,fgl[v3v4idx == 1,])#
+v3v5idx <- ((fgl$type == 'Veh') | (fgl$type == 'Tabl')) * 1#
+v3v5idx[-train] = 0#
+v3v5 <- svm(type~.,fgl[v3v5idx == 1,])#
+v3v6idx <- ((fgl$type == 'Veh') | (fgl$type == 'Head')) * 1#
+v3v6idx[-train] = 0#
+v3v6 <- svm(type~.,fgl[v3v6idx == 1,])#
+#
+v4v1idx <- ((fgl$type == 'Con') | (fgl$type == 'WinF')) * 1#
+v4v1idx[-train] = 0#
+v4v1 <- svm(type~.,fgl[v4v1idx == 1,])#
+v4v2idx <- ((fgl$type == 'Con') | (fgl$type == 'WinNF')) * 1#
+v4v2idx[-train] = 0#
+v4v2 <- svm(type~.,fgl[v4v2idx == 1,])#
+v4v3idx <- ((fgl$type == 'Con') | (fgl$type == 'Veh')) * 1#
+v4v3idx[-train] = 0#
+v4v3 <- svm(type~.,fgl[v4v3idx == 1,])#
+v4v5idx <- ((fgl$type == 'Con') | (fgl$type == 'Tabl')) * 1#
+v4v5idx[-train] = 0#
+v4v5 <- svm(type~.,fgl[v4v5idx == 1,])#
+v4v6idx <- ((fgl$type == 'Con') | (fgl$type == 'Head')) * 1#
+v4v6idx[-train] = 0#
+v4v6 <- svm(type~.,fgl[v4v6idx == 1,])#
+#
+v5v1idx <- ((fgl$type == 'Tabl') | (fgl$type == 'WinF')) * 1#
+v5v1idx[-train] = 0#
+v5v1 <- svm(type~.,fgl[v5v1idx == 1,])#
+v5v2idx <- ((fgl$type == 'Tabl') | (fgl$type == 'WinNF')) * 1#
+v5v2idx[-train] = 0#
+v5v2 <- svm(type~.,fgl[v5v2idx == 1,])#
+v5v3idx <- ((fgl$type == 'Tabl') | (fgl$type == 'Veh')) * 1#
+v5v3idx[-train] = 0#
+v5v3 <- svm(type~.,fgl[v5v3idx == 1,])#
+v5v4idx <- ((fgl$type == 'Tabl') | (fgl$type == 'Con')) * 1#
+v5v4idx[-train] = 0#
+v5v4 <- svm(type~.,fgl[v5v4idx == 1,])#
+v5v6idx <- ((fgl$type == 'Tabl') | (fgl$type == 'Head')) * 1#
+v5v6idx[-train] = 0#
+v5v6 <- svm(type~.,fgl[v5v6idx == 1,])#
+#
+v6v1idx <- ((fgl$type == 'Head') | (fgl$type == 'WinF')) * 1#
+v6v1idx[-train] = 0#
+v6v1 <- svm(type~.,fgl[v6v1idx == 1,])#
+v6v2idx <- ((fgl$type == 'Head') | (fgl$type == 'WinNF')) * 1#
+v6v2idx[-train] = 0#
+v6v2 <- svm(type~.,fgl[v6v2idx == 1,])#
+v6v3idx <- ((fgl$type == 'Head') | (fgl$type == 'Veh')) * 1#
+v6v3idx[-train] = 0#
+v6v3 <- svm(type~.,fgl[v6v3idx == 1,])#
+v6v4idx <- ((fgl$type == 'Head') | (fgl$type == 'Con')) * 1#
+v6v4idx[-train] = 0#
+v6v4 <- svm(type~.,fgl[v6v4idx == 1,])#
+v6v5idx <- ((fgl$type == 'Head') | (fgl$type == 'Tabl')) * 1#
+v6v5idx[-train] = 0#
+v6v5 <- svm(type~.,fgl[v6v5idx == 1,])
+data(fgl,package='MASS')
+comp_preds <- function(idx1, idx2, var, train, dset){#
+  tmpname <- names(dset)[var]#
+  names(dset)[var] <- 'my_var_name'#
+  myvar <- dset[,var]#
+#
+  n1 <- levels(myvar)[idx1]#
+  n2 <- levels(myvar)[idx2]#
+#
+  idx <- (((myvar == n1) | (myvar == n2) )) * 1#
+  idx[-train] = 0#
+#
+  v1_v2_train <- dset[idx == 1,]#
+  v1_v2_model <- svm(my_var_name~., v1_v2_train)#
+  v1_v2_pred <- predict(v1_v2_model, dset[-train,], type='class')#
+#
+  names(dset)[var] <- tmpname#
+#
+  return(v1_v2_pred)#
+}#
+#
+comp_votes <- function(preds, dset, v_idx){#
+#
+  nr = length(preds[[1]][[1]])#
+  nc = length(levels(dset[,v_idx]))#
+#
+  votes <- matrix(0,nrow=nr, ncol=nc)#
+  for(k in 1:nc){#
+    name1 <- levels(dset[,v_idx])[k]#
+#
+    for(i in 1:nc){#
+      for(j in 1:nc){#
+        if(j != i){#
+          votes[,k] <- votes[,k] + (preds[[i]][[j]] == name1) * 1#
+        }#
+      }#
+    }#
+  }#
+  return(votes)#
+}#
+#
+one_against_one <- function(v_idx, dset, train, predicted){#
+  tmpname <- (names(dset))[v_idx]#
+  varname <- 'mytempname'#
+  names(dset)[v_idx] <- 'mytempname'#
+#
+  list_of_preds <- list()#
+  tmplist <- list()#
+  acc <- matrix(-1, nrow = ncol(dset), ncol = ncol(dset))#
+  len <- length( levels(dset$mytempname) )#
+#
+  for(i in 1:len ){#
+    for(j in 1:len ){#
+      if(i != j){#
+        tmplist[[j]] <- comp_preds(i, j, v_idx, train, dset)#
+      }else{#
+      	tmplist[[j]] = rep(-1, nrow(dset) - length(train))#
+      }#
+    }#
+    list_of_preds[[i]] <- tmplist#
+  }#
+  votes <- comp_votes(list_of_preds, dset, v_idx)#
+  one_against_one_pred <- (levels(dset$mytempname))[apply(votes,1,which.max)]#
+  print(length(one_against_one_pred))#
+  return(table(predicted, one_against_one_pred))#
+}#
+tab1 <- one_against_one(ncol(fgl),fgl,train, a_pred)
+v1v2idx <- ((fgl$type == 'WinF') | (fgl$type == 'WinNF')) * 1#
+v1v2idx[-train] = 0#
+v1v2 <- svm(type~.,fgl[v1v2idx == 1,])#
+v1v3idx <- ((fgl$type == 'WinF') | (fgl$type == 'Veh')) * 1#
+v1v3idx[-train] = 0#
+v1v3 <- svm(type~.,fgl[v1v3idx == 1,])#
+v1v4idx <- ((fgl$type == 'WinF') | (fgl$type == 'Con')) * 1#
+v1v4idx[-train] = 0#
+v1v4 <- svm(type~.,fgl[v1v4idx == 1,])#
+v1v5idx <- ((fgl$type == 'WinF') | (fgl$type == 'Tabl')) * 1#
+v1v5idx[-train] = 0#
+v1v5 <- svm(type~.,fgl[v1v5idx == 1,])#
+v1v6idx <- ((fgl$type == 'WinF') | (fgl$type == 'Head')) * 1#
+v1v6idx[-train] = 0#
+v1v6 <- svm(type~.,fgl[v1v6idx == 1,])#
+#
+v2v1idx <- ((fgl$type == 'WinNF') | (fgl$type == 'WinF')) * 1#
+v2v1idx[-train] = 0#
+v2v1 <- svm(type~.,fgl[v2v1idx == 1,])#
+v2v3idx <- ((fgl$type == 'WinNF') | (fgl$type == 'Veh')) * 1#
+v2v3idx[-train] = 0#
+v2v3 <- svm(type~.,fgl[v2v3idx == 1,])#
+v2v4idx <- ((fgl$type == 'WinNF') | (fgl$type == 'Con')) * 1#
+v2v4idx[-train] = 0#
+v2v4 <- svm(type~.,fgl[v2v4idx == 1,])#
+v2v5idx <- ((fgl$type == 'WinNF') | (fgl$type == 'Tabl')) * 1#
+v2v5idx[-train] = 0#
+v2v5 <- svm(type~.,fgl[v2v5idx == 1,])#
+v2v6idx <- ((fgl$type == 'WinNF') | (fgl$type == 'Head')) * 1#
+v2v6idx[-train] = 0#
+v2v6 <- svm(type~.,fgl[v2v6idx == 1,])#
+#
+v3v1idx <- ((fgl$type == 'Veh') | (fgl$type == 'WinF')) * 1#
+v3v1idx[-train] = 0#
+v3v1 <- svm(type~.,fgl[v3v1idx == 1,])#
+v3v2idx <- ((fgl$type == 'Veh') | (fgl$type == 'WinNF')) * 1#
+v3v2idx[-train] = 0#
+v3v2 <- svm(type~.,fgl[v3v2idx == 1,])#
+v3v4idx <- ((fgl$type == 'Veh') | (fgl$type == 'Con')) * 1#
+v3v4idx[-train] = 0#
+v3v4 <- svm(type~.,fgl[v3v4idx == 1,])#
+v3v5idx <- ((fgl$type == 'Veh') | (fgl$type == 'Tabl')) * 1#
+v3v5idx[-train] = 0#
+v3v5 <- svm(type~.,fgl[v3v5idx == 1,])#
+v3v6idx <- ((fgl$type == 'Veh') | (fgl$type == 'Head')) * 1#
+v3v6idx[-train] = 0#
+v3v6 <- svm(type~.,fgl[v3v6idx == 1,])#
+#
+v4v1idx <- ((fgl$type == 'Con') | (fgl$type == 'WinF')) * 1#
+v4v1idx[-train] = 0#
+v4v1 <- svm(type~.,fgl[v4v1idx == 1,])#
+v4v2idx <- ((fgl$type == 'Con') | (fgl$type == 'WinNF')) * 1#
+v4v2idx[-train] = 0#
+v4v2 <- svm(type~.,fgl[v4v2idx == 1,])#
+v4v3idx <- ((fgl$type == 'Con') | (fgl$type == 'Veh')) * 1#
+v4v3idx[-train] = 0#
+v4v3 <- svm(type~.,fgl[v4v3idx == 1,])#
+v4v5idx <- ((fgl$type == 'Con') | (fgl$type == 'Tabl')) * 1#
+v4v5idx[-train] = 0#
+v4v5 <- svm(type~.,fgl[v4v5idx == 1,])#
+v4v6idx <- ((fgl$type == 'Con') | (fgl$type == 'Head')) * 1#
+v4v6idx[-train] = 0#
+v4v6 <- svm(type~.,fgl[v4v6idx == 1,])#
+#
+v5v1idx <- ((fgl$type == 'Tabl') | (fgl$type == 'WinF')) * 1#
+v5v1idx[-train] = 0#
+v5v1 <- svm(type~.,fgl[v5v1idx == 1,])#
+v5v2idx <- ((fgl$type == 'Tabl') | (fgl$type == 'WinNF')) * 1#
+v5v2idx[-train] = 0#
+v5v2 <- svm(type~.,fgl[v5v2idx == 1,])#
+v5v3idx <- ((fgl$type == 'Tabl') | (fgl$type == 'Veh')) * 1#
+v5v3idx[-train] = 0#
+v5v3 <- svm(type~.,fgl[v5v3idx == 1,])#
+v5v4idx <- ((fgl$type == 'Tabl') | (fgl$type == 'Con')) * 1#
+v5v4idx[-train] = 0#
+v5v4 <- svm(type~.,fgl[v5v4idx == 1,])#
+v5v6idx <- ((fgl$type == 'Tabl') | (fgl$type == 'Head')) * 1#
+v5v6idx[-train] = 0#
+v5v6 <- svm(type~.,fgl[v5v6idx == 1,])#
+#
+v6v1idx <- ((fgl$type == 'Head') | (fgl$type == 'WinF')) * 1#
+v6v1idx[-train] = 0#
+v6v1 <- svm(type~.,fgl[v6v1idx == 1,])#
+v6v2idx <- ((fgl$type == 'Head') | (fgl$type == 'WinNF')) * 1#
+v6v2idx[-train] = 0#
+v6v2 <- svm(type~.,fgl[v6v2idx == 1,])#
+v6v3idx <- ((fgl$type == 'Head') | (fgl$type == 'Veh')) * 1#
+v6v3idx[-train] = 0#
+v6v3 <- svm(type~.,fgl[v6v3idx == 1,])#
+v6v4idx <- ((fgl$type == 'Head') | (fgl$type == 'Con')) * 1#
+v6v4idx[-train] = 0#
+v6v4 <- svm(type~.,fgl[v6v4idx == 1,])#
+v6v5idx <- ((fgl$type == 'Head') | (fgl$type == 'Tabl')) * 1#
+v6v5idx[-train] = 0#
+v6v5 <- svm(type~.,fgl[v6v5idx == 1,])#
+#
+pv1v2 <- predict(v1v2,fgl[-train,],type='class')#
+pv1v3 <- predict(v1v3,fgl[-train,],type='class')#
+pv1v4 <- predict(v1v4,fgl[-train,],type='class')#
+pv1v5 <- predict(v1v5,fgl[-train,],type='class')#
+pv1v6 <- predict(v1v6,fgl[-train,],type='class')#
+#
+pv2v1 <- predict(v2v1,fgl[-train,],type='class')#
+pv2v3 <- predict(v2v3,fgl[-train,],type='class')#
+pv2v4 <- predict(v2v4,fgl[-train,],type='class')#
+pv2v5 <- predict(v2v5,fgl[-train,],type='class')#
+pv2v6 <- predict(v2v6,fgl[-train,],type='class')#
+#
+pv3v1 <- predict(v3v1,fgl[-train,],type='class')#
+pv3v2 <- predict(v3v2,fgl[-train,],type='class')#
+pv3v4 <- predict(v3v4,fgl[-train,],type='class')#
+pv3v5 <- predict(v3v5,fgl[-train,],type='class')#
+pv3v6 <- predict(v3v6,fgl[-train,],type='class')#
+#
+pv4v1 <- predict(v4v1,fgl[-train,],type='class')#
+pv4v2 <- predict(v4v2,fgl[-train,],type='class')#
+pv4v3 <- predict(v4v3,fgl[-train,],type='class')#
+pv4v5 <- predict(v4v5,fgl[-train,],type='class')#
+pv4v6 <- predict(v4v6,fgl[-train,],type='class')#
+#
+pv5v1 <- predict(v5v1,fgl[-train,],type='class')#
+pv5v2 <- predict(v5v2,fgl[-train,],type='class')#
+pv5v3 <- predict(v5v3,fgl[-train,],type='class')#
+pv5v4 <- predict(v5v4,fgl[-train,],type='class')#
+pv5v6 <- predict(v5v6,fgl[-train,],type='class')#
+#
+pv6v1 <- predict(v6v1,fgl[-train,],type='class')#
+pv6v2 <- predict(v6v2,fgl[-train,],type='class')#
+pv6v3 <- predict(v6v3,fgl[-train,],type='class')#
+pv6v4 <- predict(v6v4,fgl[-train,],type='class')#
+pv6v5 <- predict(v6v5,fgl[-train,],type='class')#
+#
+votes_1 <- (pv1v2 == 'WinF') + (pv1v3 == 'WinF') + (pv1v4 == 'WinF') + (pv1v5 == 'WinF') + (pv1v6 == 'WinF') + #
+           (pv2v1 == 'WinF') + (pv2v3 == 'WinF') + (pv2v4 == 'WinF') + (pv2v5 == 'WinF') + (pv2v6 == 'WinF') + #
+           (pv3v1 == 'WinF') + (pv3v2 == 'WinF') + (pv3v4 == 'WinF') + (pv3v5 == 'WinF') + (pv3v6 == 'WinF') #
+           (pv4v1 == 'WinF') + (pv4v2 == 'WinF') + (pv4v3 == 'WinF') + (pv4v5 == 'WinF') + (pv4v6 == 'WinF') + #
+           (pv5v1 == 'WinF') + (pv5v2 == 'WinF') + (pv5v3 == 'WinF') + (pv5v4 == 'WinF') + (pv5v6 == 'WinF') + #
+           (pv6v1 == 'WinF') + (pv6v2 == 'WinF') + (pv6v3 == 'WinF') + (pv6v4 == 'WinF') + (pv6v5 == 'WinF')#
+votes_2 <- (pv1v2 == 'WinNF') + (pv1v3 == 'WinNF') + (pv1v4 == 'WinNF') + (pv1v5 == 'WinNF') + (pv1v6 == 'WinNF') + #
+           (pv2v1 == 'WinNF') + (pv2v3 == 'WinNF') + (pv2v4 == 'WinNF') + (pv2v5 == 'WinNF') + (pv2v6 == 'WinNF') + #
+           (pv3v1 == 'WinNF') + (pv3v2 == 'WinNF') + (pv3v4 == 'WinNF') + (pv3v5 == 'WinNF') + (pv3v6 == 'WinNF') #
+           (pv4v1 == 'WinNF') + (pv4v2 == 'WinNF') + (pv4v3 == 'WinNF') + (pv4v5 == 'WinNF') + (pv4v6 == 'WinNF') + #
+           (pv5v1 == 'WinNF') + (pv5v2 == 'WinNF') + (pv5v3 == 'WinNF') + (pv5v4 == 'WinNF') + (pv5v6 == 'WinNF') + #
+           (pv6v1 == 'WinNF') + (pv6v2 == 'WinNF') + (pv6v3 == 'WinNF') + (pv6v4 == 'WinNF') + (pv6v5 == 'WinNF')#
+votes_3 <- (pv1v2 == 'Veh') + (pv1v3 == 'Veh') + (pv1v4 == 'Veh') + (pv1v5 == 'Veh') + (pv1v6 == 'Veh') + #
+           (pv2v1 == 'Veh') + (pv2v3 == 'Veh') + (pv2v4 == 'Veh') + (pv2v5 == 'Veh') + (pv2v6 == 'Veh') + #
+           (pv3v1 == 'Veh') + (pv3v2 == 'Veh') + (pv3v4 == 'Veh') + (pv3v5 == 'Veh') + (pv3v6 == 'Veh') #
+           (pv4v1 == 'Veh') + (pv4v2 == 'Veh') + (pv4v3 == 'Veh') + (pv4v5 == 'Veh') + (pv4v6 == 'Veh') + #
+           (pv5v1 == 'Veh') + (pv5v2 == 'Veh') + (pv5v3 == 'Veh') + (pv5v4 == 'Veh') + (pv5v6 == 'Veh') + #
+           (pv6v1 == 'Veh') + (pv6v2 == 'Veh') + (pv6v3 == 'Veh') + (pv6v4 == 'Veh') + (pv6v5 == 'Veh')#
+votes_4 <- (pv1v2 == 'Con') + (pv1v3 == 'Con') + (pv1v4 == 'Con') + (pv1v5 == 'Con') + (pv1v6 == 'Con') + #
+           (pv2v1 == 'Con') + (pv2v3 == 'Con') + (pv2v4 == 'Con') + (pv2v5 == 'Con') + (pv2v6 == 'Con') + #
+           (pv3v1 == 'Con') + (pv3v2 == 'Con') + (pv3v4 == 'Con') + (pv3v5 == 'Con') + (pv3v6 == 'Con') #
+           (pv4v1 == 'Con') + (pv4v2 == 'Con') + (pv4v3 == 'Con') + (pv4v5 == 'Con') + (pv4v6 == 'Con') + #
+           (pv5v1 == 'Con') + (pv5v2 == 'Con') + (pv5v3 == 'Con') + (pv5v4 == 'Con') + (pv5v6 == 'Con') + #
+           (pv6v1 == 'Con') + (pv6v2 == 'Con') + (pv6v3 == 'Con') + (pv6v4 == 'Con') + (pv6v5 == 'Con')#
+votes_5 <- (pv1v2 == 'Tabl') + (pv1v3 == 'Tabl') + (pv1v4 == 'Tabl') + (pv1v5 == 'Tabl') + (pv1v6 == 'Tabl') + #
+           (pv2v1 == 'Tabl') + (pv2v3 == 'Tabl') + (pv2v4 == 'Tabl') + (pv2v5 == 'Tabl') + (pv2v6 == 'Tabl') + #
+           (pv3v1 == 'Tabl') + (pv3v2 == 'Tabl') + (pv3v4 == 'Tabl') + (pv3v5 == 'Tabl') + (pv3v6 == 'Tabl') #
+           (pv4v1 == 'Tabl') + (pv4v2 == 'Tabl') + (pv4v3 == 'Tabl') + (pv4v5 == 'Tabl') + (pv4v6 == 'Tabl') + #
+           (pv5v1 == 'Tabl') + (pv5v2 == 'Tabl') + (pv5v3 == 'Tabl') + (pv5v4 == 'Tabl') + (pv5v6 == 'Tabl') + #
+           (pv6v1 == 'Tabl') + (pv6v2 == 'Tabl') + (pv6v3 == 'Tabl') + (pv6v4 == 'Tabl') + (pv6v5 == 'Tabl')#
+votes_6 <- (pv1v2 == 'Head') + (pv1v3 == 'Head') + (pv1v4 == 'Head') + (pv1v5 == 'Head') + (pv1v6 == 'Head') + #
+           (pv2v1 == 'Head') + (pv2v3 == 'Head') + (pv2v4 == 'Head') + (pv2v5 == 'Head') + (pv2v6 == 'Head') + #
+           (pv3v1 == 'Head') + (pv3v2 == 'Head') + (pv3v4 == 'Head') + (pv3v5 == 'Head') + (pv3v6 == 'Head') #
+           (pv4v1 == 'Head') + (pv4v2 == 'Head') + (pv4v3 == 'Head') + (pv4v5 == 'Head') + (pv4v6 == 'Head') + #
+           (pv5v1 == 'Head') + (pv5v2 == 'Head') + (pv5v3 == 'Head') + (pv5v4 == 'Head') + (pv5v6 == 'Head') + #
+           (pv6v1 == 'Head') + (pv6v2 == 'Head') + (pv6v3 == 'Head') + (pv6v4 == 'Head') + (pv6v5 == 'Head')#
+#
+votes <- cbind(votes_1,votes_2,votes_3,votes_4,votes_5,votes_6)#
+one_against_one_pred_11 <- c('WinF','WinNF','Veh','Con','Tabl','Head')[apply(votes,1,which.max)]#
+#
+table(a_pred,one_against_one_pred_11)
+tab1
+v1v2idx <- ((fgl$type == 'WinF') | (fgl$type == 'WinNF')) * 1#
+v1v2idx[-train] = 0#
+v1v2 <- svm(type~.,fgl[v1v2idx == 1,])#
+v1v3idx <- ((fgl$type == 'WinF') | (fgl$type == 'Veh')) * 1#
+v1v3idx[-train] = 0#
+v1v3 <- svm(type~.,fgl[v1v3idx == 1,])#
+v1v4idx <- ((fgl$type == 'WinF') | (fgl$type == 'Con')) * 1#
+v1v4idx[-train] = 0#
+v1v4 <- svm(type~.,fgl[v1v4idx == 1,])#
+v1v5idx <- ((fgl$type == 'WinF') | (fgl$type == 'Tabl')) * 1#
+v1v5idx[-train] = 0#
+v1v5 <- svm(type~.,fgl[v1v5idx == 1,])#
+v1v6idx <- ((fgl$type == 'WinF') | (fgl$type == 'Head')) * 1#
+v1v6idx[-train] = 0#
+v1v6 <- svm(type~.,fgl[v1v6idx == 1,])#
+#
+v2v1idx <- ((fgl$type == 'WinNF') | (fgl$type == 'WinF')) * 1#
+v2v1idx[-train] = 0#
+v2v1 <- svm(type~.,fgl[v2v1idx == 1,])#
+v2v3idx <- ((fgl$type == 'WinNF') | (fgl$type == 'Veh')) * 1#
+v2v3idx[-train] = 0#
+v2v3 <- svm(type~.,fgl[v2v3idx == 1,])#
+v2v4idx <- ((fgl$type == 'WinNF') | (fgl$type == 'Con')) * 1#
+v2v4idx[-train] = 0#
+v2v4 <- svm(type~.,fgl[v2v4idx == 1,])#
+v2v5idx <- ((fgl$type == 'WinNF') | (fgl$type == 'Tabl')) * 1#
+v2v5idx[-train] = 0#
+v2v5 <- svm(type~.,fgl[v2v5idx == 1,])#
+v2v6idx <- ((fgl$type == 'WinNF') | (fgl$type == 'Head')) * 1#
+v2v6idx[-train] = 0#
+v2v6 <- svm(type~.,fgl[v2v6idx == 1,])#
+#
+v3v1idx <- ((fgl$type == 'Veh') | (fgl$type == 'WinF')) * 1#
+v3v1idx[-train] = 0#
+v3v1 <- svm(type~.,fgl[v3v1idx == 1,])#
+v3v2idx <- ((fgl$type == 'Veh') | (fgl$type == 'WinNF')) * 1#
+v3v2idx[-train] = 0#
+v3v2 <- svm(type~.,fgl[v3v2idx == 1,])#
+v3v4idx <- ((fgl$type == 'Veh') | (fgl$type == 'Con')) * 1#
+v3v4idx[-train] = 0#
+v3v4 <- svm(type~.,fgl[v3v4idx == 1,])#
+v3v5idx <- ((fgl$type == 'Veh') | (fgl$type == 'Tabl')) * 1#
+v3v5idx[-train] = 0#
+v3v5 <- svm(type~.,fgl[v3v5idx == 1,])#
+v3v6idx <- ((fgl$type == 'Veh') | (fgl$type == 'Head')) * 1#
+v3v6idx[-train] = 0#
+v3v6 <- svm(type~.,fgl[v3v6idx == 1,])#
+#
+v4v1idx <- ((fgl$type == 'Con') | (fgl$type == 'WinF')) * 1#
+v4v1idx[-train] = 0#
+v4v1 <- svm(type~.,fgl[v4v1idx == 1,])#
+v4v2idx <- ((fgl$type == 'Con') | (fgl$type == 'WinNF')) * 1#
+v4v2idx[-train] = 0#
+v4v2 <- svm(type~.,fgl[v4v2idx == 1,])#
+v4v3idx <- ((fgl$type == 'Con') | (fgl$type == 'Veh')) * 1#
+v4v3idx[-train] = 0#
+v4v3 <- svm(type~.,fgl[v4v3idx == 1,])#
+v4v5idx <- ((fgl$type == 'Con') | (fgl$type == 'Tabl')) * 1#
+v4v5idx[-train] = 0#
+v4v5 <- svm(type~.,fgl[v4v5idx == 1,])#
+v4v6idx <- ((fgl$type == 'Con') | (fgl$type == 'Head')) * 1#
+v4v6idx[-train] = 0#
+v4v6 <- svm(type~.,fgl[v4v6idx == 1,])#
+#
+v5v1idx <- ((fgl$type == 'Tabl') | (fgl$type == 'WinF')) * 1#
+v5v1idx[-train] = 0#
+v5v1 <- svm(type~.,fgl[v5v1idx == 1,])#
+v5v2idx <- ((fgl$type == 'Tabl') | (fgl$type == 'WinNF')) * 1#
+v5v2idx[-train] = 0#
+v5v2 <- svm(type~.,fgl[v5v2idx == 1,])#
+v5v3idx <- ((fgl$type == 'Tabl') | (fgl$type == 'Veh')) * 1#
+v5v3idx[-train] = 0#
+v5v3 <- svm(type~.,fgl[v5v3idx == 1,])#
+v5v4idx <- ((fgl$type == 'Tabl') | (fgl$type == 'Con')) * 1#
+v5v4idx[-train] = 0#
+v5v4 <- svm(type~.,fgl[v5v4idx == 1,])#
+v5v6idx <- ((fgl$type == 'Tabl') | (fgl$type == 'Head')) * 1#
+v5v6idx[-train] = 0#
+v5v6 <- svm(type~.,fgl[v5v6idx == 1,])#
+#
+v6v1idx <- ((fgl$type == 'Head') | (fgl$type == 'WinF')) * 1#
+v6v1idx[-train] = 0#
+v6v1 <- svm(type~.,fgl[v6v1idx == 1,])#
+v6v2idx <- ((fgl$type == 'Head') | (fgl$type == 'WinNF')) * 1#
+v6v2idx[-train] = 0#
+v6v2 <- svm(type~.,fgl[v6v2idx == 1,])#
+v6v3idx <- ((fgl$type == 'Head') | (fgl$type == 'Veh')) * 1#
+v6v3idx[-train] = 0#
+v6v3 <- svm(type~.,fgl[v6v3idx == 1,])#
+v6v4idx <- ((fgl$type == 'Head') | (fgl$type == 'Con')) * 1#
+v6v4idx[-train] = 0#
+v6v4 <- svm(type~.,fgl[v6v4idx == 1,])#
+v6v5idx <- ((fgl$type == 'Head') | (fgl$type == 'Tabl')) * 1#
+v6v5idx[-train] = 0#
+v6v5 <- svm(type~.,fgl[v6v5idx == 1,])
+pv1v2 <- predict(v1v2,fgl[-train,],type='class')#
+pv1v3 <- predict(v1v3,fgl[-train,],type='class')#
+pv1v4 <- predict(v1v4,fgl[-train,],type='class')#
+pv1v5 <- predict(v1v5,fgl[-train,],type='class')#
+pv1v6 <- predict(v1v6,fgl[-train,],type='class')#
+#
+pv2v1 <- predict(v2v1,fgl[-train,],type='class')#
+pv2v3 <- predict(v2v3,fgl[-train,],type='class')#
+pv2v4 <- predict(v2v4,fgl[-train,],type='class')#
+pv2v5 <- predict(v2v5,fgl[-train,],type='class')#
+pv2v6 <- predict(v2v6,fgl[-train,],type='class')#
+#
+pv3v1 <- predict(v3v1,fgl[-train,],type='class')#
+pv3v2 <- predict(v3v2,fgl[-train,],type='class')#
+pv3v4 <- predict(v3v4,fgl[-train,],type='class')#
+pv3v5 <- predict(v3v5,fgl[-train,],type='class')#
+pv3v6 <- predict(v3v6,fgl[-train,],type='class')#
+#
+pv4v1 <- predict(v4v1,fgl[-train,],type='class')#
+pv4v2 <- predict(v4v2,fgl[-train,],type='class')#
+pv4v3 <- predict(v4v3,fgl[-train,],type='class')#
+pv4v5 <- predict(v4v5,fgl[-train,],type='class')#
+pv4v6 <- predict(v4v6,fgl[-train,],type='class')#
+#
+pv5v1 <- predict(v5v1,fgl[-train,],type='class')#
+pv5v2 <- predict(v5v2,fgl[-train,],type='class')#
+pv5v3 <- predict(v5v3,fgl[-train,],type='class')#
+pv5v4 <- predict(v5v4,fgl[-train,],type='class')#
+pv5v6 <- predict(v5v6,fgl[-train,],type='class')#
+#
+pv6v1 <- predict(v6v1,fgl[-train,],type='class')#
+pv6v2 <- predict(v6v2,fgl[-train,],type='class')#
+pv6v3 <- predict(v6v3,fgl[-train,],type='class')#
+pv6v4 <- predict(v6v4,fgl[-train,],type='class')#
+pv6v5 <- predict(v6v5,fgl[-train,],type='class')
+votes_1 <- (pv1v2 == 'WinF') + (pv1v3 == 'WinF') + (pv1v4 == 'WinF') + (pv1v5 == 'WinF') + (pv1v6 == 'WinF') + #
+           (pv2v1 == 'WinF') + (pv2v3 == 'WinF') + (pv2v4 == 'WinF') + (pv2v5 == 'WinF') + (pv2v6 == 'WinF') + #
+           (pv3v1 == 'WinF') + (pv3v2 == 'WinF') + (pv3v4 == 'WinF') + (pv3v5 == 'WinF') + (pv3v6 == 'WinF') +#
+           (pv4v1 == 'WinF') + (pv4v2 == 'WinF') + (pv4v3 == 'WinF') + (pv4v5 == 'WinF') + (pv4v6 == 'WinF') + #
+           (pv5v1 == 'WinF') + (pv5v2 == 'WinF') + (pv5v3 == 'WinF') + (pv5v4 == 'WinF') + (pv5v6 == 'WinF') + #
+           (pv6v1 == 'WinF') + (pv6v2 == 'WinF') + (pv6v3 == 'WinF') + (pv6v4 == 'WinF') + (pv6v5 == 'WinF')#
+votes_2 <- (pv1v2 == 'WinNF') + (pv1v3 == 'WinNF') + (pv1v4 == 'WinNF') + (pv1v5 == 'WinNF') + (pv1v6 == 'WinNF') + #
+           (pv2v1 == 'WinNF') + (pv2v3 == 'WinNF') + (pv2v4 == 'WinNF') + (pv2v5 == 'WinNF') + (pv2v6 == 'WinNF') + #
+           (pv3v1 == 'WinNF') + (pv3v2 == 'WinNF') + (pv3v4 == 'WinNF') + (pv3v5 == 'WinNF') + (pv3v6 == 'WinNF') +#
+           (pv4v1 == 'WinNF') + (pv4v2 == 'WinNF') + (pv4v3 == 'WinNF') + (pv4v5 == 'WinNF') + (pv4v6 == 'WinNF') + #
+           (pv5v1 == 'WinNF') + (pv5v2 == 'WinNF') + (pv5v3 == 'WinNF') + (pv5v4 == 'WinNF') + (pv5v6 == 'WinNF') + #
+           (pv6v1 == 'WinNF') + (pv6v2 == 'WinNF') + (pv6v3 == 'WinNF') + (pv6v4 == 'WinNF') + (pv6v5 == 'WinNF')#
+votes_3 <- (pv1v2 == 'Veh') + (pv1v3 == 'Veh') + (pv1v4 == 'Veh') + (pv1v5 == 'Veh') + (pv1v6 == 'Veh') + #
+           (pv2v1 == 'Veh') + (pv2v3 == 'Veh') + (pv2v4 == 'Veh') + (pv2v5 == 'Veh') + (pv2v6 == 'Veh') + #
+           (pv3v1 == 'Veh') + (pv3v2 == 'Veh') + (pv3v4 == 'Veh') + (pv3v5 == 'Veh') + (pv3v6 == 'Veh') +#
+           (pv4v1 == 'Veh') + (pv4v2 == 'Veh') + (pv4v3 == 'Veh') + (pv4v5 == 'Veh') + (pv4v6 == 'Veh') + #
+           (pv5v1 == 'Veh') + (pv5v2 == 'Veh') + (pv5v3 == 'Veh') + (pv5v4 == 'Veh') + (pv5v6 == 'Veh') + #
+           (pv6v1 == 'Veh') + (pv6v2 == 'Veh') + (pv6v3 == 'Veh') + (pv6v4 == 'Veh') + (pv6v5 == 'Veh')#
+votes_4 <- (pv1v2 == 'Con') + (pv1v3 == 'Con') + (pv1v4 == 'Con') + (pv1v5 == 'Con') + (pv1v6 == 'Con') + #
+           (pv2v1 == 'Con') + (pv2v3 == 'Con') + (pv2v4 == 'Con') + (pv2v5 == 'Con') + (pv2v6 == 'Con') + #
+           (pv3v1 == 'Con') + (pv3v2 == 'Con') + (pv3v4 == 'Con') + (pv3v5 == 'Con') + (pv3v6 == 'Con') +#
+           (pv4v1 == 'Con') + (pv4v2 == 'Con') + (pv4v3 == 'Con') + (pv4v5 == 'Con') + (pv4v6 == 'Con') + #
+           (pv5v1 == 'Con') + (pv5v2 == 'Con') + (pv5v3 == 'Con') + (pv5v4 == 'Con') + (pv5v6 == 'Con') + #
+           (pv6v1 == 'Con') + (pv6v2 == 'Con') + (pv6v3 == 'Con') + (pv6v4 == 'Con') + (pv6v5 == 'Con')#
+votes_5 <- (pv1v2 == 'Tabl') + (pv1v3 == 'Tabl') + (pv1v4 == 'Tabl') + (pv1v5 == 'Tabl') + (pv1v6 == 'Tabl') + #
+           (pv2v1 == 'Tabl') + (pv2v3 == 'Tabl') + (pv2v4 == 'Tabl') + (pv2v5 == 'Tabl') + (pv2v6 == 'Tabl') + #
+           (pv3v1 == 'Tabl') + (pv3v2 == 'Tabl') + (pv3v4 == 'Tabl') + (pv3v5 == 'Tabl') + (pv3v6 == 'Tabl') +#
+           (pv4v1 == 'Tabl') + (pv4v2 == 'Tabl') + (pv4v3 == 'Tabl') + (pv4v5 == 'Tabl') + (pv4v6 == 'Tabl') + #
+           (pv5v1 == 'Tabl') + (pv5v2 == 'Tabl') + (pv5v3 == 'Tabl') + (pv5v4 == 'Tabl') + (pv5v6 == 'Tabl') + #
+           (pv6v1 == 'Tabl') + (pv6v2 == 'Tabl') + (pv6v3 == 'Tabl') + (pv6v4 == 'Tabl') + (pv6v5 == 'Tabl')#
+votes_6 <- (pv1v2 == 'Head') + (pv1v3 == 'Head') + (pv1v4 == 'Head') + (pv1v5 == 'Head') + (pv1v6 == 'Head') + #
+           (pv2v1 == 'Head') + (pv2v3 == 'Head') + (pv2v4 == 'Head') + (pv2v5 == 'Head') + (pv2v6 == 'Head') + #
+           (pv3v1 == 'Head') + (pv3v2 == 'Head') + (pv3v4 == 'Head') + (pv3v5 == 'Head') + (pv3v6 == 'Head') +#
+           (pv4v1 == 'Head') + (pv4v2 == 'Head') + (pv4v3 == 'Head') + (pv4v5 == 'Head') + (pv4v6 == 'Head') + #
+           (pv5v1 == 'Head') + (pv5v2 == 'Head') + (pv5v3 == 'Head') + (pv5v4 == 'Head') + (pv5v6 == 'Head') + #
+           (pv6v1 == 'Head') + (pv6v2 == 'Head') + (pv6v3 == 'Head') + (pv6v4 == 'Head') + (pv6v5 == 'Head')#
+#
+votes <- cbind(votes_1,votes_2,votes_3,votes_4,votes_5,votes_6)#
+one_against_one_pred_11 <- c('WinF','WinNF','Veh','Con','Tabl','Head')[apply(votes,1,which.max)]
+table(a_pred,one_against_one_pred_11)
+tab1
+one_against_rest <- function(dset, v_idx, train, mytable){#
+  tmpname <- names(dset)[v_idx]#
+  names(dset)[v_idx] <- 'type'#
+  levels(dset$type) <- c(levels(dset$type), 'other')#
+  tmpdset <- dset[train,]#
+  preds <- list()#
+  for(idx in 1:(length(levels(dset$type)) - 1)){#
+  	name <- levels(dset$type)[idx]#
+    index_v <- (tmpdset$type != name) * 1#
+    tmpdset$type[index_v == 1] <- 'other'    #
+#
+ 	model <- svm(type~., tmpdset)#
+ 	tmppred <- predict(model, dset[-train,])#
+ 	preds[[idx]] <- tmppred#
+ 	tmpdset$type <- dset$type[train]#
+  }#
+#
+  votes <- matrix(0, #
+                 nrow = (nrow(dset) - length(train)), #
+                 ncol = length(levels(dset$type)) - 1 )#
+#
+  for(idx in 1:(length(levels(dset$type)) - 1)){#
+    name <- levels(dset$type)[idx]#
+    votes[,idx] <- votes[,idx] + (preds[[idx]] == name)#
+    for(i in 1:(length(levels(dset$type)) - 1)){#
+      if(i != idx){#
+        votes[,idx] <- votes[,idx] + (preds[[i]] == 'other')#
+      }#
+    }#
+  }#
+  one_against_rest_pred <- (levels(dset$type))[apply(votes,1,which.max)]#
+  return(table(mytable,one_against_rest_pred))#
+}
+one_against_rest <- function(dset, v_idx, train, my_pred){#
+  tmpname <- names(dset)[v_idx]#
+  names(dset)[v_idx] <- 'type'#
+  levels(dset$type) <- c(levels(dset$type), 'other')#
+  tmpdset <- dset[train,]#
+  preds <- list()#
+  for(idx in 1:(length(levels(dset$type)) - 1)){#
+  	name <- levels(dset$type)[idx]#
+    index_v <- (tmpdset$type != name) * 1#
+    tmpdset$type[index_v == 1] <- 'other'    #
+#
+ 	model <- svm(type~., tmpdset)#
+ 	tmppred <- predict(model, dset[-train,])#
+ 	preds[[idx]] <- tmppred#
+ 	tmpdset$type <- dset$type[train]#
+  }#
+#
+  votes <- matrix(0, #
+                 nrow = (nrow(dset) - length(train)), #
+                 ncol = length(levels(dset$type)) - 1 )#
+#
+  for(idx in 1:(length(levels(dset$type)) - 1)){#
+    name <- levels(dset$type)[idx]#
+    votes[,idx] <- votes[,idx] + (preds[[idx]] == name)#
+    for(i in 1:(length(levels(dset$type)) - 1)){#
+      if(i != idx){#
+        votes[,idx] <- votes[,idx] + (preds[[i]] == 'other')#
+      }#
+    }#
+  }#
+  one_against_rest_pred <- (levels(dset$type))[apply(votes,1,which.max)]#
+  return(table(my_pred,one_against_rest_pred))#
+}
+one_against_rest <- function(dset, v_idx, train, my_pred){#
+  tmpname <- names(dset)[v_idx]#
+  names(dset)[v_idx] <- 'type'#
+  levels(dset$type) <- c(levels(dset$type), 'other')#
+  tmpdset <- dset[train,]#
+  preds <- list()#
+  for(idx in 1:(length(levels(dset$type)) - 1)){#
+  	name <- levels(dset$type)[idx]#
+    index_v <- (tmpdset$type != name) * 1#
+    tmpdset$type[index_v == 1] <- 'other'    #
+#
+ 	model <- svm(type~., tmpdset)#
+ 	tmppred <- predict(model, dset[-train,])#
+ 	preds[[idx]] <- tmppred#
+ 	tmpdset$type <- dset$type[train]#
+  }#
+#
+  votes <- matrix(0, #
+                 nrow = (nrow(dset) - length(train)), #
+                 ncol = length(levels(dset$type)) - 1 )#
+#
+  for(idx in 1:(length(levels(dset$type)) - 1)){#
+    name <- levels(dset$type)[idx]#
+    votes[,idx] <- votes[,idx] + (preds[[idx]] == name)#
+    for(i in 1:(length(levels(dset$type)) - 1)){#
+      if(i != idx){#
+        votes[,idx] <- votes[,idx] + (preds[[i]] == 'other')#
+      }#
+    }#
+  }#
+  one_against_rest_pred <- (levels(dset$type))[apply(votes,1,which.max)]#
+  return(table(my_pred,one_against_rest_pred))#
+}
+tab2 <- one_against_rest(fgl, ncol(fgl), train, a_pred)
+tab2
+levels(fgl$type) <- c(levels(fgl$type), 'other')#
+#
+#WinF#
+winf_train <- fgl[train,]#
+winf_train$type[(winf_train$species!='WinF')] <- 'other'#
+winf_model <- svm(type~.,winf_train)#
+winf_pred <- predict(winf_model,fgl[-train,],type='class')#
+#
+#WinNF#
+winnf_train <- fgl[train,]#
+winnf_train$type[(winnf_train$species!='WinNF')] <- 'other'#
+winnf_model <- svm(type~.,winnf_train)#
+winnf_pred <- predict(winnf_model,fgl[-train,],type='class')#
+#
+#Veh#
+veh_train <- fgl[train,]#
+veh_train$type[(veh_train$species!='Veh')] <- 'other'#
+veh_model <- svm(type~.,veh_train)#
+veh_pred <- predict(veh_model,fgl[-train,],type='class')#
+#
+#Con#
+con_train <- fgl[train,]#
+con_train$type[(con_train$species!='Con')] <- 'other'#
+con_model <- svm(type~.,con_train)#
+con_pred <- predict(con_model,fgl[-train,],type='class')#
+#
+#Tabl#
+tabl_train <- fgl[train,]#
+tabl_train$type[(tabl_train$species!='Tabl')] <- 'other'#
+tabl_model <- svm(type~.,tabl_train)#
+tabl_pred <- predict(tabl_model,fgl[-train,],type='class')#
+#
+#Head#
+head_train <- fgl[train,]#
+head_train$type[(head_train$species!='Head')] <- 'other'#
+head_model <- svm(type~.,head_train)#
+head_pred <- predict(head_model,fgl[-train,],type='class')#
+#
+winf_votes <- (winf_pred == 'WinF') + (winnf_pred == 'other') + #
+              (veh_pred == 'other') + (con_pred == 'other') + #
+              (tabl_pred == 'other') + (head_pred == 'other')#
+#
+winnf_votes <- (winf_pred == 'other') + (winnf_pred == 'WinNF') + #
+              (veh_pred == 'other') + (con_pred == 'other') + #
+              (tabl_pred == 'other') + (head_pred == 'other')#
+#
+veh_votes <- (winf_pred == 'other') + (winnf_pred == 'other') + #
+              (veh_pred == 'Veh') + (con_pred == 'other') + #
+              (tabl_pred == 'other') + (head_pred == 'other')#
+#
+con_votes <- (winf_pred == 'other') + (winnf_pred == 'other') + #
+              (veh_pred == 'other') + (con_pred == 'Con') + #
+              (tabl_pred == 'other') + (head_pred == 'other')#
+#
+tabl_votes <- (winf_pred == 'other') + (winnf_pred == 'other') + #
+              (veh_pred == 'other') + (con_pred == 'other') + #
+              (tabl_pred == 'Tabl') + (head_pred == 'other')#
+#
+head_votes <- (winf_pred == 'other') + (winnf_pred == 'other') + #
+              (veh_pred == 'other') + (con_pred == 'other') + #
+              (tabl_pred == 'other') + (head_pred == 'Head')#
+#
+votes <- cbind(winf_votes, winnf_votes, veh_votes,#
+               con_votes,  tabl_votes,  head_votes)#
+#
+one_against_rest <- c('WinF','WinNF','Veh','Con','Tabl','Head')[apply(votes,1,which.max)]#
+#
+table(a_pred,one_against_rest)
+one_against_rest <- function(dset, v_idx, train, my_pred){#
+  tmpname <- names(dset)[v_idx]#
+  names(dset)[v_idx] <- 'type'#
+  levels(dset$type) <- c(levels(dset$type), 'other')#
+  tmpdset <- dset[train,]#
+  preds <- list()#
+  for(idx in 1:(length(levels(dset$type)) - 1)){#
+  	name <- levels(dset$type)[idx]#
+  	print(paste('looking at',name))#
+    index_v <- (tmpdset$type != name) * 1#
+    tmpdset$type[index_v == 1] <- 'other'    #
+#
+ 	model <- svm(type~., tmpdset)#
+ 	tmppred <- predict(model, dset[-train,])#
+ 	preds[[idx]] <- tmppred#
+ 	tmpdset$type <- dset$type[train]#
+  }#
+#
+  votes <- matrix(0, #
+                 nrow = (nrow(dset) - length(train)), #
+                 ncol = length(levels(dset$type)) - 1 )#
+#
+  for(idx in 1:(length(levels(dset$type)) - 1)){#
+    name <- levels(dset$type)[idx]#
+    votes[,idx] <- votes[,idx] + (preds[[idx]] == name)#
+    for(i in 1:(length(levels(dset$type)) - 1)){#
+      if(i != idx){#
+        votes[,idx] <- votes[,idx] + (preds[[i]] == 'other')#
+      }#
+    }#
+  }#
+  one_against_rest_pred <- (levels(dset$type))[apply(votes,1,which.max)]#
+  return(table(my_pred,one_against_rest_pred))#
+}#
+tab2 <- one_against_rest(fgl, ncol(fgl), train, a_pred)
+one_against_rest <- function(dset, v_idx, train, my_pred){#
+  tmpname <- names(dset)[v_idx]#
+  names(dset)[v_idx] <- 'type'#
+    levels_t <- levels(dset$type)#
+  tmpdset <- dset[train,]#
+  levels(tmpdset) <- c(levels_t, 'other')#
+  preds <- list()#
+  for(idx in 1:length(levels_t) ){#
+  	name <- levels_t[idx]#
+    index_v <- (tmpdset$type != name) * 1#
+    tmpdset$type[index_v == 1] <- 'other'    #
+#
+ 	model <- svm(type~., tmpdset)#
+ 	tmppred <- predict(model, dset[-train,])#
+ 	preds[[idx]] <- tmppred#
+ 	tmpdset$type <- dset$type[train]#
+#
+  }#
+#
+  votes <- matrix(0, #
+                 nrow = (nrow(dset[-train])), #
+                 ncol = length(levels_t) )#
+#
+  for(idx in 1:length(levels_t)){#
+    name <- levels_t[idx]#
+    votes[,idx] <- votes[,idx] + (preds[[idx]] == name)#
+    for(i in 1:length(levels_t)){#
+      if(i != idx){#
+        votes[,idx] <- votes[,idx] + (preds[[i]] == 'other')#
+      }#
+    }#
+  }#
+  one_against_rest_pred <- (levels_t)[apply(votes,1,which.max)]#
+  return(table(my_pred,one_against_rest_pred))#
+}#
+tab2 <- one_against_rest(fgl, ncol(fgl), train, a_pred)
+one_against_rest <- function(dset, v_idx, train, my_pred){#
+  tmpname <- names(dset)[v_idx]#
+  names(dset)[v_idx] <- 'type'#
+  levels_t <- levels(dset$type)#
+  tmpdset <- dset[train,]#
+  levels(tmpdset) <- c(levels_t, 'other')#
+  preds <- list()#
+  for(idx in 1:length(levels_t) ){#
+  	name <- levels_t[idx]#
+    index_v <- (tmpdset$type != name) * 1#
+    tmpdset$type[index_v == 1] <- 'other'    #
+#
+    print('hah')#
+ 	model <- svm(type~., tmpdset)#
+ 	tmppred <- predict(model, dset[-train,])#
+ 	preds[[idx]] <- tmppred#
+ 	tmpdset$type <- dset$type[train]#
+#
+  }#
+#
+  votes <- matrix(0, #
+                 nrow = (nrow(dset[-train])), #
+                 ncol = length(levels_t) )#
+#
+  for(idx in 1:length(levels_t)){#
+    name <- levels_t[idx]#
+    votes[,idx] <- votes[,idx] + (preds[[idx]] == name)#
+    for(i in 1:length(levels_t)){#
+      if(i != idx){#
+        votes[,idx] <- votes[,idx] + (preds[[i]] == 'other')#
+      }#
+    }#
+  }#
+  one_against_rest_pred <- (levels_t)[apply(votes,1,which.max)]#
+  return(table(my_pred,one_against_rest_pred))#
+}#
+tab2 <- one_against_rest(fgl, ncol(fgl), train, a_pred)
+one_against_rest <- function(dset, v_idx, train, my_pred){#
+  tmpname <- names(dset)[v_idx]#
+  names(dset)[v_idx] <- 'type'#
+  levels_t <- levels(dset$type)#
+  tmpdset <- dset[train,]#
+  levels(tmpdset) <- c(levels_t, 'other')#
+  preds <- list()#
+  for(idx in 1:length(levels_t) ){#
+  	name <- levels_t[idx]#
+    index_v <- (tmpdset$type != name) * 1#
+    tmpdset$type[index_v == 1] <- 'other'    #
+#
+    print(name)#
+ 	model <- svm(type~., tmpdset)#
+ 	tmppred <- predict(model, dset[-train,])#
+ 	preds[[idx]] <- tmppred#
+ 	tmpdset$type <- dset$type[train]#
+#
+  }#
+#
+  votes <- matrix(0, #
+                 nrow = (nrow(dset[-train])), #
+                 ncol = length(levels_t) )#
+#
+  for(idx in 1:length(levels_t)){#
+    name <- levels_t[idx]#
+    votes[,idx] <- votes[,idx] + (preds[[idx]] == name)#
+    for(i in 1:length(levels_t)){#
+      if(i != idx){#
+        votes[,idx] <- votes[,idx] + (preds[[i]] == 'other')#
+      }#
+    }#
+  }#
+  one_against_rest_pred <- (levels_t)[apply(votes,1,which.max)]#
+  return(table(my_pred,one_against_rest_pred))#
+}#
+tab2 <- one_against_rest(fgl, ncol(fgl), train, a_pred)
+library(e1071)#
+data(fgl,package='MASS')#
+source('~/Dropbox/Tarleton/data_mining/class_notes/extras.R')#
+source('~/Dropbox/Tarleton/data_mining/generic_functions/dataset_ops.R')#
+#
+# Split the data into 70\% training and 30\% testing data. #
+# Predict the glass types in the test data using the following#
+# three methods, and compare the classification accuracies of #
+# these methods.#
+#
+splitset <- splitdata(fgl,0.7,F)#
+train <- splitset$train#
+#
+#(a) Build an SVM and use the predict command.#
+#
+a_model <- svm(type~., fgl[train,])#
+a_pred <- predict(a_model,fgl[-train,])#
+a_acc <- confmatrix(fgl$type[-train],a_pred)#
+#
+#(b) Write a script implementing the one-against-rest approach #
+#   with SVM's (much of the code you need is in the 'programming#
+#   one-against-rest' section of chapter5.R)#
+#
+one_against_rest <- function(dset, v_idx, train, my_pred){#
+  tmpname <- names(dset)[v_idx]#
+  names(dset)[v_idx] <- 'type'#
+  levels_t <- levels(dset$type)#
+  tmpdset <- dset[train,]#
+  levels(tmpdset) <- c(levels_t, 'other')#
+  preds <- list()#
+  for(idx in 1:length(levels_t) ){#
+  	name <- levels_t[idx]#
+    index_v <- (tmpdset$type != name) * 1#
+    tmpdset$type[index_v == 1] <- 'other'    #
+#
+    print(name)#
+ 	model <- svm(type~., tmpdset)#
+ 	tmppred <- predict(model, dset[-train,])#
+ 	preds[[idx]] <- tmppred#
+ 	tmpdset$type <- dset$type[train]#
+#
+  }#
+#
+  votes <- matrix(0, #
+                 nrow = (nrow(dset[-train])), #
+                 ncol = length(levels_t) )#
+#
+  for(idx in 1:length(levels_t)){#
+    name <- levels_t[idx]#
+    votes[,idx] <- votes[,idx] + (preds[[idx]] == name)#
+    for(i in 1:length(levels_t)){#
+      if(i != idx){#
+        votes[,idx] <- votes[,idx] + (preds[[i]] == 'other')#
+      }#
+    }#
+  }#
+  one_against_rest_pred <- (levels_t)[apply(votes,1,which.max)]#
+  return(table(my_pred,one_against_rest_pred))#
+}#
+tab2 <- one_against_rest(fgl, ncol(fgl), train, a_pred)
+tab2 <- one_against_rest(fgl, ncol(fgl), train, a_pred)
+one_against_rest <- function(dset, v_idx, train, my_pred){#
+  tmpname <- names(dset)[v_idx]#
+  names(dset)[v_idx] <- 'type'#
+  levels_t <- levels(dset$type)#
+  tmpdset <- dset[train,]#
+  levels(tmpdset) <- c(levels_t, 'other')#
+  tmptype <- dset$type[train]#
+  preds <- list()#
+  for(idx in 1:length(levels_t) ){#
+  	name <- levels_t[idx]#
+    index_v <- (tmpdset$type != name) * 1#
+    tmpdset$type[index_v == 1] <- 'other'    #
+#
+    print(name)#
+ 	model <- svm(type~., tmpdset)#
+ 	tmppred <- predict(model, dset[-train,])#
+ 	preds[[idx]] <- tmppred#
+ 	tmpdset$type <- dset$type[train]#
+  }#
+#
+  votes <- matrix(0, #
+                 nrow = (nrow(dset[-train])), #
+                 ncol = length(levels_t) )#
+#
+  for(idx in 1:length(levels_t)){#
+    name <- levels_t[idx]#
+    votes[,idx] <- votes[,idx] + (preds[[idx]] == name)#
+    for(i in 1:length(levels_t)){#
+      if(i != idx){#
+        votes[,idx] <- votes[,idx] + (preds[[i]] == 'other')#
+      }#
+    }#
+  }#
+  one_against_rest_pred <- (levels_t)[apply(votes,1,which.max)]#
+  return(table(my_pred,one_against_rest_pred))#
+}#
+tab2 <- one_against_rest(fgl, ncol(fgl), train, a_pred)
+one_against_rest <- function(dset, v_idx, train, my_pred){#
+  tmpname <- names(dset)[v_idx]#
+  names(dset)[v_idx] <- 'type'#
+  levels_t <- levels(dset$type)#
+  tmpdset <- dset[train,]#
+  levels(tmpdset) <- c(levels_t, 'other')#
+  tmptype <- dset$type[train]#
+  preds <- list()#
+  for(idx in 1:length(levels_t) ){#
+  	name <- levels_t[idx]#
+    index_v <- (tmpdset$type != name) * 1#
+    tmpdset$type[index_v == 1] <- 'other'    #
+#
+    print(name)#
+ 	model <- svm(type~., tmpdset)#
+ 	tmppred <- predict(model, dset[-train,])#
+ 	preds[[idx]] <- tmppred#
+ 	tmpdset$type <- dset$type[train]#
+    levels(tmpdset$type) <- c(levels_t,'other')#
+  }#
+#
+  votes <- matrix(0, #
+                 nrow = (nrow(dset[-train])), #
+                 ncol = length(levels_t) )#
+#
+  for(idx in 1:length(levels_t)){#
+    name <- levels_t[idx]#
+    votes[,idx] <- votes[,idx] + (preds[[idx]] == name)#
+    for(i in 1:length(levels_t)){#
+      if(i != idx){#
+        votes[,idx] <- votes[,idx] + (preds[[i]] == 'other')#
+      }#
+    }#
+  }#
+  one_against_rest_pred <- (levels_t)[apply(votes,1,which.max)]#
+  return(table(my_pred,one_against_rest_pred))#
+}#
+tab2 <- one_against_rest(fgl, ncol(fgl), train, a_pred)
+one_against_rest <- function(dset, v_idx, train, my_pred){#
+  tmpname <- names(dset)[v_idx]#
+  names(dset)[v_idx] <- 'type'#
+  levels_t <- levels(dset$type)#
+  tmpdset <- dset[train,]#
+  levels(tmpdset) <- c(levels_t, 'other')#
+  tmptype <- dset$type[train]#
+  preds <- list()#
+  for(idx in 1:length(levels_t) ){#
+  	name <- levels_t[idx]#
+    index_v <- (tmpdset$type != name) * 1#
+    tmpdset$type[index_v == 1] <- 'other'    #
+#
+    print(name)#
+ 	model <- svm(type~., tmpdset)#
+ 	tmppred <- predict(model, dset[-train,])#
+ 	preds[[idx]] <- tmppred#
+ 	tmpdset$type <- tmptype#
+    levels(tmpdset$type) <- c(levels_t,'other')#
+  }#
+#
+  votes <- matrix(0, #
+                 nrow = (nrow(dset[-train])), #
+                 ncol = length(levels_t) )#
+#
+  for(idx in 1:length(levels_t)){#
+    name <- levels_t[idx]#
+    votes[,idx] <- votes[,idx] + (preds[[idx]] == name)#
+    for(i in 1:length(levels_t)){#
+      if(i != idx){#
+        votes[,idx] <- votes[,idx] + (preds[[i]] == 'other')#
+      }#
+    }#
+  }#
+  one_against_rest_pred <- (levels_t)[apply(votes,1,which.max)]#
+  return(table(my_pred,one_against_rest_pred))#
+}#
+tab2 <- one_against_rest(fgl, ncol(fgl), train, a_pred)
+library(e1071)#
+data(fgl,package='MASS')#
+source('~/Dropbox/Tarleton/data_mining/class_notes/extras.R')#
+source('~/Dropbox/Tarleton/data_mining/generic_functions/dataset_ops.R')
+splitset <- splitdata(fgl,0.7,F)#
+train <- splitset$train
+a_model <- svm(type~., fgl[train,])#
+a_pred <- predict(a_model,fgl[-train,])#
+a_acc <- confmatrix(fgl$type[-train],a_pred)
+one_against_rest <- function(dset, v_idx, train, my_pred){#
+  tmpname <- names(dset)[v_idx]#
+  names(dset)[v_idx] <- 'type'#
+  levels_t <- levels(dset$type)#
+  tmpdset <- dset[train,]#
+  levels(tmpdset) <- c(levels_t, 'other')#
+  tmptype <- dset$type[train]#
+  preds <- list()#
+  for(idx in 1:length(levels_t) ){#
+  	name <- levels_t[idx]#
+    index_v <- (tmpdset$type != name) * 1#
+    tmpdset$type[index_v == 1] <- 'other'    #
+#
+    print(name)#
+ 	model <- svm(type~., tmpdset)#
+ 	tmppred <- predict(model, dset[-train,])#
+ 	preds[[idx]] <- tmppred#
+ 	tmpdset$type <- tmptype#
+    levels(tmpdset$type) <- c(levels_t,'other')#
+  }#
+#
+  votes <- matrix(0, #
+                 nrow = (nrow(dset[-train])), #
+                 ncol = length(levels_t) )#
+#
+  for(idx in 1:length(levels_t)){#
+    name <- levels_t[idx]#
+    votes[,idx] <- votes[,idx] + (preds[[idx]] == name)#
+    for(i in 1:length(levels_t)){#
+      if(i != idx){#
+        votes[,idx] <- votes[,idx] + (preds[[i]] == 'other')#
+      }#
+    }#
+  }#
+  one_against_rest_pred <- (levels_t)[apply(votes,1,which.max)]#
+  return(table(my_pred,one_against_rest_pred))#
+}
+tab2 <- one_against_rest(fgl, ncol(fgl), train, a_pred)
+one_against_rest <- function(dset, v_idx, train, my_pred){#
+  tmpname <- names(dset)[v_idx]#
+  names(dset)[v_idx] <- 'type'#
+  levels_t <- levels(dset$type)#
+  tmpdset <- dset[train,]#
+  levels(tmpdset) <- c(levels_t, 'other')#
+  tmptype <- dset$type[train]#
+  preds <- list()#
+  for(idx in 1:length(levels_t) ){#
+  	name <- levels_t[idx]#
+    index_v <- (tmpdset$type != name) * 1#
+    tmpdset$type[index_v == 1] <- 'other'    #
+#
+    print(tmpdset$type)#
+ 	model <- svm(type~., tmpdset)#
+ 	tmppred <- predict(model, dset[-train,])#
+ 	preds[[idx]] <- tmppred#
+ 	tmpdset$type <- tmptype#
+    levels(tmpdset$type) <- c(levels_t,'other')#
+  }#
+#
+  votes <- matrix(0, #
+                 nrow = (nrow(dset[-train])), #
+                 ncol = length(levels_t) )#
+#
+  for(idx in 1:length(levels_t)){#
+    name <- levels_t[idx]#
+    votes[,idx] <- votes[,idx] + (preds[[idx]] == name)#
+    for(i in 1:length(levels_t)){#
+      if(i != idx){#
+        votes[,idx] <- votes[,idx] + (preds[[i]] == 'other')#
+      }#
+    }#
+  }#
+  one_against_rest_pred <- (levels_t)[apply(votes,1,which.max)]#
+  return(table(my_pred,one_against_rest_pred))#
+}#
+tab2 <- one_against_rest(fgl, ncol(fgl), train, a_pred)
+one_against_rest <- function(dset, v_idx, train, my_pred){#
+  tmpname <- names(dset)[v_idx]#
+  names(dset)[v_idx] <- 'type'#
+  levels_t <- levels(dset$type)#
+  tmpdset <- dset[train,]#
+  levels(tmpdset$type) <- c(levels_t, 'other')#
+  tmptype <- dset$type[train]#
+  preds <- list()#
+  for(idx in 1:length(levels_t) ){#
+  	name <- levels_t[idx]#
+    index_v <- (tmpdset$type != name) * 1#
+    tmpdset$type[index_v == 1] <- 'other'    #
+#
+    print(tmpdset$type)#
+ 	model <- svm(type~., tmpdset)#
+ 	tmppred <- predict(model, dset[-train,])#
+ 	preds[[idx]] <- tmppred#
+ 	tmpdset$type <- tmptype#
+    levels(tmpdset$type) <- c(levels_t,'other')#
+  }#
+#
+  votes <- matrix(0, #
+                 nrow = (nrow(dset[-train])), #
+                 ncol = length(levels_t) )#
+#
+  for(idx in 1:length(levels_t)){#
+    name <- levels_t[idx]#
+    votes[,idx] <- votes[,idx] + (preds[[idx]] == name)#
+    for(i in 1:length(levels_t)){#
+      if(i != idx){#
+        votes[,idx] <- votes[,idx] + (preds[[i]] == 'other')#
+      }#
+    }#
+  }#
+  one_against_rest_pred <- (levels_t)[apply(votes,1,which.max)]#
+  return(table(my_pred,one_against_rest_pred))#
+}#
+tab2 <- one_against_rest(fgl, ncol(fgl), train, a_pred)
+one_against_rest <- function(dset, v_idx, train, my_pred){#
+  tmpname <- names(dset)[v_idx]#
+  names(dset)[v_idx] <- 'type'#
+  levels_t <- levels(dset$type)#
+  tmpdset <- dset[train,]#
+  levels(tmpdset$type) <- c(levels_t, 'other')#
+  tmptype <- dset$type[train]#
+  preds <- list()#
+  for(idx in 1:length(levels_t) ){#
+  	name <- levels_t[idx]#
+    index_v <- (tmpdset$type != name) * 1#
+    tmpdset$type[index_v == 1] <- 'other'    #
+#
+ 	model <- svm(type~., tmpdset)#
+ 	tmppred <- predict(model, dset[-train,])#
+ 	preds[[idx]] <- tmppred#
+ 	tmpdset$type <- tmptype#
+#    levels(tmpdset$type) <- c(levels_t,'other')#
+  }#
+#
+  votes <- matrix(0, #
+                 nrow = (nrow(dset[-train])), #
+                 ncol = length(levels_t) )#
+#
+  for(idx in 1:length(levels_t)){#
+    name <- levels_t[idx]#
+    votes[,idx] <- votes[,idx] + (preds[[idx]] == name)#
+    for(i in 1:length(levels_t)){#
+      if(i != idx){#
+        votes[,idx] <- votes[,idx] + (preds[[i]] == 'other')#
+      }#
+    }#
+  }#
+  one_against_rest_pred <- (levels_t)[apply(votes,1,which.max)]#
+  return(table(my_pred,one_against_rest_pred))#
+}#
+tab2 <- one_against_rest(fgl, ncol(fgl), train, a_pred)
+one_against_rest <- function(dset, v_idx, train, my_pred){#
+  tmpname <- names(dset)[v_idx]#
+  names(dset)[v_idx] <- 'type'#
+  levels_t <- levels(dset$type)#
+  tmpdset <- dset[train,]#
+  levels(tmpdset$type) <- c(levels_t, 'other')#
+  tmptype <- dset$type[train]#
+  preds <- list()#
+  for(idx in 1:length(levels_t) ){#
+  	name <- levels_t[idx]#
+    index_v <- (tmpdset$type != name) * 1#
+    tmpdset$type[index_v == 1] <- 'other'    #
+#
+ 	model <- svm(type~., tmpdset)#
+ 	tmppred <- predict(model, dset[-train,])#
+ 	preds[[idx]] <- tmppred#
+ 	tmpdset$type <- tmptype#
+    levels(tmpdset$type) <- c(levels_t,'other')#
+  }#
+#
+  votes <- matrix(0, #
+                 nrow = (nrow(dset[-train])), #
+                 ncol = length(levels_t) )#
+#
+  for(idx in 1:length(levels_t)){#
+    name <- levels_t[idx]#
+    votes[,idx] <- votes[,idx] + (preds[[idx]] == name)#
+    for(i in 1:length(levels_t)){#
+      if(i != idx){#
+        votes[,idx] <- votes[,idx] + (preds[[i]] == 'other')#
+      }#
+    }#
+  }#
+  one_against_rest_pred <- (levels_t)[apply(votes,1,which.max)]#
+  return(table(my_pred,one_against_rest_pred))#
+}#
+tab2 <- one_against_rest(fgl, ncol(fgl), train, a_pred)
+tab2
+one_against_rest <- function(dset, v_idx, train, my_pred){#
+  tmpname <- names(dset)[v_idx]#
+  names(dset)[v_idx] <- 'type'#
+  levels_t <- levels(dset$type)#
+  tmpdset <- dset[train,]#
+  levels(tmpdset$type) <- c(levels_t, 'other')#
+  tmptype <- dset$type[train]#
+  preds <- list()#
+  for(idx in 1:length(levels_t) ){#
+  	name <- levels_t[idx]#
+    index_v <- (tmpdset$type != name) * 1#
+    tmpdset$type[index_v == 1] <- 'other'    #
+#
+ 	model <- svm(type~., tmpdset)#
+ 	tmppred <- predict(model, dset[-train,])#
+ 	preds[[idx]] <- tmppred#
+ 	tmpdset$type <- tmptype#
+    levels(tmpdset$type) <- c(levels_t,'other')#
+  }#
+#
+  votes <- matrix(0, #
+                 nrow = (nrow(dset[-train])), #
+                 ncol = length(levels_t) )#
+print(preds)#
+  for(idx in 1:length(levels_t)){#
+    name <- levels_t[idx]#
+    votes[,idx] <- votes[,idx] + (preds[[idx]] == name)#
+    for(i in 1:length(levels_t)){#
+      if(i != idx){#
+        votes[,idx] <- votes[,idx] + (preds[[i]] == 'other')#
+      }#
+    }#
+  }#
+  one_against_rest_pred <- (levels_t)[apply(votes,1,which.max)]#
+  return(table(my_pred,one_against_rest_pred))#
+}#
+tab2 <- one_against_rest(fgl, ncol(fgl), train, a_pred)
+one_against_rest <- function(dset, v_idx, train, my_pred){#
+  tmpname <- names(dset)[v_idx]#
+  names(dset)[v_idx] <- 'type'#
+  levels_t <- levels(dset$type)#
+  tmpdset <- dset[train,]#
+  levels(tmpdset$type) <- c(levels_t, 'other')#
+  tmptype <- dset$type[train]#
+  preds <- list()#
+  for(idx in 1:length(levels_t) ){#
+  	name <- levels_t[idx]#
+    index_v <- (tmpdset$type != name) * 1#
+    tmpdset$type[index_v == 1] <- 'other'    #
+#
+ 	model <- svm(type~., tmpdset)#
+ 	tmppred <- predict(model, dset[-train,])#
+ 	preds[[idx]] <- tmppred#
+ 	tmpdset$type <- tmptype#
+    levels(tmpdset$type) <- c(levels_t,'other')#
+  }#
+#
+  votes <- matrix(0, #
+                 nrow = (nrow(dset[-train,])), #
+                 ncol = length(levels_t) )#
+print(preds)#
+  for(idx in 1:length(levels_t)){#
+    name <- levels_t[idx]#
+    votes[,idx] <- votes[,idx] + (preds[[idx]] == name)#
+    for(i in 1:length(levels_t)){#
+      if(i != idx){#
+        votes[,idx] <- votes[,idx] + (preds[[i]] == 'other')#
+      }#
+    }#
+  }#
+  one_against_rest_pred <- (levels_t)[apply(votes,1,which.max)]#
+  return(table(my_pred,one_against_rest_pred))#
+}#
+tab2 <- one_against_rest(fgl, ncol(fgl), train, a_pred)
+tab2
+#WinF#
+winf_train <- fgl[train,]#
+winf_train$type[(winf_train$species!='WinF')] <- 'other'#
+winf_model <- svm(type~.,winf_train)#
+winf_pred <- predict(winf_model,fgl[-train,],type='class')#
+#
+#WinNF#
+winnf_train <- fgl[train,]#
+winnf_train$type[(winnf_train$species!='WinNF')] <- 'other'#
+winnf_model <- svm(type~.,winnf_train)#
+winnf_pred <- predict(winnf_model,fgl[-train,],type='class')#
+#
+#Veh#
+veh_train <- fgl[train,]#
+veh_train$type[(veh_train$species!='Veh')] <- 'other'#
+veh_model <- svm(type~.,veh_train)#
+veh_pred <- predict(veh_model,fgl[-train,],type='class')#
+#
+#Con#
+con_train <- fgl[train,]#
+con_train$type[(con_train$species!='Con')] <- 'other'#
+con_model <- svm(type~.,con_train)#
+con_pred <- predict(con_model,fgl[-train,],type='class')#
+#
+#Tabl#
+tabl_train <- fgl[train,]#
+tabl_train$type[(tabl_train$species!='Tabl')] <- 'other'#
+tabl_model <- svm(type~.,tabl_train)#
+tabl_pred <- predict(tabl_model,fgl[-train,],type='class')#
+#
+#Head#
+head_train <- fgl[train,]#
+head_train$type[(head_train$species!='Head')] <- 'other'#
+head_model <- svm(type~.,head_train)#
+head_pred <- predict(head_model,fgl[-train,],type='class')#
+#
+winf_votes <- (winf_pred == 'WinF') + (winnf_pred == 'other') + #
+              (veh_pred == 'other') + (con_pred == 'other') + #
+              (tabl_pred == 'other') + (head_pred == 'other')#
+#
+winnf_votes <- (winf_pred == 'other') + (winnf_pred == 'WinNF') + #
+              (veh_pred == 'other') + (con_pred == 'other') + #
+              (tabl_pred == 'other') + (head_pred == 'other')#
+#
+veh_votes <- (winf_pred == 'other') + (winnf_pred == 'other') + #
+              (veh_pred == 'Veh') + (con_pred == 'other') + #
+              (tabl_pred == 'other') + (head_pred == 'other')#
+#
+con_votes <- (winf_pred == 'other') + (winnf_pred == 'other') + #
+              (veh_pred == 'other') + (con_pred == 'Con') + #
+              (tabl_pred == 'other') + (head_pred == 'other')#
+#
+tabl_votes <- (winf_pred == 'other') + (winnf_pred == 'other') + #
+              (veh_pred == 'other') + (con_pred == 'other') + #
+              (tabl_pred == 'Tabl') + (head_pred == 'other')#
+#
+head_votes <- (winf_pred == 'other') + (winnf_pred == 'other') + #
+              (veh_pred == 'other') + (con_pred == 'other') + #
+              (tabl_pred == 'other') + (head_pred == 'Head')#
+#
+votes <- cbind(winf_votes, winnf_votes, veh_votes,#
+               con_votes,  tabl_votes,  head_votes)#
+#
+one_against_rest <- c('WinF','WinNF','Veh','Con','Tabl','Head')[apply(votes,1,which.max)]#
+#
+table(a_pred,one_against_rest)
+one_against_rest <- function(dset, v_idx, train, my_pred){#
+  tmpname <- names(dset)[v_idx]#
+  names(dset)[v_idx] <- 'type'#
+  levels_t <- levels(dset$type)#
+  tmpdset <- dset[train,]#
+  levels(tmpdset$type) <- c(levels_t, 'other')#
+  tmptype <- dset$type[train]#
+  preds <- list()#
+  for(idx in 1:length(levels_t) ){#
+  	name <- levels_t[idx]#
+    index_v <- (tmpdset$type != name) * 1#
+    tmpdset$type[index_v == 1] <- 'other'    #
+#
+ 	model <- svm(type~., tmpdset)#
+ 	tmppred <- predict(model, dset[-train,])#
+ 	preds[[idx]] <- tmppred#
+ 	tmpdset$type <- tmptype#
+    levels(tmpdset$type) <- c(levels_t,'other')#
+  }#
+#
+  votes <- matrix(0, #
+                 nrow = (nrow(dset[-train,])), #
+                 ncol = length(levels_t) )#
+print(preds)#
+  for(idx in 1:length(levels_t)){#
+    name <- levels_t[idx]#
+    votes[,idx] <- votes[,idx] + (preds[[idx]] == name)#
+    for(i in 1:length(levels_t)){#
+      if(i != idx){#
+        votes[,idx] <- votes[,idx] + ( preds[[i]] == 'other' )#
+      }#
+    }#
+  }#
+#
+  one_against_rest_pred <- (levels_t)[apply(votes,1,which.max)]#
+  return((table(my_pred,one_against_rest_pred), votes))#
+}#
+#
+tab2 <- one_against_rest(fgl, ncol(fgl), train, a_pred)
+one_against_rest <- function(dset, v_idx, train, my_pred){#
+  tmpname <- names(dset)[v_idx]#
+  names(dset)[v_idx] <- 'type'#
+  levels_t <- levels(dset$type)#
+  tmpdset <- dset[train,]#
+  levels(tmpdset$type) <- c(levels_t, 'other')#
+  tmptype <- dset$type[train]#
+  preds <- list()#
+  for(idx in 1:length(levels_t) ){#
+  	name <- levels_t[idx]#
+    index_v <- (tmpdset$type != name) * 1#
+    tmpdset$type[index_v == 1] <- 'other'    #
+#
+ 	model <- svm(type~., tmpdset)#
+ 	tmppred <- predict(model, dset[-train,])#
+ 	preds[[idx]] <- tmppred#
+ 	tmpdset$type <- tmptype#
+    levels(tmpdset$type) <- c(levels_t,'other')#
+  }#
+#
+  votes <- matrix(0, #
+                 nrow = (nrow(dset[-train,])), #
+                 ncol = length(levels_t) )#
+print(preds)#
+  for(idx in 1:length(levels_t)){#
+    name <- levels_t[idx]#
+    votes[,idx] <- votes[,idx] + (preds[[idx]] == name)#
+    for(i in 1:length(levels_t)){#
+      if(i != idx){#
+        votes[,idx] <- votes[,idx] + ( preds[[i]] == 'other' )#
+      }#
+    }#
+  }#
+#
+  one_against_rest_pred <- (levels_t)[apply(votes,1,which.max)]#
+  return(mylist = (tab =table(my_pred,one_against_rest_pred), v=votes))#
+}
+library(e1071)#
+data(fgl,package='MASS')#
+source('~/Dropbox/Tarleton/data_mining/class_notes/extras.R')#
+source('~/Dropbox/Tarleton/data_mining/generic_functions/dataset_ops.R')#
+#
+# Split the data into 70\% training and 30\% testing data. #
+# Predict the glass types in the test data using the following#
+# three methods, and compare the classification accuracies of #
+# these methods.#
+#
+splitset <- splitdata(fgl,0.7,F)#
+train <- splitset$train#
+#
+#(a) Build an SVM and use the predict command.#
+#
+a_model <- svm(type~., fgl[train,])#
+a_pred <- predict(a_model,fgl[-train,])#
+a_acc <- confmatrix(fgl$type[-train],a_pred)
+one_against_rest <- function(dset, v_idx, train, my_pred){#
+  tmpname <- names(dset)[v_idx]#
+  names(dset)[v_idx] <- 'type'#
+  levels_t <- levels(dset$type)#
+  tmpdset <- dset[train,]#
+  levels(tmpdset$type) <- c(levels_t, 'other')#
+  tmptype <- dset$type[train]#
+  preds <- list()#
+  for(idx in 1:length(levels_t) ){#
+  	name <- levels_t[idx]#
+    index_v <- (tmpdset$type != name) * 1#
+    tmpdset$type[index_v == 1] <- 'other'    #
+#
+ 	model <- svm(type~., tmpdset)#
+ 	tmppred <- predict(model, dset[-train,])#
+ 	preds[[idx]] <- tmppred#
+ 	tmpdset$type <- tmptype#
+    levels(tmpdset$type) <- c(levels_t,'other')#
+  }#
+#
+  votes <- matrix(0, #
+                 nrow = (nrow(dset[-train,])), #
+                 ncol = length(levels_t) )#
+print(preds)#
+  for(idx in 1:length(levels_t)){#
+    name <- levels_t[idx]#
+    votes[,idx] <- votes[,idx] + (preds[[idx]] == name)#
+    for(i in 1:length(levels_t)){#
+      if(i != idx){#
+        votes[,idx] <- votes[,idx] + ( preds[[i]] == 'other' )#
+      }#
+    }#
+  }#
+#
+  one_against_rest_pred <- (levels_t)[apply(votes,1,which.max)]#
+  return(mylist = (tab =table(my_pred,one_against_rest_pred), v=votes))#
+}
+one_against_rest <- function(dset, v_idx, train, my_pred){#
+  tmpname <- names(dset)[v_idx]#
+  names(dset)[v_idx] <- 'type'#
+  levels_t <- levels(dset$type)#
+  tmpdset <- dset[train,]#
+  levels(tmpdset$type) <- c(levels_t, 'other')#
+  tmptype <- dset$type[train]#
+  preds <- list()#
+  for(idx in 1:length(levels_t) ){#
+  	name <- levels_t[idx]#
+    index_v <- (tmpdset$type != name) * 1#
+    tmpdset$type[index_v == 1] <- 'other'    #
+#
+ 	model <- svm(type~., tmpdset)#
+ 	tmppred <- predict(model, dset[-train,])#
+ 	preds[[idx]] <- tmppred#
+ 	tmpdset$type <- tmptype#
+    levels(tmpdset$type) <- c(levels_t,'other')#
+  }#
+#
+  votes <- matrix(0, #
+                 nrow = (nrow(dset[-train,])), #
+                 ncol = length(levels_t) )#
+print(preds)#
+  for(idx in 1:length(levels_t)){#
+    name <- levels_t[idx]#
+    votes[,idx] <- votes[,idx] + (preds[[idx]] == name)#
+    for(i in 1:length(levels_t)){#
+      if(i != idx){#
+        votes[,idx] <- votes[,idx] + ( preds[[i]] == 'other' )#
+      }#
+    }#
+  }#
+#
+  one_against_rest_pred <- (levels_t)[apply(votes,1,which.max)]#
+mylist = (tab =table(my_pred,one_against_rest_pred), v=votes)#
+  return(mylist)#
+}
+one_against_rest <- function(dset, v_idx, train, my_pred){#
+  tmpname <- names(dset)[v_idx]#
+  names(dset)[v_idx] <- 'type'#
+  levels_t <- levels(dset$type)#
+  tmpdset <- dset[train,]#
+  levels(tmpdset$type) <- c(levels_t, 'other')#
+  tmptype <- dset$type[train]#
+  preds <- list()#
+  for(idx in 1:length(levels_t) ){#
+  	name <- levels_t[idx]#
+    index_v <- (tmpdset$type != name) * 1#
+    tmpdset$type[index_v == 1] <- 'other'    #
+#
+ 	model <- svm(type~., tmpdset)#
+ 	tmppred <- predict(model, dset[-train,])#
+ 	preds[[idx]] <- tmppred#
+ 	tmpdset$type <- tmptype#
+    levels(tmpdset$type) <- c(levels_t,'other')#
+  }#
+#
+  votes <- matrix(0, #
+                 nrow = (nrow(dset[-train,])), #
+                 ncol = length(levels_t) )#
+print(preds)#
+  for(idx in 1:length(levels_t)){#
+    name <- levels_t[idx]#
+    votes[,idx] <- votes[,idx] + (preds[[idx]] == name)#
+    for(i in 1:length(levels_t)){#
+      if(i != idx){#
+        votes[,idx] <- votes[,idx] + ( preds[[i]] == 'other' )#
+      }#
+    }#
+  }#
+#
+  one_against_rest_pred <- (levels_t)[apply(votes,1,which.max)]#
+  mylist = list(tab =table(my_pred,one_against_rest_pred), v=votes)#
+  return(mylist)#
+}
+tab2 <- one_against_rest(fgl, ncol(fgl), train, a_pred)
+tab2$v
+votes
+levels(fgl$type) <- c(levels(fgl$type), 'other')#
+#
+#WinF#
+winf_train <- fgl[train,]#
+winf_train$type[(winf_train$species!='WinF')] <- 'other'#
+winf_model <- svm(type~.,winf_train)#
+winf_pred <- predict(winf_model,fgl[-train,],type='class')#
+#
+#WinNF#
+winnf_train <- fgl[train,]#
+winnf_train$type[(winnf_train$species!='WinNF')] <- 'other'#
+winnf_model <- svm(type~.,winnf_train)#
+winnf_pred <- predict(winnf_model,fgl[-train,],type='class')#
+#
+#Veh#
+veh_train <- fgl[train,]#
+veh_train$type[(veh_train$species!='Veh')] <- 'other'#
+veh_model <- svm(type~.,veh_train)#
+veh_pred <- predict(veh_model,fgl[-train,],type='class')#
+#
+#Con#
+con_train <- fgl[train,]#
+con_train$type[(con_train$species!='Con')] <- 'other'#
+con_model <- svm(type~.,con_train)#
+con_pred <- predict(con_model,fgl[-train,],type='class')#
+#
+#Tabl#
+tabl_train <- fgl[train,]#
+tabl_train$type[(tabl_train$species!='Tabl')] <- 'other'#
+tabl_model <- svm(type~.,tabl_train)#
+tabl_pred <- predict(tabl_model,fgl[-train,],type='class')#
+#
+#Head#
+head_train <- fgl[train,]#
+head_train$type[(head_train$species!='Head')] <- 'other'#
+head_model <- svm(type~.,head_train)#
+head_pred <- predict(head_model,fgl[-train,],type='class')#
+#
+winf_votes <- (winf_pred == 'WinF') + (winnf_pred == 'other') + #
+              (veh_pred == 'other') + (con_pred == 'other') + #
+              (tabl_pred == 'other') + (head_pred == 'other')#
+#
+winnf_votes <- (winf_pred == 'other') + (winnf_pred == 'WinNF') + #
+              (veh_pred == 'other') + (con_pred == 'other') + #
+              (tabl_pred == 'other') + (head_pred == 'other')#
+#
+veh_votes <- (winf_pred == 'other') + (winnf_pred == 'other') + #
+              (veh_pred == 'Veh') + (con_pred == 'other') + #
+              (tabl_pred == 'other') + (head_pred == 'other')#
+#
+con_votes <- (winf_pred == 'other') + (winnf_pred == 'other') + #
+              (veh_pred == 'other') + (con_pred == 'Con') + #
+              (tabl_pred == 'other') + (head_pred == 'other')#
+#
+tabl_votes <- (winf_pred == 'other') + (winnf_pred == 'other') + #
+              (veh_pred == 'other') + (con_pred == 'other') + #
+              (tabl_pred == 'Tabl') + (head_pred == 'other')#
+#
+head_votes <- (winf_pred == 'other') + (winnf_pred == 'other') + #
+              (veh_pred == 'other') + (con_pred == 'other') + #
+              (tabl_pred == 'other') + (head_pred == 'Head')#
+#
+votes <- cbind(winf_votes, winnf_votes, veh_votes,#
+               con_votes,  tabl_votes,  head_votes)#
+#
+one_against_rest <- c('WinF','WinNF','Veh','Con','Tabl','Head')[apply(votes,1,which.max)]
+votes
+votes - tab2$v
+one_against_rest <- function(dset, v_idx, train, my_pred){#
+  tmpname <- names(dset)[v_idx]#
+  names(dset)[v_idx] <- 'type'#
+  levels_t <- levels(dset$type)#
+  tmpdset <- dset[train,]#
+  levels(tmpdset$type) <- c(levels_t, 'other')#
+  tmptype <- c(dset$type[train],'other')#
+  preds <- list()#
+  for(idx in 1:length(levels_t) ){#
+  	name <- levels_t[idx]#
+    index_v <- (tmpdset$type != name) * 1#
+    tmpdset$type[index_v == 1] <- 'other'    #
+#
+ 	model <- svm(type~., tmpdset)#
+ 	tmppred <- predict(model, dset[-train,])#
+ 	preds[[idx]] <- tmppred#
+ 	tmpdset$type <- tmptype[:length(train)]#
+#    levels(tmpdset$type) <- c(levels_t,'other')#
+  }#
+#
+  votes <- matrix(0, #
+                 nrow = (nrow(dset[-train,])), #
+                 ncol = length(levels_t) )#
+print(preds)#
+  for(idx in 1:length(levels_t)){#
+    name <- levels_t[idx]#
+    votes[,idx] <- votes[,idx] + (preds[[idx]] == name)#
+    for(i in 1:length(levels_t)){#
+      if(i != idx){#
+        votes[,idx] <- votes[,idx] + ( preds[[i]] == 'other' )#
+      }#
+    }#
+  }#
+#
+  one_against_rest_pred <- (levels_t)[apply(votes,1,which.max)]#
+  mylist = list(tab =table(my_pred,one_against_rest_pred), v=votes)#
+  return(mylist)#
+}#
+#
+tab2 <- one_against_rest(fgl, ncol(fgl), train, a_pred)
+one_against_rest <- function(dset, v_idx, train, my_pred){#
+  tmpname <- names(dset)[v_idx]#
+  names(dset)[v_idx] <- 'type'#
+  levels_t <- levels(dset$type)#
+  tmpdset <- dset[train,]#
+  levels(tmpdset$type) <- c(levels_t, 'other')#
+  tmptype <- c(dset$type[train],'other')#
+  preds <- list()#
+  for(idx in 1:length(levels_t) ){#
+  	name <- levels_t[idx]#
+    index_v <- (tmpdset$type != name) * 1#
+    tmpdset$type[index_v == 1] <- 'other'    #
+#
+ 	model <- svm(type~., tmpdset)#
+ 	tmppred <- predict(model, dset[-train,])#
+ 	preds[[idx]] <- tmppred#
+ 	tmpdset$type <- tmptype[1:length(train)]#
+#    levels(tmpdset$type) <- c(levels_t,'other')#
+  }#
+#
+  votes <- matrix(0, #
+                 nrow = (nrow(dset[-train,])), #
+                 ncol = length(levels_t) )#
+print(preds)#
+  for(idx in 1:length(levels_t)){#
+    name <- levels_t[idx]#
+    votes[,idx] <- votes[,idx] + (preds[[idx]] == name)#
+    for(i in 1:length(levels_t)){#
+      if(i != idx){#
+        votes[,idx] <- votes[,idx] + ( preds[[i]] == 'other' )#
+      }#
+    }#
+  }#
+#
+  one_against_rest_pred <- (levels_t)[apply(votes,1,which.max)]#
+  mylist = list(tab =table(my_pred,one_against_rest_pred), v=votes)#
+  return(mylist)#
+}
+tab2 <- one_against_rest(fgl, ncol(fgl), train, a_pred)
+one_against_rest <- function(dset, v_idx, train, my_pred){#
+  tmpname <- names(dset)[v_idx]#
+  names(dset)[v_idx] <- 'type'#
+  levels_t <- levels(dset$type)#
+  tmpdset <- dset[train,]#
+  levels(tmpdset$type) <- c(levels_t, 'other')#
+  tmptype <- c(dset$type[train],'other')#
+  preds <- list()#
+  for(idx in 1:length(levels_t) ){#
+  	name <- levels_t[idx]#
+    index_v <- (tmpdset$type != name) * 1#
+    tmpdset$type[index_v == 1] <- 'other'    #
+#
+ 	model <- svm(type~., tmpdset)#
+ 	tmppred <- predict(model, dset[-train,])#
+ 	preds[[idx]] <- tmppred#
+ 	tmpdset$type <- as.factor(tmptype[1:length(train)]#
+)#    levels(tmpdset$type) <- c(levels_t,'other')#
+  }#
+#
+  votes <- matrix(0, #
+                 nrow = (nrow(dset[-train,])), #
+                 ncol = length(levels_t) )#
+print(preds)#
+  for(idx in 1:length(levels_t)){#
+    name <- levels_t[idx]#
+    votes[,idx] <- votes[,idx] + (preds[[idx]] == name)#
+    for(i in 1:length(levels_t)){#
+      if(i != idx){#
+        votes[,idx] <- votes[,idx] + ( preds[[i]] == 'other' )#
+      }#
+    }#
+  }#
+#
+  one_against_rest_pred <- (levels_t)[apply(votes,1,which.max)]#
+  mylist = list(tab =table(my_pred,one_against_rest_pred), v=votes)#
+  return(mylist)#
+}#
+#
+tab2 <- one_against_rest(fgl, ncol(fgl), train, a_pred)
+one_against_rest <- function(dset, v_idx, train, my_pred){#
+  tmpname <- names(dset)[v_idx]#
+  names(dset)[v_idx] <- 'type'#
+  levels_t <- levels(dset$type)#
+  tmpdset <- dset[train,]#
+  levels(tmpdset$type) <- c(levels_t, 'other')#
+  tmptype <- c(dset$type[train],'other')#
+  preds <- list()#
+  for(idx in 1:length(levels_t) ){#
+  	name <- levels_t[idx]#
+    index_v <- (tmpdset$type != name) * 1#
+    tmpdset$type[index_v == 1] <- 'other'    #
+#
+ 	model <- svm(type~., tmpdset)#
+ 	tmppred <- predict(model, dset[-train,])#
+ 	preds[[idx]] <- tmppred#
+ 	tmpdset$type <- tmptype#
+    levels(tmpdset$type) <- c(levels_t,'other')#
+  }#
+#
+  votes <- matrix(0, #
+                 nrow = (nrow(dset[-train,])), #
+                 ncol = length(levels_t) )#
+print(preds)#
+  for(idx in 1:length(levels_t)){#
+    name <- levels_t[idx]#
+    votes[,idx] <- votes[,idx] + (preds[[idx]] == name)#
+    for(i in 1:length(levels_t)){#
+      if(i != idx){#
+        votes[,idx] <- votes[,idx] + ( preds[[i]] == 'other' )#
+      }#
+    }#
+  }#
+#
+  one_against_rest_pred <- (levels_t)[apply(votes,1,which.max)]#
+  mylist = list(tab =table(my_pred,one_against_rest_pred), v=votes)#
+  return(mylist)#
+}#
+#
+tab2 <- one_against_rest(fgl, ncol(fgl), train, a_pred)
+one_against_rest <- function(dset, v_idx, train, my_pred){#
+  tmpname <- names(dset)[v_idx]#
+  names(dset)[v_idx] <- 'type'#
+  levels_t <- levels(dset$type)#
+  tmpdset <- dset[train,]#
+  levels(tmpdset$type) <- c(levels_t, 'other')#
+  tmptype <- dset$type[train]#
+  preds <- list()#
+  for(idx in 1:length(levels_t) ){#
+  	name <- levels_t[idx]#
+    index_v <- (tmpdset$type != name) * 1#
+    tmpdset$type[index_v == 1] <- 'other'    #
+#
+ 	model <- svm(type~., tmpdset)#
+ 	tmppred <- predict(model, dset[-train,])#
+ 	preds[[idx]] <- tmppred#
+ 	tmpdset$type <- tmptype#
+    levels(tmpdset$type) <- c(levels_t,'other')#
+  }#
+#
+  votes <- matrix(0, #
+                 nrow = (nrow(dset[-train,])), #
+                 ncol = length(levels_t) )#
+print(preds)#
+  for(idx in 1:length(levels_t)){#
+    name <- levels_t[idx]#
+    votes[,idx] <- votes[,idx] + (preds[[idx]] == name)#
+    for(i in 1:length(levels_t)){#
+      if(i != idx){#
+        votes[,idx] <- votes[,idx] + ( preds[[i]] == 'other' )#
+      }#
+    }#
+  }#
+#
+  one_against_rest_pred <- (levels_t)[apply(votes,1,which.max)]#
+  mylist = list(tab =table(my_pred,one_against_rest_pred), v=votes)#
+  return(mylist)#
+}#
+#
+tab2 <- one_against_rest(fgl, ncol(fgl), train, a_pred)
+data(fgl,package='MASS')
+one_against_rest <- function(dset, v_idx, train, my_pred){#
+  tmpname <- names(dset)[v_idx]#
+  names(dset)[v_idx] <- 'type'#
+  levels_t <- levels(dset$type)#
+  tmpdset <- dset[train,]#
+  levels(tmpdset$type) <- c(levels_t, 'other')#
+  tmptype <- dset$type[train]#
+  preds <- list()#
+  for(idx in 1:length(levels_t) ){#
+  	name <- levels_t[idx]#
+    index_v <- (tmpdset$type != name) * 1#
+    tmpdset$type[index_v == 1] <- 'other'    #
+#
+ 	model <- svm(type~., tmpdset)#
+ 	tmppred <- predict(model, dset[-train,])#
+ 	preds[[idx]] <- tmppred#
+ 	tmpdset$type <- tmptype#
+    levels(tmpdset$type) <- c(levels_t,'other')#
+  }#
+#
+  votes <- matrix(0, #
+                 nrow = (nrow(dset[-train,])), #
+                 ncol = length(levels_t) )#
+print(preds)#
+  for(idx in 1:length(levels_t)){#
+    name <- levels_t[idx]#
+    votes[,idx] <- votes[,idx] + (preds[[idx]] == name)#
+    for(i in 1:length(levels_t)){#
+      if(i != idx){#
+        votes[,idx] <- votes[,idx] + ( preds[[i]] == 'other' )#
+      }#
+    }#
+  }#
+#
+  one_against_rest_pred <- (levels_t)[apply(votes,1,which.max)]#
+  mylist = (tab =table(my_pred,one_against_rest_pred), v=votes)#
+  return(mylist)#
+}#
+#
+tab2 <- one_against_rest(fgl, ncol(fgl), train, a_pred)
+tab2$tab
+levels(fgl$type) <- c(levels(fgl$type), 'other')#
+#
+#WinF#
+winf_train <- fgl[train,]#
+winf_train$type[(winf_train$species!='WinF')] <- 'other'#
+winf_model <- svm(type~.,winf_train)#
+winf_pred <- predict(winf_model,fgl[-train,],type='class')#
+#
+#WinNF#
+winnf_train <- fgl[train,]#
+winnf_train$type[(winnf_train$species!='WinNF')] <- 'other'#
+winnf_model <- svm(type~.,winnf_train)#
+winnf_pred <- predict(winnf_model,fgl[-train,],type='class')#
+#
+#Veh#
+veh_train <- fgl[train,]#
+veh_train$type[(veh_train$species!='Veh')] <- 'other'#
+veh_model <- svm(type~.,veh_train)#
+veh_pred <- predict(veh_model,fgl[-train,],type='class')#
+#
+#Con#
+con_train <- fgl[train,]#
+con_train$type[(con_train$species!='Con')] <- 'other'#
+con_model <- svm(type~.,con_train)#
+con_pred <- predict(con_model,fgl[-train,],type='class')#
+#
+#Tabl#
+tabl_train <- fgl[train,]#
+tabl_train$type[(tabl_train$species!='Tabl')] <- 'other'#
+tabl_model <- svm(type~.,tabl_train)#
+tabl_pred <- predict(tabl_model,fgl[-train,],type='class')#
+#
+#Head#
+head_train <- fgl[train,]#
+head_train$type[(head_train$species!='Head')] <- 'other'#
+head_model <- svm(type~.,head_train)#
+head_pred <- predict(head_model,fgl[-train,],type='class')#
+#
+winf_votes <- (winf_pred == 'WinF') + (winnf_pred == 'other') + #
+              (veh_pred == 'other') + (con_pred == 'other') + #
+              (tabl_pred == 'other') + (head_pred == 'other')#
+#
+winnf_votes <- (winf_pred == 'other') + (winnf_pred == 'WinNF') + #
+              (veh_pred == 'other') + (con_pred == 'other') + #
+              (tabl_pred == 'other') + (head_pred == 'other')#
+#
+veh_votes <- (winf_pred == 'other') + (winnf_pred == 'other') + #
+              (veh_pred == 'Veh') + (con_pred == 'other') + #
+              (tabl_pred == 'other') + (head_pred == 'other')#
+#
+con_votes <- (winf_pred == 'other') + (winnf_pred == 'other') + #
+              (veh_pred == 'other') + (con_pred == 'Con') + #
+              (tabl_pred == 'other') + (head_pred == 'other')#
+#
+tabl_votes <- (winf_pred == 'other') + (winnf_pred == 'other') + #
+              (veh_pred == 'other') + (con_pred == 'other') + #
+              (tabl_pred == 'Tabl') + (head_pred == 'other')#
+#
+head_votes <- (winf_pred == 'other') + (winnf_pred == 'other') + #
+              (veh_pred == 'other') + (con_pred == 'other') + #
+              (tabl_pred == 'other') + (head_pred == 'Head')#
+#
+votes <- cbind(winf_votes, winnf_votes, veh_votes,#
+               con_votes,  tabl_votes,  head_votes)#
+#
+one_against_rest <- c('WinF','WinNF','Veh','Con','Tabl','Head')[apply(votes,1,which.max)]#
+#
+table(a_pred,one_against_rest)
+library(e1071)#
+data(fgl,package='MASS')#
+source('~/Dropbox/Tarleton/data_mining/class_notes/extras.R')#
+source('~/Dropbox/Tarleton/data_mining/generic_functions/dataset_ops.R')#
+#
+# Split the data into 70\% training and 30\% testing data. #
+# Predict the glass types in the test data using the following#
+# three methods, and compare the classification accuracies of #
+# these methods.#
+#
+splitset <- splitdata(fgl,0.7,F)#
+train <- splitset$train#
+#
+#(a) Build an SVM and use the predict command.#
+#
+a_model <- svm(type~., fgl[train,])#
+a_pred <- predict(a_model,fgl[-train,])#
+a_acc <- confmatrix(fgl$type[-train],a_pred)#
+#
+#(b) Write a script implementing the one-against-rest approach #
+#   with SVM's (much of the code you need is in the 'programming#
+#   one-against-rest' section of chapter5.R)#
+#
+one_against_rest <- function(dset, v_idx, train, my_pred){#
+  tmpname <- names(dset)[v_idx]#
+  names(dset)[v_idx] <- 'type'#
+  levels_t <- levels(dset$type)#
+  tmpdset <- dset[train,]#
+  levels(tmpdset$type) <- c(levels_t, 'other')#
+  tmptype <- dset$type[train]#
+  preds <- list()#
+  for(idx in 1:length(levels_t) ){#
+  	name <- levels_t[idx]#
+    index_v <- (tmpdset$type != name) * 1#
+    tmpdset$type[index_v == 1] <- 'other'    #
+#
+ 	model <- svm(type~., tmpdset)#
+ 	tmppred <- predict(model, dset[-train,])#
+ 	preds[[idx]] <- tmppred#
+ 	tmpdset$type <- tmptype#
+    levels(tmpdset$type) <- c(levels_t,'other')#
+  }#
+#
+  votes <- matrix(0, #
+                 nrow = (nrow(dset[-train,])), #
+                 ncol = length(levels_t) )#
+print(preds)#
+  for(idx in 1:length(levels_t)){#
+    name <- levels_t[idx]#
+    votes[,idx] <- votes[,idx] + (preds[[idx]] == name)#
+    for(i in 1:length(levels_t)){#
+      if(i != idx){#
+        votes[,idx] <- votes[,idx] + ( preds[[i]] == 'other' )#
+      }#
+    }#
+  }#
+#
+  one_against_rest_pred <- (levels_t)[apply(votes,1,which.max)]#
+  mylist = (tab =table(my_pred,one_against_rest_pred), v=votes)#
+  return(mylist)#
+}#
+#
+tab2 <- one_against_rest(fgl, ncol(fgl), train, a_pred)#
+#
+levels(fgl$type) <- c(levels(fgl$type), 'other')#
+#
+#WinF#
+winf_train <- fgl[train,]#
+winf_train$type[(winf_train$species!='WinF')] <- 'other'#
+winf_model <- svm(type~.,winf_train)#
+winf_pred <- predict(winf_model,fgl[-train,],type='class')#
+#
+#WinNF#
+winnf_train <- fgl[train,]#
+winnf_train$type[(winnf_train$species!='WinNF')] <- 'other'#
+winnf_model <- svm(type~.,winnf_train)#
+winnf_pred <- predict(winnf_model,fgl[-train,],type='class')#
+#
+#Veh#
+veh_train <- fgl[train,]#
+veh_train$type[(veh_train$species!='Veh')] <- 'other'#
+veh_model <- svm(type~.,veh_train)#
+veh_pred <- predict(veh_model,fgl[-train,],type='class')#
+#
+#Con#
+con_train <- fgl[train,]#
+con_train$type[(con_train$species!='Con')] <- 'other'#
+con_model <- svm(type~.,con_train)#
+con_pred <- predict(con_model,fgl[-train,],type='class')#
+#
+#Tabl#
+tabl_train <- fgl[train,]#
+tabl_train$type[(tabl_train$species!='Tabl')] <- 'other'#
+tabl_model <- svm(type~.,tabl_train)#
+tabl_pred <- predict(tabl_model,fgl[-train,],type='class')#
+#
+#Head#
+head_train <- fgl[train,]#
+head_train$type[(head_train$species!='Head')] <- 'other'#
+head_model <- svm(type~.,head_train)#
+head_pred <- predict(head_model,fgl[-train,],type='class')#
+#
+winf_votes <- (winf_pred == 'WinF') + (winnf_pred == 'other') + #
+              (veh_pred == 'other') + (con_pred == 'other') + #
+              (tabl_pred == 'other') + (head_pred == 'other')#
+#
+winnf_votes <- (winf_pred == 'other') + (winnf_pred == 'WinNF') + #
+              (veh_pred == 'other') + (con_pred == 'other') + #
+              (tabl_pred == 'other') + (head_pred == 'other')#
+#
+veh_votes <- (winf_pred == 'other') + (winnf_pred == 'other') + #
+              (veh_pred == 'Veh') + (con_pred == 'other') + #
+              (tabl_pred == 'other') + (head_pred == 'other')#
+#
+con_votes <- (winf_pred == 'other') + (winnf_pred == 'other') + #
+              (veh_pred == 'other') + (con_pred == 'Con') + #
+              (tabl_pred == 'other') + (head_pred == 'other')#
+#
+tabl_votes <- (winf_pred == 'other') + (winnf_pred == 'other') + #
+              (veh_pred == 'other') + (con_pred == 'other') + #
+              (tabl_pred == 'Tabl') + (head_pred == 'other')#
+#
+head_votes <- (winf_pred == 'other') + (winnf_pred == 'other') + #
+              (veh_pred == 'other') + (con_pred == 'other') + #
+              (tabl_pred == 'other') + (head_pred == 'Head')#
+#
+votes <- cbind(winf_votes, winnf_votes, veh_votes,#
+               con_votes,  tabl_votes,  head_votes)#
+#
+one_against_rest <- c('WinF','WinNF','Veh','Con','Tabl','Head')[apply(votes,1,which.max)]#
+#
+table(a_pred,one_against_rest)
+library(e1071)#
+data(fgl,package='MASS')#
+source('~/Dropbox/Tarleton/data_mining/class_notes/extras.R')#
+source('~/Dropbox/Tarleton/data_mining/generic_functions/dataset_ops.R')#
+#
+# Split the data into 70\% training and 30\% testing data. #
+# Predict the glass types in the test data using the following#
+# three methods, and compare the classification accuracies of #
+# these methods.#
+#
+splitset <- splitdata(fgl,0.7,F)#
+train <- splitset$train#
+#
+#(a) Build an SVM and use the predict command.#
+#
+a_model <- svm(type~., fgl[train,])#
+a_pred <- predict(a_model,fgl[-train,])#
+a_acc <- confmatrix(fgl$type[-train],a_pred)#
+#
+#(b) Write a script implementing the one-against-rest approach #
+#   with SVM's (much of the code you need is in the 'programming#
+#   one-against-rest' section of chapter5.R)#
+#
+one_against_rest <- function(dset, v_idx, train, my_pred){#
+  tmpname <- names(dset)[v_idx]#
+  names(dset)[v_idx] <- 'type'#
+  levels_t <- levels(dset$type)#
+  tmpdset <- dset[train,]#
+  levels(tmpdset$type) <- c(levels_t, 'other')#
+  tmptype <- dset$type[train]#
+  preds <- list()#
+  for(idx in 1:length(levels_t) ){#
+  	name <- levels_t[idx]#
+    index_v <- (tmpdset$type != name) * 1#
+    tmpdset$type[index_v == 1] <- 'other'    #
+#
+ 	model <- svm(type~., tmpdset)#
+ 	tmppred <- predict(model, dset[-train,])#
+ 	preds[[idx]] <- tmppred#
+ 	tmpdset$type <- tmptype#
+    levels(tmpdset$type) <- c(levels_t,'other')#
+  }#
+#
+  votes <- matrix(0, #
+                 nrow = (nrow(dset[-train,])), #
+                 ncol = length(levels_t) )#
+print(preds)#
+  for(idx in 1:length(levels_t)){#
+    name <- levels_t[idx]#
+    votes[,idx] <- votes[,idx] + (preds[[idx]] == name)#
+    for(i in 1:length(levels_t)){#
+      if(i != idx){#
+        votes[,idx] <- votes[,idx] + ( preds[[i]] == 'other' )#
+      }#
+    }#
+  }#
+#
+  one_against_rest_pred <- (levels_t)[apply(votes,1,which.max)]#
+  mylist = list(tab =table(my_pred,one_against_rest_pred), v=votes)#
+  return(mylist)#
+}#
+#
+tab2 <- one_against_rest(fgl, ncol(fgl), train, a_pred)#
+#
+levels(fgl$type) <- c(levels(fgl$type), 'other')#
+#
+#WinF#
+winf_train <- fgl[train,]#
+winf_train$type[(winf_train$species!='WinF')] <- 'other'#
+winf_model <- svm(type~.,winf_train)#
+winf_pred <- predict(winf_model,fgl[-train,],type='class')#
+#
+#WinNF#
+winnf_train <- fgl[train,]#
+winnf_train$type[(winnf_train$species!='WinNF')] <- 'other'#
+winnf_model <- svm(type~.,winnf_train)#
+winnf_pred <- predict(winnf_model,fgl[-train,],type='class')#
+#
+#Veh#
+veh_train <- fgl[train,]#
+veh_train$type[(veh_train$species!='Veh')] <- 'other'#
+veh_model <- svm(type~.,veh_train)#
+veh_pred <- predict(veh_model,fgl[-train,],type='class')#
+#
+#Con#
+con_train <- fgl[train,]#
+con_train$type[(con_train$species!='Con')] <- 'other'#
+con_model <- svm(type~.,con_train)#
+con_pred <- predict(con_model,fgl[-train,],type='class')#
+#
+#Tabl#
+tabl_train <- fgl[train,]#
+tabl_train$type[(tabl_train$species!='Tabl')] <- 'other'#
+tabl_model <- svm(type~.,tabl_train)#
+tabl_pred <- predict(tabl_model,fgl[-train,],type='class')#
+#
+#Head#
+head_train <- fgl[train,]#
+head_train$type[(head_train$species!='Head')] <- 'other'#
+head_model <- svm(type~.,head_train)#
+head_pred <- predict(head_model,fgl[-train,],type='class')#
+#
+winf_votes <- (winf_pred == 'WinF') + (winnf_pred == 'other') + #
+              (veh_pred == 'other') + (con_pred == 'other') + #
+              (tabl_pred == 'other') + (head_pred == 'other')#
+#
+winnf_votes <- (winf_pred == 'other') + (winnf_pred == 'WinNF') + #
+              (veh_pred == 'other') + (con_pred == 'other') + #
+              (tabl_pred == 'other') + (head_pred == 'other')#
+#
+veh_votes <- (winf_pred == 'other') + (winnf_pred == 'other') + #
+              (veh_pred == 'Veh') + (con_pred == 'other') + #
+              (tabl_pred == 'other') + (head_pred == 'other')#
+#
+con_votes <- (winf_pred == 'other') + (winnf_pred == 'other') + #
+              (veh_pred == 'other') + (con_pred == 'Con') + #
+              (tabl_pred == 'other') + (head_pred == 'other')#
+#
+tabl_votes <- (winf_pred == 'other') + (winnf_pred == 'other') + #
+              (veh_pred == 'other') + (con_pred == 'other') + #
+              (tabl_pred == 'Tabl') + (head_pred == 'other')#
+#
+head_votes <- (winf_pred == 'other') + (winnf_pred == 'other') + #
+              (veh_pred == 'other') + (con_pred == 'other') + #
+              (tabl_pred == 'other') + (head_pred == 'Head')#
+#
+votes <- cbind(winf_votes, winnf_votes, veh_votes,#
+               con_votes,  tabl_votes,  head_votes)#
+#
+one_against_rest <- c('WinF','WinNF','Veh','Con','Tabl','Head')[apply(votes,1,which.max)]#
+#
+table(a_pred,one_against_rest)
+tab2
+tab2$tab
+table(a_pred,one_against_rest)
+head(votes)
+head(tab2$v)
+data(fgl,package='MASS')
+one_against_rest <- function(dset, v_idx, train, my_pred){#
+  tmpname <- names(dset)[v_idx]#
+  names(dset)[v_idx] <- 'type'#
+  levels_t <- levels(dset$type)#
+  tmpdset <- dset[train,]#
+  levels(tmpdset$type) <- c(levels_t, 'other')#
+  tmptype <- dset$type[train]#
+  preds <- list()#
+  for(idx in 1:length(levels_t) ){#
+  	name <- levels_t[idx]#
+    index_v <- (tmpdset$type != name) * 1#
+    tmpdset$type[index_v == 1] <- 'other'    #
+#
+ 	model <- svm(type~., tmpdset)#
+ 	tmppred <- predict(model, dset[-train,])#
+ 	preds[[idx]] <- tmppred#
+ 	tmpdset$type <- tmptype#
+    levels(tmpdset$type) <- c(levels_t,'other')#
+  }#
+#
+  votes <- matrix(0, #
+                 nrow = (nrow(dset[-train,])), #
+                 ncol = length(levels_t) )#
+print(preds)#
+  for(idx in 1:length(levels_t)){#
+    name <- levels_t[idx]#
+    votes[,idx] <- votes[,idx] + (preds[[idx]] == name)#
+    for(i in 1:length(levels_t)){#
+      if(i != idx){#
+        votes[,idx] <- votes[,idx] * ( preds[[i]] == 'other' )#
+      }#
+    }#
+  }#
+#
+  one_against_rest_pred <- levels_t[apply(votes, 1 ,which.max)]#
+  mylist = list(tab =table(my_pred,one_against_rest_pred), v=votes)#
+  return(mylist)#
+}#
+#
+tab2 <- one_against_rest(fgl, ncol(fgl), train, a_pred)
+head(tab2$v)
+tab2$tab
+one_against_rest <- function(dset, v_idx, train, my_pred){#
+  tmpname <- names(dset)[v_idx]#
+  names(dset)[v_idx] <- 'type'#
+  levels_t <- levels(dset$type)#
+  tmpdset <- dset[train,]#
+  levels(tmpdset$type) <- c(levels_t, 'other')#
+  tmptype <- dset$type[train]#
+  preds <- list()#
+  for(idx in 1:length(levels_t) ){#
+  	name <- levels_t[idx]#
+    index_v <- (tmpdset$type != name) * 1#
+    tmpdset$type[index_v == 1] <- 'other'    #
+#
+ 	model <- svm(type~., tmpdset)#
+ 	tmppred <- predict(model, dset[-train,])#
+ 	preds[[idx]] <- tmppred#
+ 	tmpdset$type <- tmptype#
+    levels(tmpdset$type) <- c(levels_t,'other')#
+  }#
+#
+  votes <- matrix(0, #
+                 nrow = (nrow(dset[-train,])), #
+                 ncol = length(levels_t) )#
+#
+  for(idx in 1:length(levels_t)){#
+    name <- levels_t[idx]#
+    votes[,idx] <- votes[,idx] + (preds[[idx]] == name)#
+    for(i in 1:length(levels_t)){#
+      if(i != idx){#
+        votes[,idx] <- votes[,idx] + ( preds[[i]] == 'other' )#
+      }#
+    }#
+  }#
+#
+  one_against_rest_pred <- levels_t[apply(votes, 1 ,which.max)]#
+  mylist = list(tab =table(my_pred,one_against_rest_pred), v=votes)#
+  return(mylist)#
+}#
+#
+tab2 <- one_against_rest(fgl, ncol(fgl), train, a_pred)
+tab2$tab
+one_against_rest <- function(dset, v_idx, train, my_pred){#
+  tmpname <- names(dset)[v_idx]#
+  names(dset)[v_idx] <- 'type'#
+  levels_t <- levels(dset$type)#
+  tmpdset <- dset[train,]#
+  levels(tmpdset$type) <- c(levels_t, 'other')#
+  tmptype <- dset$type[train]#
+  preds <- list()#
+  for(idx in 1:length(levels_t) ){#
+  	name <- levels_t[idx]#
+    index_v <- (tmpdset$type != name) * 1#
+    tmpdset$type[index_v == 1] <- 'other'    #
+#
+ 	model <- svm(type~., tmpdset)#
+ 	tmppred <- predict(model, dset[-train,])#
+ 	preds[[idx]] <- tmppred#
+ 	tmpdset$type <- tmptype#
+    levels(tmpdset$type) <- c(levels_t,'other')#
+  }#
+#
+  votes <- matrix(0, #
+                 nrow = (nrow(dset[-train,])), #
+                 ncol = length(levels_t) )#
+#
+  for(idx in 1:length(levels_t)){#
+    name <- levels_t[idx]#
+    votes[,idx] <- (preds[[idx]] == name)#
+    for(i in 1:length(levels_t)){#
+      if(i != idx){#
+        votes[,idx] <- votes[,idx] + ( preds[[i]] == 'other' )#
+      }#
+    }#
+  }#
+#
+  one_against_rest_pred <- levels_t[apply(votes, 1 ,which.max)]#
+  mylist = list(tab =table(my_pred,one_against_rest_pred), v=votes)#
+  return(mylist)#
+}#
+#
+tab2 <- one_against_rest(fgl, ncol(fgl), train, a_pred)
+tab2$tab
+one_against_rest <- function(dset, v_idx, train, my_pred){#
+  tmpname <- names(dset)[v_idx]#
+  names(dset)[v_idx] <- 'type'#
+  levels_t <- levels(dset$type)#
+  tmpdset <- dset[train,]#
+  levels(tmpdset$type) <- c(levels_t, 'other')#
+  tmptype <- dset$type[train]#
+  preds <- list()#
+  for(idx in 1:length(levels_t) ){#
+  	name <- levels_t[idx]#
+    index_v <- (tmpdset$type != name) * 1#
+    tmpdset$type[index_v == 1] <- 'other'    #
+#
+ 	model <- svm(type~., tmpdset)#
+ 	tmppred <- predict(model, dset[-train,])#
+ 	preds[[idx]] <- tmppred#
+ 	tmpdset$type <- tmptype#
+    levels(tmpdset$type) <- c(levels_t,'other')#
+  }#
+#
+  votes <- matrix(0, #
+                 nrow = (nrow(dset[-train,])), #
+                 ncol = length(levels_t) )#
+#
+  for(idx in 1:length(levels_t)){#
+    name <- levels_t[idx]#
+    votes[,idx] <- (preds[[idx]] == name)#
+    for(i in 1:length(levels_t)){#
+      if(i != idx){#
+        votes[,idx] <- votes[,idx] + ( preds[[i]] == 'other' )#
+      }#
+    }#
+  }#
+#
+  one_against_rest_pred <- levels_t[apply(votes, 1 ,which.max)]#
+  mylist = list(tab = table(my_pred, one_against_rest_pred), v = votes, p = preds)#
+  return(mylist)#
+}#
+#
+tab2 <- one_against_rest(fgl, ncol(fgl), train, a_pred)
+levels(fgl$type) <- c(levels(fgl$type), 'other')#
+#
+#WinF#
+winf_train <- fgl[train,]#
+winf_train$type[(winf_train$species!='WinF')] <- 'other'#
+winf_model <- svm(type~.,winf_train)#
+winf_pred <- predict(winf_model,fgl[-train,],type='class')#
+#
+#WinNF#
+winnf_train <- fgl[train,]#
+winnf_train$type[(winnf_train$species!='WinNF')] <- 'other'#
+winnf_model <- svm(type~.,winnf_train)#
+winnf_pred <- predict(winnf_model,fgl[-train,],type='class')#
+#
+#Veh#
+veh_train <- fgl[train,]#
+veh_train$type[(veh_train$species!='Veh')] <- 'other'#
+veh_model <- svm(type~.,veh_train)#
+veh_pred <- predict(veh_model,fgl[-train,],type='class')#
+#
+#Con#
+con_train <- fgl[train,]#
+con_train$type[(con_train$species!='Con')] <- 'other'#
+con_model <- svm(type~.,con_train)#
+con_pred <- predict(con_model,fgl[-train,],type='class')#
+#
+#Tabl#
+tabl_train <- fgl[train,]#
+tabl_train$type[(tabl_train$species!='Tabl')] <- 'other'#
+tabl_model <- svm(type~.,tabl_train)#
+tabl_pred <- predict(tabl_model,fgl[-train,],type='class')#
+#
+#Head#
+head_train <- fgl[train,]#
+head_train$type[(head_train$species!='Head')] <- 'other'#
+head_model <- svm(type~.,head_train)#
+head_pred <- predict(head_model,fgl[-train,],type='class')
+head_pred - tab2$p[[6]]
+(tab2$p)[[6]]
+head_pred - (tab2$p)[[6]]
+head_pred
+library(e1071)#
+data(fgl,package='MASS')#
+source('~/Dropbox/Tarleton/data_mining/class_notes/extras.R')#
+source('~/Dropbox/Tarleton/data_mining/generic_functions/dataset_ops.R')#
+#
+# Split the data into 70\% training and 30\% testing data. #
+# Predict the glass types in the test data using the following#
+# three methods, and compare the classification accuracies of #
+# these methods.#
+#
+splitset <- splitdata(fgl,0.7,F)#
+train <- splitset$train#
+#
+#(a) Build an SVM and use the predict command.#
+#
+a_model <- svm(type~., fgl[train,])#
+a_pred <- predict(a_model,fgl[-train,])#
+a_acc <- confmatrix(fgl$type[-train],a_pred)#
+#
+#(b) Write a script implementing the one-against-rest approach #
+#   with SVM's (much of the code you need is in the 'programming#
+#   one-against-rest' section of chapter5.R)#
+#
+one_against_rest <- function(dset, v_idx, train, my_pred){#
+  tmpname <- names(dset)[v_idx]#
+  names(dset)[v_idx] <- 'type'#
+  levels_t <- levels(dset$type)#
+  tmpdset <- dset[train,]#
+  levels(tmpdset$type) <- c(levels_t, 'other')#
+  tmptype <- dset$type[train]#
+  preds <- list()#
+  for(idx in 1:length(levels_t) ){#
+  	name <- levels_t[idx]#
+    index_v <- (tmpdset$type != name) * 1#
+    tmpdset$type[index_v == 1] <- 'other'    #
+#
+ 	model <- svm(type~., tmpdset)#
+ 	tmppred <- predict(model, dset[-train,])#
+ 	preds[[idx]] <- tmppred#
+ 	tmpdset$type <- tmptype#
+    levels(tmpdset$type) <- c(levels_t,'other')#
+  }#
+#
+  votes <- matrix(0, #
+                 nrow = (nrow(dset[-train,])), #
+                 ncol = length(levels_t) )#
+#
+  for(idx in 1:length(levels_t)){#
+    name <- levels_t[idx]#
+    votes[,idx] <- (preds[[idx]] == name)#
+    for(i in 1:length(levels_t)){#
+      if(i != idx){#
+        votes[,idx] <- votes[,idx] + ( preds[[i]] == 'other' )#
+      }#
+    }#
+  }#
+#
+  one_against_rest_pred <- levels_t[apply(votes, 1 ,which.max)]#
+  mylist = list(tab = table(my_pred, one_against_rest_pred), v = votes, p = preds)#
+  return(mylist)#
+}#
+#
+tab2 <- one_against_rest(fgl, ncol(fgl), train, a_pred)#
+#
+levels(fgl$type) <- c(levels(fgl$type), 'other')#
+#
+#WinF#
+winf_train <- fgl[train,]#
+winf_train$type[(winf_train$type!='WinF')] <- 'other'#
+winf_model <- svm(type~.,winf_train)#
+winf_pred <- predict(winf_model,fgl[-train,],type='class')#
+#
+#WinNF#
+winnf_train <- fgl[train,]#
+winnf_train$type[(winnf_train$type!='WinNF')] <- 'other'#
+winnf_model <- svm(type~.,winnf_train)#
+winnf_pred <- predict(winnf_model,fgl[-train,],type='class')#
+#
+#Veh#
+veh_train <- fgl[train,]#
+veh_train$type[(veh_train$type!='Veh')] <- 'other'#
+veh_model <- svm(type~.,veh_train)#
+veh_pred <- predict(veh_model,fgl[-train,],type='class')#
+#
+#Con#
+con_train <- fgl[train,]#
+con_train$type[(con_train$type!='Con')] <- 'other'#
+con_model <- svm(type~.,con_train)#
+con_pred <- predict(con_model,fgl[-train,],type='class')#
+#
+#Tabl#
+tabl_train <- fgl[train,]#
+tabl_train$type[(tabl_train$type!='Tabl')] <- 'other'#
+tabl_model <- svm(type~.,tabl_train)#
+tabl_pred <- predict(tabl_model,fgl[-train,],type='class')#
+#
+#Head#
+head_train <- fgl[train,]#
+head_train$type[(head_train$type!='Head')] <- 'other'#
+head_model <- svm(type~.,head_train)#
+head_pred <- predict(head_model,fgl[-train,],type='class')#
+#
+winf_votes <- (winf_pred == 'WinF') + (winnf_pred == 'other') + #
+              (veh_pred == 'other') + (con_pred == 'other') + #
+              (tabl_pred == 'other') + (head_pred == 'other')#
+#
+winnf_votes <- (winf_pred == 'other') + (winnf_pred == 'WinNF') + #
+              (veh_pred == 'other') + (con_pred == 'other') + #
+              (tabl_pred == 'other') + (head_pred == 'other')#
+#
+veh_votes <- (winf_pred == 'other') + (winnf_pred == 'other') + #
+              (veh_pred == 'Veh') + (con_pred == 'other') + #
+              (tabl_pred == 'other') + (head_pred == 'other')#
+#
+con_votes <- (winf_pred == 'other') + (winnf_pred == 'other') + #
+              (veh_pred == 'other') + (con_pred == 'Con') + #
+              (tabl_pred == 'other') + (head_pred == 'other')#
+#
+tabl_votes <- (winf_pred == 'other') + (winnf_pred == 'other') + #
+              (veh_pred == 'other') + (con_pred == 'other') + #
+              (tabl_pred == 'Tabl') + (head_pred == 'other')#
+#
+head_votes <- (winf_pred == 'other') + (winnf_pred == 'other') + #
+              (veh_pred == 'other') + (con_pred == 'other') + #
+              (tabl_pred == 'other') + (head_pred == 'Head')#
+#
+votes <- cbind(winf_votes, winnf_votes, veh_votes,#
+               con_votes,  tabl_votes,  head_votes)#
+#
+one_against_rest <- c('WinF','WinNF','Veh','Con','Tabl','Head')[apply(votes,1,which.max)]#
+#
+table(a_pred,one_against_rest)
+tab2$tab
+#Load the fgl data set in the MASS library. #
+#
+library(e1071)#
+data(fgl,package='MASS')#
+source('~/Dropbox/Tarleton/data_mining/class_notes/extras.R')#
+source('~/Dropbox/Tarleton/data_mining/generic_functions/dataset_ops.R')#
+#
+# Split the data into 70\% training and 30\% testing data. #
+# Predict the glass types in the test data using the following#
+# three methods, and compare the classification accuracies of #
+# these methods.#
+#
+splitset <- splitdata(fgl,0.7,F)#
+train <- splitset$train#
+#
+#(a) Build an SVM and use the predict command.#
+#
+a_model <- svm(type~., fgl[train,])#
+a_pred <- predict(a_model,fgl[-train,])#
+a_acc <- confmatrix(fgl$type[-train],a_pred)#
+#
+#(b) Write a script implementing the one-against-rest approach #
+#   with SVM's (much of the code you need is in the 'programming#
+#   one-against-rest' section of chapter5.R)#
+#
+one_against_rest <- function(dset, v_idx, train, my_pred){#
+  tmpname <- names(dset)[v_idx]#
+  names(dset)[v_idx] <- 'type'#
+  levels_t <- levels(dset$type)#
+  tmpdset <- dset[train,]#
+  levels(tmpdset$type) <- c(levels_t, 'other')#
+  tmptype <- dset$type[train]#
+  preds <- list()#
+  for(idx in 1:length(levels_t) ){#
+  	name <- levels_t[idx]#
+    index_v <- (tmpdset$type != name) * 1#
+    tmpdset$type[index_v == 1] <- 'other'    #
+#
+ 	model <- svm(type~., tmpdset)#
+ 	tmppred <- predict(model, dset[-train,])#
+ 	preds[[idx]] <- tmppred#
+ 	tmpdset$type <- tmptype#
+    levels(tmpdset$type) <- c(levels_t,'other')#
+  }#
+#
+  votes <- matrix(0, #
+                 nrow = (nrow(dset[-train,])), #
+                 ncol = length(levels_t) )#
+#
+  for(idx in 1:length(levels_t)){#
+    name <- levels_t[idx]#
+    votes[,idx] <- (preds[[idx]] == name)#
+    for(i in 1:length(levels_t)){#
+      if(i != idx){#
+        votes[,idx] <- votes[,idx] + ( preds[[i]] == 'other' )#
+      }#
+    }#
+  }#
+#
+  one_against_rest_pred <- levels_t[apply(votes, 1 ,which.max)]#
+  return(table(my_pred, one_against_rest_pred))#
+}#
+#
+tab1 <- one_against_rest(fgl, ncol(fgl), train, fgl$type[-train])#
+#
+#(c) Write a script implementing the one-against-one approach #
+#   with SVM's.#
+#
+comp_preds <- function(idx1, idx2, var, train, dset){#
+  tmpname <- names(dset)[var]#
+  names(dset)[var] <- 'my_var_name'#
+  myvar <- dset[,var]#
+#
+  n1 <- levels(myvar)[idx1]#
+  n2 <- levels(myvar)[idx2]#
+#
+  idx <- (((myvar == n1) | (myvar == n2) )) * 1#
+  idx[-train] = 0#
+#
+  v1_v2_train <- dset[idx == 1,]#
+  v1_v2_model <- svm(my_var_name~., v1_v2_train)#
+  v1_v2_pred <- predict(v1_v2_model, dset[-train,], type='class')#
+#
+  names(dset)[var] <- tmpname#
+#
+  return(v1_v2_pred)#
+}#
+#
+comp_votes <- function(preds, dset, v_idx){#
+#
+  nr = length(preds[[1]][[1]])#
+  nc = length(levels(dset[,v_idx]))#
+#
+  votes <- matrix(0,nrow=nr, ncol=nc)#
+  for(k in 1:nc){#
+    name1 <- levels(dset[,v_idx])[k]#
+#
+    for(i in 1:nc){#
+      for(j in 1:nc){#
+        if(j != i){#
+          votes[,k] <- votes[,k] + (preds[[i]][[j]] == name1) * 1#
+        }#
+      }#
+    }#
+  }#
+  return(votes)#
+}#
+#
+one_against_one <- function(v_idx, dset, train, predicted){#
+  tmpname <- (names(dset))[v_idx]#
+  varname <- 'mytempname'#
+  names(dset)[v_idx] <- 'mytempname'#
+#
+  list_of_preds <- list()#
+  tmplist <- list()#
+  acc <- matrix(-1, nrow = ncol(dset), ncol = ncol(dset))#
+  len <- length( levels(dset$mytempname) )#
+#
+  for(i in 1:len ){#
+    for(j in 1:len ){#
+      if(i != j){#
+        tmplist[[j]] <- comp_preds(i, j, v_idx, train, dset)#
+      }else{#
+      	tmplist[[j]] = rep(-1, nrow(dset) - length(train))#
+      }#
+    }#
+    list_of_preds[[i]] <- tmplist#
+  }#
+  votes <- comp_votes(list_of_preds, dset, v_idx)#
+  one_against_one_pred <- (levels(dset$mytempname))[apply(votes,1,which.max)]#
+  return(table(predicted, one_against_one_pred))#
+}#
+#
+data(fgl,package='MASS')#
+tab2 <- one_against_one(ncol(fgl), fgl, train, fgl$type[-train])
+tab1
+tab2
+a_acc

@@ -1,0 +1,285 @@
+source('~/Dropbox/Tarleton/data_mining/generic_functions/dataset_ops.R')#
+auto <- read.table("http://archive.ics.uci.edu/ml/machine-learning-databases/auto-mpg/auto-mpg.data", header=F,  na.strings='?', dec='.', strip.white=T)
+head(auto)
+standardize(auto, c(1, 3, 4, 5, 6))
+deleted_auto <- auto[auto[,4] != '?',]
+deleted_auto
+deleted_auto <- auto[!(auto[,4] = '?'),]
+deleted_auto <- auto[!(auto[,4] == '?'),]
+deleted_auto
+deleted_auto <- auto[1 == 1 * (auto[,4] != '?'),]
+deleted_auto
+idx = (auto[,4] != '?') * 1#
+deleted_auto <- auto[idx == 1,]
+deleted_auto
+idx = (auto[,4] != '?') * 1
+source('~/Dropbox/Tarleton/data_mining/generic_functions/dataset_ops.R')#
+auto <- read.table("http://archive.ics.uci.edu/ml/machine-learning-databases/auto-mpg/auto-mpg.data", header=F,  na.strings='?', dec='.', strip.white=T)#
+#
+idx = (auto[,4] != '?') * 1#
+deleted_auto <- auto[idx == 1,]
+deleted_auto
+idx = (1:nrows(auto))[auto[,4] != '?']
+idx = (1:nrow(auto))[auto[,4] != '?']
+idx
+deleted_auto <- auto[idx,]
+deleted_auto
+deleted_auto <- auto[idx,:]
+idx = auto[,4] != '?'
+idx
+idx = is.numeric(auto[,4])# != '?'
+idx
+deleted_auto <- auto[idx==TRUE,]
+deleted_auto
+idx = auto[,4] != '?'
+idx
+deleted_auto <- auto[idx==TRUE,]
+deleted_auto
+idx = auto[,4] != '?'#
+deleted_auto <- auto[idx==TRUE,]#
+standardize(auto, c(1, 3, 4, 5, 6))
+source('~/Dropbox/Tarleton/data_mining/generic_functions/dataset_ops.R')#
+auto <- read.table("http://archive.ics.uci.edu/ml/machine-learning-databases/auto-mpg/auto-mpg.data", header=F,  na.strings='?', dec='.', strip.white=T)#
+#
+idx = auto[,4] != '?'#
+deleted_auto <- auto[idx==TRUE,]
+deleted_auto
+source('~/Dropbox/Tarleton/data_mining/generic_functions/dataset_ops.R')#
+auto <- read.table("http://archive.ics.uci.edu/ml/machine-learning-databases/auto-mpg/auto-mpg.data", header=F,  na.strings='?', dec='.', strip.white=T)
+idx = auto[,4] != '?'
+idx
+deleted_auto <- auto[idx==TRUE,]
+deleted_auto
+idx = auto[,4] != '?'#
+idx[is.na(idx)] <- 'FALSE'#
+deleted_auto <- auto[,]
+deleted_auto
+idx
+deleted_auto <- auto[idx,]
+deleted_auto
+deleted_auto <- auto[idx==TRUE,]
+deleted_auto
+standardize(auto, c(1, 3, 4, 5, 6))
+names(deleted_auto)
+names(deleted_auto) <- names(auto)
+names(deleted_auto)
+idx = auto[,4] != '?'#
+    idx[is.na(idx)] <- FALSE#
+    deleted_auto <- auto[idx==TRUE,]
+deleted_auto
+standardize(auto, c(1, 3, 4, 5, 6))
+myset <- deleted_auto
+cols = c(1, 3, 4, 5, 6)
+mynames <- names(myset)[-cols]#
+ idx <- rep(0, length(mynames))#
+ for(i in 1:length(mynames)){#
+   idx <- idx + (mynames[i] == names(myset)) * 1#
+ }
+mynames <- names(myset)[-cols]
+mynames
+idx <- rep(0, length(mynames))
+idx
+idx <- rep(0, ncol(myset))
+for(i in 1:length(mynames)){#
+   idx <- idx + (mynames[i] == names(myset)) * 1#
+ }
+xbar <- apply(myset[,cols], 2, mean) # mean for each column#
+ s <- apply(myset[,cols], 2, sd)      # standard dev. for each col.#
+#
+ xbarMatrix <- cbind(rep(1,nrow(myset))) %*% xbar # matrix with each row xbar#
+ sMatrix <- cbind(rep(1,nrow(myset))) %*% s       # matrix with each row s#
+#
+ sdized <- (myset[,cols] - xbarMatrix)#
+ sdized <- sdized / sMatrix#
+#
+ j = 1#
+ if(idx[1] > 0){#
+   new_sdized <- data.frame(myset[,1])#
+ }else{#
+   new_sdized <- data.frame(sdized[,1])#
+   j = 2#
+ }#
+ for(i in 2:ncol(myset)){#
+   if(idx[i] > 0){#
+     new_sdized <- cbind(new_sdized, myset[,i])#
+   }else{#
+   	 new_sdized <- cbind(new_sdized, sdized[,j])#
+   	 j = j + 1#
+   }#
+ }#
+ names(new_sdized) <- names(myset)
+new_sdized
+standardize = function(myset, cols){#
+ mynames <- names(myset)[-cols]#
+ idx <- rep(0, ncol(myset))#
+ for(i in 1:length(mynames)){#
+   idx <- idx + (mynames[i] == names(myset)) * 1#
+ }#
+#
+ xbar <- apply(myset[,cols], 2, mean) # mean for each column#
+ s <- apply(myset[,cols], 2, sd)      # standard dev. for each col.#
+#
+ xbarMatrix <- cbind(rep(1,nrow(myset))) %*% xbar # matrix with each row xbar#
+ sMatrix <- cbind(rep(1,nrow(myset))) %*% s       # matrix with each row s#
+#
+ sdized <- (myset[,cols] - xbarMatrix)#
+ sdized <- sdized / sMatrix#
+#
+ j = 1#
+ if(idx[1] > 0){#
+   new_sdized <- data.frame(myset[,1])#
+ }else{#
+   new_sdized <- data.frame(sdized[,1])#
+   j = 2#
+ }#
+ for(i in 2:ncol(myset)){#
+   if(idx[i] > 0){#
+     new_sdized <- cbind(new_sdized, myset[,i])#
+   }else{#
+   	 new_sdized <- cbind(new_sdized, sdized[,j])#
+   	 j = j + 1#
+   }#
+ }#
+ names(new_sdized) <- names(myset)#
+ return(new_sdized)#
+}
+idx = auto[,4] != '?'#
+    idx[is.na(idx)] <- FALSE#
+    deleted_auto <- auto[idx == TRUE,]#
+    standardize(auto, c(1, 3, 4, 5, 6))
+source('~/Dropbox/Tarleton/data_mining/generic_functions/dataset_ops.R')#
+auto <- read.table("http://archive.ics.uci.edu/ml/machine-learning-databases/auto-mpg/auto-mpg.data", header=F,  na.strings='?', dec='.', strip.white=T)#
+#1. Remove all categorical variables from the Auto MPG data set from the UCI Machine #
+#   learning Repository, and then examine this data set for anomalies, using the #
+#   following methods for computing outlier scores: #
+#
+    idx = auto[,4] != '?'#
+    idx[is.na(idx)] <- FALSE#
+    deleted_auto <- auto[idx == TRUE,]#
+    standardize(auto, c(1, 3, 4, 5, 6))
+standardize = function(myset, cols){#
+ mynames <- names(myset)[-cols]#
+ idx <- rep(0, ncol(myset))#
+ # for(i in 1:length(mynames)){#
+   # idx <- idx + (mynames[i] == names(myset)) * 1#
+ # }#
+idx[-cols] = 1#
+#
+ xbar <- apply(myset[,cols], 2, mean) # mean for each column#
+ s <- apply(myset[,cols], 2, sd)      # standard dev. for each col.#
+#
+ xbarMatrix <- cbind(rep(1,nrow(myset))) %*% xbar # matrix with each row xbar#
+ sMatrix <- cbind(rep(1,nrow(myset))) %*% s       # matrix with each row s#
+#
+ sdized <- (myset[,cols] - xbarMatrix)#
+ sdized <- sdized / sMatrix#
+#
+ j = 1#
+ if(idx[1] > 0){#
+   new_sdized <- data.frame(myset[,1])#
+ }else{#
+   new_sdized <- data.frame(sdized[,1])#
+   j = 2#
+ }#
+ for(i in 2:ncol(myset)){#
+   if(idx[i] > 0){#
+     new_sdized <- cbind(new_sdized, myset[,i])#
+   }else{#
+   	 new_sdized <- cbind(new_sdized, sdized[,j])#
+   	 j = j + 1#
+   }#
+ }#
+ names(new_sdized) <- names(myset)#
+ return(new_sdized)#
+}
+source('~/Dropbox/Tarleton/data_mining/generic_functions/dataset_ops.R')#
+auto <- read.table("http://archive.ics.uci.edu/ml/machine-learning-databases/auto-mpg/auto-mpg.data", header=F,  na.strings='?', dec='.', strip.white=T)#
+#1. Remove all categorical variables from the Auto MPG data set from the UCI Machine #
+#   learning Repository, and then examine this data set for anomalies, using the #
+#   following methods for computing outlier scores: #
+#
+    idx = auto[,4] != '?'#
+    idx[is.na(idx)] <- FALSE#
+    deleted_auto <- auto[idx == TRUE,]#
+    standardize(auto, c(1, 3, 4, 5, 6))
+idx = auto[,4] != '?'#
+    idx[is.na(idx)] <- FALSE#
+    deleted_auto <- auto[idx == TRUE,]#
+    standardize(auto, c(1, 3, 4, 5, 6))
+idx = auto[,4] != '?'#
+    idx[is.na(idx)] <- FALSE#
+    deleted_auto <- auto[idx == TRUE,]
+myset <- deleted_auto
+cols = c(1, 3, 4, 5, 6)
+mynames <- names(myset)[-cols]#
+ idx <- rep(0, ncol(myset))#
+ # for(i in 1:length(mynames)){#
+   # idx <- idx + (mynames[i] == names(myset)) * 1#
+ # }#
+idx[-cols] = 1#
+#
+ xbar <- apply(myset[,cols], 2, mean) # mean for each column#
+ s <- apply(myset[,cols], 2, sd)      # standard dev. for each col.#
+#
+ xbarMatrix <- cbind(rep(1,nrow(myset))) %*% xbar # matrix with each row xbar#
+ sMatrix <- cbind(rep(1,nrow(myset))) %*% s       # matrix with each row s#
+#
+ sdized <- (myset[,cols] - xbarMatrix)#
+ sdized <- sdized / sMatrix#
+#
+ j = 1#
+ if(idx[1] > 0){#
+   new_sdized <- data.frame(myset[,1])#
+ }else{#
+   new_sdized <- data.frame(sdized[,1])#
+   j = 2#
+ }#
+ for(i in 2:ncol(myset)){#
+   if(idx[i] > 0){#
+     new_sdized <- cbind(new_sdized, myset[,i])#
+   }else{#
+   	 new_sdized <- cbind(new_sdized, sdized[,j])#
+   	 j = j + 1#
+   }#
+ }#
+ names(new_sdized) <- names(myset)
+new_sdized
+standardize = function(myset, cols){#
+ mynames <- names(myset)[-cols]#
+ idx <- rep(0, ncol(myset))#
+ # for(i in 1:length(mynames)){#
+   # idx <- idx + (mynames[i] == names(myset)) * 1#
+ # }#
+idx[-cols] = 1#
+#
+ xbar <- apply(myset[,cols], 2, mean) # mean for each column#
+ s <- apply(myset[,cols], 2, sd)      # standard dev. for each col.#
+#
+ xbarMatrix <- cbind(rep(1,nrow(myset))) %*% xbar # matrix with each row xbar#
+ sMatrix <- cbind(rep(1,nrow(myset))) %*% s       # matrix with each row s#
+#
+ sdized <- (myset[,cols] - xbarMatrix)#
+ sdized <- sdized / sMatrix#
+#
+ j = 1#
+ if(idx[1] > 0){#
+   new_sdized <- data.frame(myset[,1])#
+ }else{#
+   new_sdized <- data.frame(sdized[,1])#
+   j = 2#
+ }#
+ for(i in 2:ncol(myset)){#
+   if(idx[i] > 0){#
+     new_sdized <- cbind(new_sdized, myset[,i])#
+   }else{#
+   	 new_sdized <- cbind(new_sdized, sdized[,j])#
+   	 j = j + 1#
+   }#
+ }#
+ names(new_sdized) <- names(myset)#
+ return(new_sdized)#
+}
+idx = auto[,4] != '?'#
+    idx[is.na(idx)] <- FALSE#
+    deleted_auto <- auto[idx == TRUE,]#
+    standardize(deleted_auto, c(1, 3, 4, 5, 6))

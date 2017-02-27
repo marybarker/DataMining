@@ -1,0 +1,2517 @@
+library(stats)#
+source('~/Dropbox/Tarleton/data_mining/generic_functions/dataset_ops.R')#
+# 1. Generate a data set similar to the one displayed, where each of the #
+#    four clusters has 100 points.#
+x <- c(rnorm(100,  5, 1.5), rnorm(100, 15, 1.5), #
+       rnorm(100,  5, 1.5), rnorm(100, 15, 1.5))#
+y <- c(rnorm(100, 10, 1.5), rnorm(100, 10, 1.5), #
+       rnorm(100, 20, 1.5), rnorm(100, 20, 1.5))#
+plot(x, y)#
+points <- data.frame(x = x, y = y)#
+#
+#   (a) Perform a K-means clustering with K = 4 and 1000 repetitions.#
+mycluster <- kmeans(points, centers=4, iter.max=1000)#
+#
+#   (b) Plot the points and color them based on which clusters they are in.#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[mycluster$cluster])#
+#   (c) Find the total, total within, and between sums of squares#
+mycluster$totss#
+mycluster$tot.withinss#
+mycluster$betweenss#
+#
+#   (d) Find the centers of the clusters. #
+mycluster$centers
+mycluster
+help(kmeans)
+kmeans_reps <- function(dset, centers, reps){#
+#
+  w_ss = Inf#
+  for(i in 1:reps){#
+    k_cluster <- kmeans(x = dset, centers = centers)#
+    if(k_cluster$total.withinss < w_ss){#
+      ssw = k_cluster$tot.withinss#
+      my_k_cluster <- k_cluster#
+    }#
+  }#
+  return(my_k_cluster)#
+}
+mycluster <- kmeans_reps(points, c4, reps)
+reps = 1000#
+mycluster <- kmeans_reps(points, c4, reps)
+reps = 1000#
+mycluster <- kmeans_reps(points, 4, reps)
+kmeans_reps <- function(dset, centers, reps){#
+#
+  w_ss = Inf#
+  for(i in 1:reps){#
+    k_cluster <- kmeans(x = dset, centers = centers)#
+    if(k_cluster$total.withinss < w_ss){#
+      ssw = k_cluster$tot.withinss#
+      my_k_cluster <- k_cluster#
+    }#
+  }#
+  return(my_k_cluster)#
+}#
+reps = 1000#
+mycluster <- kmeans_reps(points, 4, reps)
+kmeans_reps <- function(dset, centers, reps){#
+#
+  w_ss = Inf#
+  for(i in 1:reps){#
+    k_cluster <- kmeans(x = dset, centers = centers)#
+    if((k_cluster$total.withinss) < w_ss){#
+      ssw = k_cluster$tot.withinss#
+      my_k_cluster <- k_cluster#
+    }#
+  }#
+  return(my_k_cluster)#
+}
+reps = 1000#
+mycluster <- kmeans_reps(points, 4, reps)
+kmeans_reps <- function(dset, centers, reps){#
+#
+  w_ss = Inf#
+  for(i in 1:reps){#
+    k_cluster <- kmeans(x = dset, centers = centers)#
+print(k_cluster$centers)#
+    if((k_cluster$total.withinss) < w_ss){#
+      ssw = k_cluster$tot.withinss#
+      my_k_cluster <- k_cluster#
+    }#
+  }#
+  return(my_k_cluster)#
+}#
+reps = 1000#
+mycluster <- kmeans_reps(points, 4, reps)
+kmeans_reps <- function(dset, centers, reps){#
+#
+  w_ss = Inf#
+  for(i in 1:reps){#
+    k_cluster <- kmeans(x = dset, centers = centers)#
+    if((k_cluster$tot.withinss) < w_ss){#
+      ssw = k_cluster$tot.withinss#
+      my_k_cluster <- k_cluster#
+    }#
+  }#
+  return(my_k_cluster)#
+}#
+reps = 1000#
+mycluster <- kmeans_reps(points, 4, reps)
+mycluster
+mycluster$clusters
+mycluster$cluster
+mycluster$centers
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[mycluster$cluster])
+mycluster$totss#
+mycluster$tot.withinss#
+mycluster$betweenss
+mycluster$centers
+centers <- cbind(c(10, 15, 10, 5), c(10, 15, 20, 15))
+centers0 <- cbind(c(10, 15, 10, 5), c(10, 15, 20, 15))
+newcluster <- kmeans(x = points, centers = centers0)
+newcluster$centers
+err
+?err
+minimum_reps <- function(k, err){#
+  ceiling(log(err) / log(1 - factorial(k) / (k^k))#
+}
+minimum_reps <- function(k, err){#
+  ceiling(log(err) / log(1 - factorial(k) / (k^k)))#
+}
+minimum_reps <- function(k, err){#
+  ceiling(log(err) / log(1 - factorial(k) / (k^k)))#
+}#
+minimum_reps(4, 0.01)
+centers1 = 1#
+newcluster <- kmeans(x = points, centers=centers1)
+newcluster
+newcluster$centers
+library(stats)#
+source('~/Dropbox/Tarleton/data_mining/generic_functions/dataset_ops.R')#
+# 1. Generate a data set similar to the one displayed, where each of the #
+#    four clusters has 100 points.#
+x <- c(rnorm(100,  5, 1.5), rnorm(100, 15, 1.5), #
+       rnorm(100,  5, 1.5), rnorm(100, 15, 1.5))#
+y <- c(rnorm(100, 10, 1.5), rnorm(100, 10, 1.5), #
+       rnorm(100, 20, 1.5), rnorm(100, 20, 1.5))#
+plot(x, y)#
+points <- data.frame(x = x, y = y)#
+#
+#   (a) Perform a K-means clustering with K = 4 and 1000 repetitions.#
+#
+kmeans_reps <- function(dset, centers, reps){#
+  w_ss = Inf#
+  for(i in 1:reps){#
+    k_cluster <- kmeans(x = dset, centers = centers)#
+    if((k_cluster$tot.withinss) < w_ss){#
+      ssw = k_cluster$tot.withinss#
+      my_k_cluster <- k_cluster#
+    }#
+  }#
+  return(my_k_cluster)#
+}#
+reps = 1000#
+mycluster <- kmeans_reps(points, 4, reps)#
+#
+#   (b) Plot the points and color them based on which clusters they are in.#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[mycluster$cluster])#
+#
+#   (c) Find the total, total within, and between sums of squares#
+mycluster$totss#
+mycluster$tot.withinss#
+mycluster$betweenss#
+#
+#   (d) Find the centers of the clusters. #
+mycluster$centers#
+#
+#   (e) Suppose we want at least one of our repetitions of K-means to have #
+#       the property that every cluster contains exactly one initial centroid. #
+#       How many repetitions would be necessary to ensure that this happens #
+#       with at least 99\% probability? #
+#
+minimum_reps <- function(k, err){#
+  ceiling(log(err) / log(1 - factorial(k) / (k^k)))#
+}#
+minimum_num = minimum_reps(4, 0.01)#
+#
+#   (f) Can you find a choice of initial centers that does not result in the #
+#       optimal clusters? What is the total within sum of squares for that #
+#       clustering? #
+#
+centers0 <- cbind(c(10, 15, 10, 5), c(10, 15, 20, 15))#
+newcluster <- kmeans(x = points, centers = centers0)#
+#
+#try with k = 1#
+centers1 = 1#
+newcluster <- kmeans(x = points, centers=centers1)
+wdbc <- read.csv('~/Dropbox/Tarleton/data_mining/dfiles/wdbc.data',#
+                 header=F,sep=',')#
+wdbc <- wbdc[,-1]
+wdbc <- read.csv('~/Dropbox/Tarleton/data_mining/dfiles/wdbc.data',#
+                 header=F,sep=',')#
+wdbc <- wdbc[,-1]
+wdbc_cluster <- kmeans_reps(wdbc, 2, 1000)
+wdbc_cluster <- kmeans_reps(wdbc[,2:ncol(wdbc)], 2, 1000)
+wdbc_cluster <- kmeans_reps(wdbc[,2:ncol(wdbc)], 2, 1000)#
+table(wdbc_cluster$cluster, wdbc$V2)
+wdbc_cluster <- kmeans_reps(wdbc[,2:ncol(wdbc)], 2, 1000)#
+acc <- confmatrix(wdbc$V2, wdbc_cluster$cluster)$accuracy
+acc
+wdbc_cluster <- kmeans_reps(wdbc[,2:ncol(wdbc)], 2, 1000)#
+acc <- confmatrix(wdbc$V2, wdbc_cluster$cluster)
+acc
+head(iris)
+#try with k = 1#
+centers1 = 1#
+newcluster1 <- kmeans(x = points, centers=centers1)#
+#
+#try with k = 2#
+newcluster2 <- kmeans(x = points, centers = centers2)
+newcluster1 <- kmeans(x = points, centers = 1)#
+#
+#try with k = 2#
+newcluster2 <- kmeans(x = points, centers = 2)
+newcluster1$centers
+newcluster2$centers
+centers0 <- cbind(c(10, 15, 10, 5), c(10, 15, 20, 15))#
+newcluster0 <- kmeans(x = points, centers = centers0)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[newcluster0$cluster])#
+#
+#try with k = 1#
+newcluster1 <- kmeans(x = points, centers = 1)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[newcluster1$cluster])#
+#
+#try with k = 2#
+newcluster2 <- kmeans(x = points, centers = 2)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[newcluster2$cluster])
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[mycluster$cluster])#
+lines(mycluster$centers,pch=17,col='black')
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[mycluster$cluster])#
+lines(mycluster$centers,lty='p',pch=17,col='black')
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[mycluster$cluster])#
+lines(mycluster$centers,type='p',pch=17,col='black')
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[mycluster$cluster])#
+lines(mycluster$centers,type='p',pch=17,col='black')#
+legend(c('cluster 1','cluster 2','cluster 3','cluster 4','centers'), #
+       col=c('blue','slategray','lightgreen','honeydew3','black'),#
+       pch = c(3, 3, 3, 3, 17)#
+)
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[mycluster$cluster])
+lines(mycluster$centers,type='p',pch=21,col='black')
+lines(mycluster$centers,type='p',pch=22,col='black')
+lines(mycluster$centers,type='p',pch=23,col='black')
+lines(mycluster$centers,type='p',pch=24,col='black')
+lines(mycluster$centers,type='p',pch=11,col='black')
+lines(mycluster$centers,type='p',pch=1,col='black')
+lines(mycluster$centers,type='p',pch=7,col='black')
+lines(mycluster$centers,type='p',pch=9,col='black')
+lines(mycluster$centers,type='p',pch=4,col='black')
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[mycluster$cluster])#
+lines(mycluster$centers,type='p',pch=4,col='black')
+lines(mycluster$centers,type='p',pch=3,col='black')
+lines(mycluster$centers,type='p',pch=2,col='black')
+lines(mycluster$centers,type='p',pch=5,col='black')
+lines(mycluster$centers,type='p',pch=6,col='black')
+lines(mycluster$centers,type='p',pch=8,col='black')
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[mycluster$cluster])#
+lines(mycluster$centers,type='p',pch=8,col='black')
+lines(mycluster$centers,type='p',pch=9,col='black')
+lines(mycluster$centers,type='p',pch=13,col='black')
+lines(mycluster$centers,type='p',pch=15,col='black')
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[mycluster$cluster])#
+lines(mycluster$centers,type='p',pch=15,col='black')
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[mycluster$cluster])#
+lines(mycluster$centers,type='p',pch=14,col='black')
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[mycluster$cluster])#
+lines(mycluster$centers,type='p',pch=16,col='black')
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[mycluster$cluster])
+symbols(mycluster$centers, circles=5)
+mycluster$centers[1]
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[mycluster$cluster])#
+symbols(x = mycluster$centers[1],y = mycluster$centers[2], circles=rep(5,4))
+lines(mycluster$centers,type='p',pch=16,col='black', cex = 0.5)
+lines(mycluster$centers,type='p',pch=16,col='black', cex = 1.5)
+lines(mycluster$centers,type='p',pch=16,col='black', cex = 2.5)
+centers0 <- cbind(c(10, 15, 10, 5), c(10, 15, 20, 15))#
+newcluster0 <- kmeans(x = points, centers = centers0)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[newcluster0$cluster])#
+lines(newcluster0$centers,type='p',pch=16,col='black', cex = 2.5)#
+#
+#try with k = 1#
+newcluster1 <- kmeans(x = points, centers = 1)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[newcluster1$cluster])#
+lines(newcluster1$centers,type='p',pch=16,col='black', cex = 2.5)#
+#
+#try with k = 2#
+newcluster2 <- kmeans(x = points, centers = 2)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[newcluster2$cluster])#
+lines(newcluster2$centers,type='p',pch=16,col='black', cex = 2.5)
+centers4 = cbind( c(5, 15, 5, 15), c(10, 20, 10, 20) )#
+newcluster4 <- kmeans(x = points, centers = centers4)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[newcluster4$cluster])#
+lines(newcluster4$centers,type='p',pch=16,col='black', cex = 2.5)
+centers4 = cbind( c(5, 15, 6, 14), c(10, 20, 10, 20) )#
+newcluster4 <- kmeans(x = points, centers = centers4)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[newcluster4$cluster])#
+lines(newcluster4$centers,type='p',pch=16,col='black', cex = 2.5)
+newcluster4$centers
+mycluster$centers
+centers0 <- cbind(c(5, 15, 15, 15), c(10, 15, 20, 12))#
+newcluster0 <- kmeans(x = points, centers = centers0)
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[newcluster0$cluster])#
+lines(newcluster0$centers,type='p',pch=16,col='black', cex = 2.5)
+centers0 <- cbind(c(2, 10, 10, 20), c(2, 10, 20, 25))#
+newcluster0 <- kmeans(x = points, centers = centers0)#
+#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[newcluster0$cluster])#
+lines(newcluster0$centers,type='p',pch=16,col='black', cex = 2.5)
+newcluster0$centers
+cols <- 5 * (1:50)
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[newcluster2$cluster], pch = ptypes[newcluster2$cluster])#
+lines(newcluster2$centers,type='p',pch=16,col='black', cex = 2.5)
+ptypes <- (1:50)
+ptypes
+newcluster2 <- kmeans(x = points, centers = 2)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[newcluster2$cluster], type='p',pch=ptypes[newcluster2$cluster])#
+lines(newcluster2$centers,type='p',pch=16,col='black', cex = 2.5)
+#Data Mining hw 17#
+library(stats)#
+wdbc <- read.csv('~/Dropbox/Tarleton/data_mining/dfiles/wdbc.data',#
+                 header=F,sep=',')#
+wdbc <- wdbc[,-1]#
+source('~/Dropbox/Tarleton/data_mining/generic_functions/dataset_ops.R')#
+ptypes <- (1:50)#
+#
+# 1. Generate a data set similar to the one displayed, where each of the #
+#    four clusters has 100 points.#
+x <- c(rnorm(100,  5, 1.5), rnorm(100, 15, 1.5), #
+       rnorm(100,  5, 1.5), rnorm(100, 15, 1.5))#
+y <- c(rnorm(100, 10, 1.5), rnorm(100, 10, 1.5), #
+       rnorm(100, 20, 1.5), rnorm(100, 20, 1.5))#
+plot(x, y)#
+points <- data.frame(x = x, y = y)#
+#
+#   (a) Perform a K-means clustering with K = 4 and 1000 repetitions.#
+#
+kmeans_reps <- function(dset, centers, reps){#
+  w_ss = Inf#
+  for(i in 1:reps){#
+    k_cluster <- kmeans(x = dset, centers = centers)#
+    if((k_cluster$tot.withinss) < w_ss){#
+      ssw = k_cluster$tot.withinss#
+      my_k_cluster <- k_cluster#
+    }#
+  }#
+  return(my_k_cluster)#
+}#
+reps = 1000#
+mycluster <- kmeans_reps(points, 4, reps)#
+#
+#   (b) Plot the points and color them based on which clusters they are in.#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[mycluster$cluster],#
+                type='p',pch=ptypes[newcluster2$cluster])#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[mycluster$cluster],#
+                type='p',pch=ptypes[newcluster2$cluster])#
+lines(mycluster$centers,type='p',pch=16,col='black', cex = 2.5)#
+#   (c) Find the total, total within, and between sums of squares#
+mycluster$totss#
+mycluster$tot.withinss#
+mycluster$betweenss#
+#
+#   (d) Find the centers of the clusters. #
+mycluster$centers#
+#
+#   (e) Suppose we want at least one of our repetitions of K-means to have #
+#       the property that every cluster contains exactly one initial centroid. #
+#       How many repetitions would be necessary to ensure that this happens #
+#       with at least 99\% probability? #
+#
+minimum_reps <- function(k, err){#
+  ceiling(log(err) / log(1 - factorial(k) / (k^k)))#
+}#
+minimum_num = minimum_reps(4, 0.01)#
+#
+#   (f) Can you find a choice of initial centers that does not result in the #
+#       optimal clusters? What is the total within sum of squares for that #
+#       clustering? #
+#
+# try with alternate centers:#
+# centers0 <- cbind(c(10, 15, 10, 5), c(10, 15, 20, 15))#
+# newcluster0 <- kmeans(x = points, centers = centers0)#
+#
+# centers0 <- cbind(c(4, 15, 5, 16), c(10, 20, 10, 20))#
+# newcluster0 <- kmeans(x = points, centers = centers0)#
+#
+# centers0 <- cbind(c(5, 15, 15, 15), c(10, 15, 20, 12))#
+# newcluster0 <- kmeans(x = points, centers = centers0)#
+#
+# centers0 <- cbind(c(2, 10, 10, 20), c(2, 10, 20, 25))#
+# newcluster0 <- kmeans(x = points, centers = centers0)#
+#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[newcluster0$cluster],#
+                type='p',pch=ptypes[newcluster2$cluster])#
+lines(newcluster0$centers,type='p',pch=16,col='black', cex = 2.5)#
+#
+# try with k = 1#
+newcluster1 <- kmeans(x = points, centers = 1)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[newcluster1$cluster],#
+                type='p',pch=ptypes[newcluster2$cluster])#
+lines(newcluster1$centers,type='p',pch=16,col='black', cex = 2.5)#
+#
+# try with k = 2#
+newcluster2 <- kmeans(x = points, centers = 2)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[newcluster2$cluster],#
+                type='p',pch=ptypes[newcluster2$cluster])#
+lines(newcluster2$centers,type='p',pch=16,col='black', cex = 2.5)#
+#
+# 2. Perform a K-means clustering with K = 2 and 1000 repetitions for the #
+#    wdbc data set. What classification accuracy would be achieved if the #
+#    clusters were used to predict the diagnosis in this data set? #
+#
+wdbc_cluster <- kmeans_reps(wdbc[,2:ncol(wdbc)], 2, 1000)#
+acc <- confmatrix(wdbc$V2, wdbc_cluster$cluster)
+#Data Mining hw 17#
+library(stats)#
+wdbc <- read.csv('~/Dropbox/Tarleton/data_mining/dfiles/wdbc.data',#
+                 header=F,sep=',')#
+wdbc <- wdbc[,-1]#
+source('~/Dropbox/Tarleton/data_mining/generic_functions/dataset_ops.R')#
+ptypes <- 2 * (1:50)#
+#
+# 1. Generate a data set similar to the one displayed, where each of the #
+#    four clusters has 100 points.#
+x <- c(rnorm(100,  5, 1.5), rnorm(100, 15, 1.5), #
+       rnorm(100,  5, 1.5), rnorm(100, 15, 1.5))#
+y <- c(rnorm(100, 10, 1.5), rnorm(100, 10, 1.5), #
+       rnorm(100, 20, 1.5), rnorm(100, 20, 1.5))#
+plot(x, y)#
+points <- data.frame(x = x, y = y)#
+#
+#   (a) Perform a K-means clustering with K = 4 and 1000 repetitions.#
+#
+kmeans_reps <- function(dset, centers, reps){#
+  w_ss = Inf#
+  for(i in 1:reps){#
+    k_cluster <- kmeans(x = dset, centers = centers)#
+    if((k_cluster$tot.withinss) < w_ss){#
+      ssw = k_cluster$tot.withinss#
+      my_k_cluster <- k_cluster#
+    }#
+  }#
+  return(my_k_cluster)#
+}#
+reps = 1000#
+mycluster <- kmeans_reps(points, 4, reps)#
+#
+#   (b) Plot the points and color them based on which clusters they are in.#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[mycluster$cluster],#
+                type='p',pch=ptypes[newcluster2$cluster])#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[mycluster$cluster],#
+                type='p',pch=ptypes[newcluster2$cluster])#
+lines(mycluster$centers,type='p',pch=16,col='black', cex = 2.5)#
+#   (c) Find the total, total within, and between sums of squares#
+mycluster$totss#
+mycluster$tot.withinss#
+mycluster$betweenss#
+#
+#   (d) Find the centers of the clusters. #
+mycluster$centers#
+#
+#   (e) Suppose we want at least one of our repetitions of K-means to have #
+#       the property that every cluster contains exactly one initial centroid. #
+#       How many repetitions would be necessary to ensure that this happens #
+#       with at least 99\% probability? #
+#
+minimum_reps <- function(k, err){#
+  ceiling(log(err) / log(1 - factorial(k) / (k^k)))#
+}#
+minimum_num = minimum_reps(4, 0.01)#
+#
+#   (f) Can you find a choice of initial centers that does not result in the #
+#       optimal clusters? What is the total within sum of squares for that #
+#       clustering? #
+#
+# try with alternate centers:#
+# centers0 <- cbind(c(10, 15, 10, 5), c(10, 15, 20, 15))#
+# newcluster0 <- kmeans(x = points, centers = centers0)#
+#
+# centers0 <- cbind(c(4, 15, 5, 16), c(10, 20, 10, 20))#
+# newcluster0 <- kmeans(x = points, centers = centers0)#
+#
+# centers0 <- cbind(c(5, 15, 15, 15), c(10, 15, 20, 12))#
+# newcluster0 <- kmeans(x = points, centers = centers0)#
+#
+# centers0 <- cbind(c(2, 10, 10, 20), c(2, 10, 20, 25))#
+# newcluster0 <- kmeans(x = points, centers = centers0)#
+#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[newcluster0$cluster],#
+                type='p',pch=ptypes[newcluster2$cluster])#
+lines(newcluster0$centers,type='p',pch=16,col='black', cex = 2.5)#
+#
+# try with k = 1#
+newcluster1 <- kmeans(x = points, centers = 1)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[newcluster1$cluster],#
+                type='p',pch=ptypes[newcluster2$cluster])#
+lines(newcluster1$centers,type='p',pch=16,col='black', cex = 2.5)#
+#
+# try with k = 2#
+newcluster2 <- kmeans(x = points, centers = 2)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[newcluster2$cluster],#
+                type='p',pch=ptypes[newcluster2$cluster])#
+lines(newcluster2$centers,type='p',pch=16,col='black', cex = 2.5)#
+#
+# 2. Perform a K-means clustering with K = 2 and 1000 repetitions for the #
+#    wdbc data set. What classification accuracy would be achieved if the #
+#    clusters were used to predict the diagnosis in this data set? #
+#
+wdbc_cluster <- kmeans_reps(wdbc[,2:ncol(wdbc)], 2, 1000)#
+acc <- confmatrix(wdbc$V2, wdbc_cluster$cluster)
+#Data Mining hw 17#
+library(stats)#
+wdbc <- read.csv('~/Dropbox/Tarleton/data_mining/dfiles/wdbc.data',#
+                 header=F,sep=',')#
+wdbc <- wdbc[,-1]#
+source('~/Dropbox/Tarleton/data_mining/generic_functions/dataset_ops.R')#
+# 1. Generate a data set similar to the one displayed, where each of the #
+#    four clusters has 100 points.#
+x <- c(rnorm(100,  5, 1.5), rnorm(100, 15, 1.5), #
+       rnorm(100,  5, 1.5), rnorm(100, 15, 1.5))#
+y <- c(rnorm(100, 10, 1.5), rnorm(100, 10, 1.5), #
+       rnorm(100, 20, 1.5), rnorm(100, 20, 1.5))#
+plot(x, y)#
+points <- data.frame(x = x, y = y)#
+#
+#   (a) Perform a K-means clustering with K = 4 and 1000 repetitions.#
+#
+kmeans_reps <- function(dset, centers, reps){#
+  w_ss = Inf#
+  for(i in 1:reps){#
+    k_cluster <- kmeans(x = dset, centers = centers)#
+    if((k_cluster$tot.withinss) < w_ss){#
+      ssw = k_cluster$tot.withinss#
+      my_k_cluster <- k_cluster#
+    }#
+  }#
+  return(my_k_cluster)#
+}#
+reps = 1000#
+mycluster <- kmeans_reps(points, 4, reps)#
+#
+#   (b) Plot the points and color them based on which clusters they are in.#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[mycluster$cluster])#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[mycluster$cluster])#
+lines(mycluster$centers,type='p',pch=16,col='black', cex = 2.5)#
+#   (c) Find the total, total within, and between sums of squares#
+mycluster$totss#
+mycluster$tot.withinss#
+mycluster$betweenss#
+#
+#   (d) Find the centers of the clusters. #
+mycluster$centers#
+#
+#   (e) Suppose we want at least one of our repetitions of K-means to have #
+#       the property that every cluster contains exactly one initial centroid. #
+#       How many repetitions would be necessary to ensure that this happens #
+#       with at least 99\% probability? #
+#
+minimum_reps <- function(k, err){#
+  ceiling(log(err) / log(1 - factorial(k) / (k^k)))#
+}#
+minimum_num = minimum_reps(4, 0.01)#
+#
+#   (f) Can you find a choice of initial centers that does not result in the #
+#       optimal clusters? What is the total within sum of squares for that #
+#       clustering? #
+#
+# try with alternate centers:#
+# centers0 <- cbind(c(10, 15, 10, 5), c(10, 15, 20, 15))#
+# newcluster0 <- kmeans(x = points, centers = centers0)#
+#
+# centers0 <- cbind(c(4, 15, 5, 16), c(10, 20, 10, 20))#
+# newcluster0 <- kmeans(x = points, centers = centers0)#
+#
+# centers0 <- cbind(c(5, 15, 15, 15), c(10, 15, 20, 12))#
+# newcluster0 <- kmeans(x = points, centers = centers0)#
+#
+centers0 <- cbind(c(2, 10, 10, 20), c(2, 10, 20, 25))#
+newcluster0 <- kmeans(x = points, centers = centers0)#
+#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[newcluster0$cluster])#
+lines(newcluster0$centers,type='p',pch=16,col='black', cex = 2.5)#
+#
+# try with k = 1#
+newcluster1 <- kmeans(x = points, centers = 1)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[newcluster1$cluster])#
+lines(newcluster1$centers,type='p',pch=16,col='black', cex = 2.5)#
+#
+# try with k = 2#
+newcluster2 <- kmeans(x = points, centers = 2)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[newcluster2$cluster])#
+lines(newcluster2$centers,type='p',pch=16,col='black', cex = 2.5)#
+#
+# 2. Perform a K-means clustering with K = 2 and 1000 repetitions for the #
+#    wdbc data set. What classification accuracy would be achieved if the #
+#    clusters were used to predict the diagnosis in this data set? #
+#
+wdbc_cluster <- kmeans_reps(wdbc[,2:ncol(wdbc)], 2, 1000)#
+acc <- confmatrix(wdbc$V2, wdbc_cluster$cluster)
+newcluster6 <- kmeans(x = points, centers = 6)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[newcluster6$cluster])#
+lines(newcluster6$centers,type='p',pch=16,col='black', cex = 2.5)
+newcluster6 <- kmeans(x = points, centers = 6)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown','yellow','plum')[newcluster6$cluster])#
+lines(newcluster6$centers,type='p',pch=16,col='black', cex = 2.5)
+# try with k = 8#
+newcluster8 <- kmeans(x = points, centers = 8)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown',#
+                'yellow',#
+                'plum')[newcluster8$cluster])#
+lines(newcluster8$centers,type='p',pch=16,col='black', cex = 2.5)
+colors = 5 * c(1:50)
+newcluster10 <- kmeans(x = points, centers = 10)#
+plot(x, y, col=colors[newcluster10$cluster])#
+lines(newcluster10$centers,type='p',pch=16,col='black', cex = 2.5)
+colors = 15 * c(1:50)
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown',#
+                'yellow',#
+                'plum')[newcluster6$cluster])
+lines(newcluster6$centers,type='p',pch=16,col='black', cex = 2.5)
+newcluster10 <- kmeans(x = points, centers = 10)#
+plot(x, y, col=colors[newcluster10$cluster])#
+lines(newcluster10$centers,type='p',pch=16,col='black', cex = 2.5)
+colors = 20 * c(1:50)
+plot(x, y, col=colors[newcluster10$cluster])#
+lines(newcluster10$centers,type='p',pch=16,col='black', cex = 2.5)
+colors = 6 * c(1:50)
+plot(x, y, col=colors[newcluster10$cluster])#
+lines(newcluster10$centers,type='p',pch=16,col='black', cex = 2.5)
+newcluster10 <- kmeans(x = points, centers = 10)#
+plot(x, y, col=colors[newcluster10$cluster])#
+lines(newcluster10$centers,type='p',pch=16,col='black', cex = 2.5)
+colors = 5 * c(1:50)
+newcluster10 <- kmeans(x = points, centers = 10)#
+plot(x, y, col=colors[newcluster10$cluster])#
+lines(newcluster10$centers,type='p',pch=16,col='black', cex = 2.5)
+library(stats)#
+library(cluster)#
+library(fields)#
+#
+wdbc <- read.csv('~/Dropbox/Tarleton/data_mining/dfiles/wdbc.data',#
+                 header=F,sep=',')#
+wdbc <- wdbc[,-1]#
+source('~/Dropbox/Tarleton/data_mining/generic_functions/dataset_ops.R')#
+# 1. Consider the data from problem 1 on Homework 17 #
+#
+x <- c(rnorm(100,  5, 1.5), rnorm(100, 15, 1.5), #
+       rnorm(100,  5, 1.5), rnorm(100, 15, 1.5))#
+y <- c(rnorm(100, 10, 1.5), rnorm(100, 10, 1.5), #
+       rnorm(100, 20, 1.5), rnorm(100, 20, 1.5))#
+plot(x, y)#
+points <- data.frame(x = x, y = y)
+mysil <- function(x, dmat){#
+  return(mean(silhouette(x = x, dmat = dmat)[,3]))#
+}#
+#
+find_sil <- function(data, kmax, niter, eps){#
+  d_mat <- rdist(data)#
+  sil_v <- 1:kmax#
+  for(K in 2:kmax){#
+  	iter <- min(niter, min_rep(K, eps))#
+  	kmeans_tmp <- kmeans_reps(data, K, iter)#
+  	sil_v[K] <- mysil(kmeans_tmp$cluster, dmat)#
+  }#
+  sil_v <- sil_v[2:kmax]#
+  plot(2:kmax, sil_v, xlab='K', ylab='Silhouette Coefficient')#
+  return(max(sil_v))#
+}
+find_sil(points, 12, 1000, 0.01)
+min_rep <- function(K, eps){#
+  ceiling(log(eps) / log(1 - factorial(K)/K^K))#
+}
+kmeans_reps <- function(data, centers, reps){#
+  w_ss = Inf#
+  for(i in 1:reps){#
+    k_cluster <- kmeans(x = data, centers = centers)#
+    if((k_cluster$tot.withinss) < w_ss){#
+      ssw = k_cluster$tot.withinss#
+      my_k_cluster <- k_cluster#
+    }#
+  }#
+  return(my_k_cluster)#
+}
+find_sil(points, 12, 1000, 0.01)
+find_sil <- function(data, kmax, niter, eps){#
+  dmat <- rdist(data)#
+  sil_v <- 1:kmax#
+  for(K in 2:kmax){#
+  	iter <- min(niter, min_rep(K, eps))#
+  	kmeans_tmp <- kmeans_reps(data, K, iter)#
+  	sil_v[K] <- mysil(kmeans_tmp$cluster, dmat)#
+  }#
+  sil_v <- sil_v[2:kmax]#
+  plot(2:kmax, sil_v, xlab='K', ylab='Silhouette Coefficient')#
+  return(max(sil_v))#
+}#
+find_sil(points, 12, 1000, 0.01)
+find_sil <- function(data, kmax, niter, eps){#
+  dmat <- rdist(data)#
+  sil_v <- 1:kmax#
+  for(K in 2:kmax){#
+  	iter <- min(niter, min_rep(K, eps))#
+  	kmeans_tmp <- kmeans_reps(data, K, iter)#
+  	sil_v[K] <- mysil(kmeans_tmp$cluster, dmat)#
+  }#
+  sil_v <- sil_v[2:kmax]#
+  plot(2:kmax, sil_v, xlab='K', ylab='Silhouette Coefficient')#
+  return(max(sil_v), which.max(sil_v) + 1)#
+}#
+max_k <- find_sil(points, 12, 1000, 0.01)
+find_sil <- function(data, kmax, niter, eps){#
+  dmat <- rdist(data)#
+  sil_v <- 1:kmax#
+  for(K in 2:kmax){#
+  	iter <- min(niter, min_rep(K, eps))#
+  	kmeans_tmp <- kmeans_reps(data, K, iter)#
+  	sil_v[K] <- mysil(kmeans_tmp$cluster, dmat)#
+  }#
+  sil_v <- sil_v[2:kmax]#
+  plot(2:kmax, sil_v, xlab='K', ylab='Silhouette Coefficient')#
+  return(list(max = max(sil_v), where = which.max(sil_v) + 1))#
+}#
+max_k <- find_sil(points, 12, 1000, 0.01)
+plot_ssw <- function(data, kmax, niter, eps){#
+  ssw_v <- 1:kmax#
+  for(K in 1:kmax){#
+    iter <- min(niter, min_rep(K, eps))#
+    kmeans_tmp <- kmeans_reps(data, K, iter)#
+    ssw_v[K] <- kmeans_tmp$tot.withinss#
+  }#
+  plot(1:kmax, ssw_v, xlab='K',ylab='SSW')#
+}
+plot(points, max_k$max, 1000, 0.01)
+plot_ssw(points, max_k$max, 1000, 0.01)
+plot_ssw <- function(data, kmax, niter, eps){#
+  ssw_v <- 1:kmax#
+  for(K in 1:kmax){#
+    iter <- min(niter, min_rep(K, eps))#
+    kmeans_tmp <- kmeans_reps(data, K, iter)#
+    ssw_v[K] <- kmeans_tmp$tot.withinss#
+  }#
+  plot(1:kmax, ssw_v, xlab='K',ylab='SSW')#
+}#
+plot_ssw(points, max_k$which, 1000, 0.01)
+plot_ssw <- function(data, kmax, niter, eps){#
+  ssw_v <- 1:kmax#
+  for(K in 1:kmax){#
+    iter <- min(niter, min_rep(K, eps))#
+    kmeans_tmp <- kmeans_reps(data, K, iter)#
+    ssw_v[K] <- kmeans_tmp$tot.withinss#
+  }#
+  plot(1:kmax, ssw_v, xlab='K',ylab='SSW')#
+}#
+plot_ssw(points, max_k$where, 1000, 0.01)
+#Data Mining hw 17#
+library(stats)#
+wdbc <- read.csv('~/Dropbox/Tarleton/data_mining/dfiles/wdbc.data',#
+                 header=F,sep=',')#
+wdbc <- wdbc[,-1]#
+source('~/Dropbox/Tarleton/data_mining/generic_functions/dataset_ops.R')#
+# 1. Generate a data set similar to the one displayed, where each of the #
+#    four clusters has 100 points.#
+x <- c(rnorm(100,  5, 1.5), rnorm(100, 15, 1.5), #
+       rnorm(100,  5, 1.5), rnorm(100, 15, 1.5))#
+y <- c(rnorm(100, 10, 1.5), rnorm(100, 10, 1.5), #
+       rnorm(100, 20, 1.5), rnorm(100, 20, 1.5))#
+plot(x, y)#
+points <- data.frame(x = x, y = y)#
+#
+#   (a) Perform a K-means clustering with K = 4 and 1000 repetitions.#
+#
+kmeans_reps <- function(dset, centers, reps){#
+  w_ss = Inf#
+  for(i in 1:reps){#
+    k_cluster <- kmeans(x = dset, centers = centers)#
+    if((k_cluster$tot.withinss) < w_ss){#
+      ssw = k_cluster$tot.withinss#
+      my_k_cluster <- k_cluster#
+    }#
+  }#
+  return(my_k_cluster)#
+}#
+reps = 1000#
+mycluster <- kmeans_reps(points, 4, reps)#
+#
+#   (b) Plot the points and color them based on which clusters they are in.#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[mycluster$cluster])#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[mycluster$cluster])#
+lines(mycluster$centers,type='p',pch=16,col='black', cex = 2.5)#
+#   (c) Find the total, total within, and between sums of squares#
+mycluster$totss#
+mycluster$tot.withinss#
+mycluster$betweenss#
+#
+#   (d) Find the centers of the clusters. #
+mycluster$centers#
+#
+#   (e) Suppose we want at least one of our repetitions of K-means to have #
+#       the property that every cluster contains exactly one initial centroid. #
+#       How many repetitions would be necessary to ensure that this happens #
+#       with at least 99\% probability? #
+#
+minimum_reps <- function(k, err){#
+  ceiling(log(err) / log(1 - factorial(k) / (k^k)))#
+}#
+minimum_num = minimum_reps(4, 0.01)#
+#
+#   (f) Can you find a choice of initial centers that does not result in the #
+#       optimal clusters? What is the total within sum of squares for that #
+#       clustering? #
+#
+# try with alternate centers:#
+# centers0 <- cbind(c(10, 15, 10, 5), c(10, 15, 20, 15))#
+# newcluster0 <- kmeans(x = points, centers = centers0)#
+#
+# centers0 <- cbind(c(4, 15, 5, 16), c(10, 20, 10, 20))#
+# newcluster0 <- kmeans(x = points, centers = centers0)#
+#
+# centers0 <- cbind(c(5, 15, 15, 15), c(10, 15, 20, 12))#
+# newcluster0 <- kmeans(x = points, centers = centers0)#
+#
+centers0 <- cbind(c(2, 10, 10, 20), c(2, 10, 20, 25))#
+newcluster0 <- kmeans(x = points, centers = centers0)#
+colors = 5 * c(1:50)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[newcluster0$cluster])#
+lines(newcluster0$centers,type='p',pch=16,col='black', cex = 2.5)#
+#
+# try with k = 1#
+newcluster1 <- kmeans(x = points, centers = 1)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[newcluster1$cluster])#
+lines(newcluster1$centers,type='p',pch=16,col='black', cex = 2.5)#
+#
+# try with k = 2#
+newcluster2 <- kmeans(x = points, centers = 2)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[newcluster2$cluster])#
+lines(newcluster2$centers,type='p',pch=16,col='black', cex = 2.5)#
+#
+# try with k = 6#
+newcluster6 <- kmeans(x = points, centers = 6)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown',#
+                'yellow',#
+                'plum')[newcluster6$cluster])#
+lines(newcluster6$centers,type='p',pch=16,col='black', cex = 2.5)#
+#
+# try with k = 8#
+newcluster8 <- kmeans(x = points, centers = 8)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown',#
+                'yellow',#
+                'plum')[newcluster8$cluster])#
+lines(newcluster8$centers,type='p',pch=16,col='black', cex = 2.5)#
+#
+# try with k = 10#
+newcluster10 <- kmeans(x = points, centers = 10)#
+plot(x, y, col=colors[newcluster10$cluster])#
+lines(newcluster10$centers,type='p',pch=16,col='black', cex = 2.5)#
+#
+# 2. Perform a K-means clustering with K = 2 and 1000 repetitions for the #
+#    wdbc data set. What classification accuracy would be achieved if the #
+#    clusters were used to predict the diagnosis in this data set? #
+#
+wdbc_cluster <- kmeans_reps(wdbc[,2:ncol(wdbc)], 2, 1000)#
+acc <- confmatrix(wdbc$V2, wdbc_cluster$cluster)
+#Data Mining hw 17#
+library(stats)#
+wdbc <- read.csv('~/Dropbox/Tarleton/data_mining/dfiles/wdbc.data',#
+                 header=F,sep=',')#
+wdbc <- wdbc[,-1]#
+source('~/Dropbox/Tarleton/data_mining/generic_functions/dataset_ops.R')#
+# 1. Generate a data set similar to the one displayed, where each of the #
+#    four clusters has 100 points.#
+x <- c(rnorm(100,  5, 1.5), rnorm(100, 15, 1.5), #
+       rnorm(100,  5, 1.5), rnorm(100, 15, 1.5))#
+y <- c(rnorm(100, 10, 1.5), rnorm(100, 10, 1.5), #
+       rnorm(100, 20, 1.5), rnorm(100, 20, 1.5))#
+plot(x, y)#
+points <- data.frame(x = x, y = y)#
+#
+#   (a) Perform a K-means clustering with K = 4 and 1000 repetitions.#
+#
+kmeans_reps <- function(dset, centers, reps){#
+  w_ss = Inf#
+  for(i in 1:reps){#
+    k_cluster <- kmeans(x = dset, centers = centers)#
+    if((k_cluster$tot.withinss) < w_ss){#
+      ssw = k_cluster$tot.withinss#
+      my_k_cluster <- k_cluster#
+    }#
+  }#
+  return(my_k_cluster)#
+}#
+reps = 1000#
+mycluster <- kmeans_reps(points, 4, reps)#
+#
+#   (b) Plot the points and color them based on which clusters they are in.#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[mycluster$cluster])#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[mycluster$cluster])#
+lines(mycluster$centers,type='p',pch=16,col='black', cex = 2.5)#
+#   (c) Find the total, total within, and between sums of squares#
+mycluster$totss#
+mycluster$tot.withinss#
+mycluster$betweenss#
+#
+#   (d) Find the centers of the clusters. #
+mycluster$centers#
+#
+#   (e) Suppose we want at least one of our repetitions of K-means to have #
+#       the property that every cluster contains exactly one initial centroid. #
+#       How many repetitions would be necessary to ensure that this happens #
+#       with at least 99\% probability? #
+#
+minimum_reps <- function(k, err){#
+  ceiling(log(err) / log(1 - factorial(k) / (k^k)))#
+}#
+minimum_num = minimum_reps(4, 0.01)#
+#
+#   (f) Can you find a choice of initial centers that does not result in the #
+#       optimal clusters? What is the total within sum of squares for that #
+#       clustering? #
+#
+# try with alternate centers:#
+# centers0 <- cbind(c(10, 15, 10, 5), c(10, 15, 20, 15))#
+# newcluster0 <- kmeans(x = points, centers = centers0)#
+#
+# centers0 <- cbind(c(4, 15, 5, 16), c(10, 20, 10, 20))#
+# newcluster0 <- kmeans(x = points, centers = centers0)#
+#
+# centers0 <- cbind(c(5, 15, 15, 15), c(10, 15, 20, 12))#
+# newcluster0 <- kmeans(x = points, centers = centers0)#
+#
+centers0 <- cbind(c(2, 10, 10, 20), c(2, 10, 20, 25))#
+newcluster0 <- kmeans(x = points, centers = centers0)#
+colors = 5 * c(1:50)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[newcluster0$cluster])#
+lines(newcluster0$centers,type='p',pch=16,col='black', cex = 2.5)#
+#
+# try with k = 1#
+newcluster1 <- kmeans(x = points, centers = 1)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[newcluster1$cluster])#
+lines(newcluster1$centers,type='p',pch=16,col='black', cex = 2.5)#
+#
+# try with k = 2#
+newcluster2 <- kmeans(x = points, centers = 2)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[newcluster2$cluster])#
+lines(newcluster2$centers,type='p',pch=16,col='black', cex = 2.5)#
+#
+# try with k = 6#
+newcluster6 <- kmeans(x = points, centers = 6)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown',#
+                'yellow',#
+                'plum')[newcluster6$cluster])#
+lines(newcluster6$centers,type='p',pch=16,col='black', cex = 2.5)#
+#
+# try with k = 8#
+newcluster8 <- kmeans(x = points, centers = 8)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown',#
+                'yellow',#
+                'plum')[newcluster8$cluster])#
+lines(newcluster8$centers,type='p',pch=16,col='black', cex = 2.5)#
+#
+# try with k = 10#
+newcluster10 <- kmeans(x = points, centers = 10)#
+plot(x, y, col=colors[newcluster10$cluster])#
+lines(newcluster10$centers,type='p',pch=16,col='black', cex = 2.5)#
+#
+# 2. Perform a K-means clustering with K = 2 and 1000 repetitions for the #
+#    wdbc data set. What classification accuracy would be achieved if the #
+#    clusters were used to predict the diagnosis in this data set? #
+#
+wdbc_cluster <- kmeans_reps(wdbc[,2:ncol(wdbc)], 2, 1000)#
+acc <- confmatrix(wdbc$V2, wdbc_cluster$cluster)
+# try with k = 2#
+newcluster21 <- kmeans(x = points, centers = c(c(5, 16), c(10, 21)))#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[newcluster21$cluster],#
+                main = 'clusters using 2 centers')#
+lines(newcluster21$centers,type='p',pch=16,col='black', cex = 2.5)
+# try with k = 2#
+newcluster21 <- kmeans(x = points, centers = cbind(c(5, 16), c(10, 21)))#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[newcluster21$cluster],#
+                main = 'clusters using 2 centers')#
+lines(newcluster21$centers,type='p',pch=16,col='black', cex = 2.5)
+#Data Mining hw 17#
+library(stats)#
+wdbc <- read.csv('~/Dropbox/Tarleton/data_mining/dfiles/wdbc.data',#
+                 header=F,sep=',')#
+wdbc <- wdbc[,-1]#
+source('~/Dropbox/Tarleton/data_mining/generic_functions/dataset_ops.R')#
+# 1. Generate a data set similar to the one displayed, where each of the #
+#    four clusters has 100 points.#
+x <- c(rnorm(100,  5, 1.5), rnorm(100, 15, 1.5), #
+       rnorm(100,  5, 1.5), rnorm(100, 15, 1.5))#
+y <- c(rnorm(100, 10, 1.5), rnorm(100, 10, 1.5), #
+       rnorm(100, 20, 1.5), rnorm(100, 20, 1.5))#
+plot(x, y)#
+points <- data.frame(x = x, y = y)#
+#
+#   (a) Perform a K-means clustering with K = 4 and 1000 repetitions.#
+#
+kmeans_reps <- function(dset, centers, reps){#
+  w_ss = Inf#
+  for(i in 1:reps){#
+    k_cluster <- kmeans(x = dset, centers = centers)#
+    if((k_cluster$tot.withinss) < w_ss){#
+      ssw = k_cluster$tot.withinss#
+      my_k_cluster <- k_cluster#
+    }#
+  }#
+  return(my_k_cluster)#
+}#
+reps = 1000#
+mycluster <- kmeans_reps(points, 4, reps)#
+#
+#   (b) Plot the points and color them based on which clusters they are in.#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[mycluster$cluster],#
+                main='clusters using 1000 repetitions')#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[mycluster$cluster],#
+                main = 'clusters using 1000 repetitions with centers shown')#
+lines(mycluster$centers,type='p',pch=16,col='black', cex = 2.5)#
+#   (c) Find the total, total within, and between sums of squares#
+mycluster$totss#
+mycluster$tot.withinss#
+mycluster$betweenss#
+#
+#   (d) Find the centers of the clusters. #
+mycluster$centers#
+#
+#   (e) Suppose we want at least one of our repetitions of K-means to have #
+#       the property that every cluster contains exactly one initial centroid. #
+#       How many repetitions would be necessary to ensure that this happens #
+#       with at least 99\% probability? #
+#
+minimum_reps <- function(k, err){#
+  ceiling(log(err) / log(1 - factorial(k) / (k^k)))#
+}#
+minimum_num = minimum_reps(4, 0.01)#
+#
+#   (f) Can you find a choice of initial centers that does not result in the #
+#       optimal clusters? What is the total within sum of squares for that #
+#       clustering? #
+#
+# try with alternate centers:#
+centers04 <- cbind(c(10, 15, 10, 5), c(10, 15, 20, 15))#
+newcluster04 <- kmeans(x = points, centers = centers04)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[newcluster04$cluster],#
+                main = 'clusters using 4 centers')#
+lines(newcluster04$centers,type='p',pch=16,col='black', cex = 2.5)#
+#
+centers03 <- cbind(c(4, 15, 5, 16), c(10, 20, 10, 20))#
+newcluster03 <- kmeans(x = points, centers = centers03)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[newcluster03$cluster],#
+                main = 'clusters using 4 centers')#
+lines(newcluster03$centers,type='p',pch=16,col='black', cex = 2.5)#
+#
+centers02 <- cbind(c(5, 15, 15, 15), c(10, 15, 20, 12))#
+newcluster02 <- kmeans(x = points, centers = centers02)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[newcluster02$cluster],#
+                main = 'clusters using 4 centers')#
+lines(newcluster02$centers,type='p',pch=16,col='black', cex = 2.5)#
+#
+centers01 <- cbind(c(2, 10, 10, 20), c(2, 10, 20, 25))#
+newcluster01 <- kmeans(x = points, centers = centers01)#
+colors = 5 * c(1:50)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[newcluster01$cluster],#
+                main = 'clusters using 4 centers')#
+lines(newcluster01$centers,type='p',pch=16,col='black', cex = 2.5)#
+#
+# try with k = 1#
+newcluster1 <- kmeans(x = points, centers = 1)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[newcluster1$cluster],#
+                main = 'clusters using 1 center')#
+lines(newcluster1$centers,type='p',pch=16,col='black', cex = 2.5)#
+#
+# try with k = 2#
+newcluster2 <- kmeans(x = points, centers = 2)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[newcluster2$cluster],#
+                main = 'clusters using 2 centers')#
+lines(newcluster2$centers,type='p',pch=16,col='black', cex = 2.5)#
+#
+# try with k = 2#
+newcluster21 <- kmeans(x = points, centers = cbind(c(5, 16), c(10, 21)))#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[newcluster21$cluster],#
+                main = 'clusters using 2 centers')#
+lines(newcluster21$centers,type='p',pch=16,col='black', cex = 2.5)#
+#
+# try with k = 6#
+newcluster6 <- kmeans(x = points, centers = 6)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown',#
+                'yellow',#
+                'plum')[newcluster6$cluster],#
+                main = 'clusters using 6 centers')#
+lines(newcluster6$centers,type='p',pch=16,col='black', cex = 2.5)#
+#
+# try with k = 8#
+newcluster8 <- kmeans(x = points, centers = 8)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown',#
+                'yellow',#
+                'plum')[newcluster8$cluster],#
+                main = 'clusters using 8 centers')#
+lines(newcluster8$centers,type='p',pch=16,col='black', cex = 2.5)#
+#
+# try with k = 10#
+newcluster10 <- kmeans(x = points, centers = 10)#
+plot(x, y, col=colors[newcluster10$cluster],#
+                main = 'clusters using 10 centers')#
+lines(newcluster10$centers,type='p',pch=16,col='black', cex = 2.5)#
+#
+# 2. Perform a K-means clustering with K = 2 and 1000 repetitions for the #
+#    wdbc data set. What classification accuracy would be achieved if the #
+#    clusters were used to predict the diagnosis in this data set? #
+#
+wdbc_cluster <- kmeans_reps(wdbc[,2:ncol(wdbc)], 2, 1000)#
+acc <- confmatrix(wdbc$V2, wdbc_cluster$cluster)
+ACC
+acc
+#Data Mining hw 17#
+library(stats)#
+wdbc <- read.csv('~/Dropbox/Tarleton/data_mining/dfiles/wdbc.data',#
+                 header=F,sep=',')#
+wdbc <- wdbc[,-1]#
+source('~/Dropbox/Tarleton/data_mining/generic_functions/dataset_ops.R')#
+# 1. Generate a data set similar to the one displayed, where each of the #
+#    four clusters has 100 points.#
+x <- c(rnorm(100,  5, 1.5), rnorm(100, 15, 1.5), #
+       rnorm(100,  5, 1.5), rnorm(100, 15, 1.5))#
+y <- c(rnorm(100, 10, 1.5), rnorm(100, 10, 1.5), #
+       rnorm(100, 20, 1.5), rnorm(100, 20, 1.5))#
+plot(x, y)#
+points <- data.frame(x = x, y = y)#
+#
+#   (a) Perform a K-means clustering with K = 4 and 1000 repetitions.#
+#
+kmeans_reps <- function(dset, centers, reps){#
+  w_ss = Inf#
+  for(i in 1:reps){#
+    k_cluster <- kmeans(x = dset, centers = centers)#
+    if((k_cluster$tot.withinss) < w_ss){#
+      ssw = k_cluster$tot.withinss#
+      my_k_cluster <- k_cluster#
+    }#
+  }#
+  return(my_k_cluster)#
+}#
+reps = 1000#
+mycluster <- kmeans_reps(points, 4, reps)#
+#
+#   (b) Plot the points and color them based on which clusters they are in.#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[mycluster$cluster],#
+                main='clusters using 1000 repetitions')#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[mycluster$cluster],#
+                main = 'clusters using 1000 repetitions with centers shown')#
+lines(mycluster$centers,type='p',pch=16,col='black', cex = 2.5)#
+#   (c) Find the total, total within, and between sums of squares#
+mycluster$totss#
+mycluster$tot.withinss#
+mycluster$betweenss#
+#
+#   (d) Find the centers of the clusters. #
+mycluster$centers#
+#
+#   (e) Suppose we want at least one of our repetitions of K-means to have #
+#       the property that every cluster contains exactly one initial centroid. #
+#       How many repetitions would be necessary to ensure that this happens #
+#       with at least 99\% probability? #
+#
+minimum_reps <- function(k, err){#
+  ceiling(log(err) / log(1 - factorial(k) / (k^k)))#
+}#
+minimum_num = minimum_reps(4, 0.01)#
+#
+#   (f) Can you find a choice of initial centers that does not result in the #
+#       optimal clusters? What is the total within sum of squares for that #
+#       clustering? #
+#
+# try with alternate centers:#
+centers05 <- cbind(c(5, 15, 15, 15), c(10, 11, 10, 20))#
+newcluster05 <- kmeans(x = points, centers = centers04)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[newcluster05$cluster],#
+                main = 'clusters using 4 centers')#
+lines(newcluster05$centers,type='p',pch=16,col='black', cex = 2.5)#
+centers04 <- cbind(c(10, 15, 10, 5), c(10, 15, 20, 15))#
+newcluster04 <- kmeans(x = points, centers = centers04)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[newcluster04$cluster],#
+                main = 'clusters using 4 centers')#
+lines(newcluster04$centers,type='p',pch=16,col='black', cex = 2.5)#
+#
+centers03 <- cbind(c(4, 15, 5, 16), c(10, 20, 10, 20))#
+newcluster03 <- kmeans(x = points, centers = centers03)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[newcluster03$cluster],#
+                main = 'clusters using 4 centers')#
+lines(newcluster03$centers,type='p',pch=16,col='black', cex = 2.5)#
+#
+centers02 <- cbind(c(5, 15, 15, 15), c(10, 15, 20, 12))#
+newcluster02 <- kmeans(x = points, centers = centers02)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[newcluster02$cluster],#
+                main = 'clusters using 4 centers')#
+lines(newcluster02$centers,type='p',pch=16,col='black', cex = 2.5)#
+#
+centers01 <- cbind(c(2, 10, 10, 20), c(2, 10, 20, 25))#
+newcluster01 <- kmeans(x = points, centers = centers01)#
+colors = 5 * c(1:50)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[newcluster01$cluster],#
+                main = 'clusters using 4 centers')#
+lines(newcluster01$centers,type='p',pch=16,col='black', cex = 2.5)#
+#
+# try with k = 1#
+newcluster1 <- kmeans(x = points, centers = 1)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[newcluster1$cluster],#
+                main = 'clusters using 1 center')#
+lines(newcluster1$centers,type='p',pch=16,col='black', cex = 2.5)#
+#
+# try with k = 2#
+newcluster2 <- kmeans(x = points, centers = 2)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[newcluster2$cluster],#
+                main = 'clusters using 2 centers')#
+lines(newcluster2$centers,type='p',pch=16,col='black', cex = 2.5)#
+#
+# try with k = 2#
+newcluster21 <- kmeans(x = points, centers = cbind(c(5, 16), c(10, 21)))#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[newcluster21$cluster],#
+                main = 'clusters using 2 centers')#
+lines(newcluster21$centers,type='p',pch=16,col='black', cex = 2.5)#
+#
+# try with k = 6#
+newcluster6 <- kmeans(x = points, centers = 6)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown',#
+                'yellow',#
+                'plum')[newcluster6$cluster],#
+                main = 'clusters using 6 centers')#
+lines(newcluster6$centers,type='p',pch=16,col='black', cex = 2.5)#
+#
+# try with k = 8#
+newcluster8 <- kmeans(x = points, centers = 8)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown',#
+                'yellow',#
+                'plum')[newcluster8$cluster],#
+                main = 'clusters using 8 centers')#
+lines(newcluster8$centers,type='p',pch=16,col='black', cex = 2.5)#
+#
+# try with k = 10#
+newcluster10 <- kmeans(x = points, centers = 10)#
+plot(x, y, col=colors[newcluster10$cluster],#
+                main = 'clusters using 10 centers')#
+lines(newcluster10$centers,type='p',pch=16,col='black', cex = 2.5)#
+#
+# 2. Perform a K-means clustering with K = 2 and 1000 repetitions for the #
+#    wdbc data set. What classification accuracy would be achieved if the #
+#    clusters were used to predict the diagnosis in this data set? #
+#
+wdbc_cluster <- kmeans_reps(wdbc[,2:ncol(wdbc)], 2, 1000)#
+acc <- confmatrix(wdbc$V2, wdbc_cluster$cluster)
+minimum_num
+#Data Mining hw 17#
+library(stats)#
+wdbc <- read.csv('~/Dropbox/Tarleton/data_mining/dfiles/wdbc.data',#
+                 header=F,sep=',')#
+wdbc <- wdbc[,-1]#
+source('~/Dropbox/Tarleton/data_mining/generic_functions/dataset_ops.R')#
+# 1. Generate a data set similar to the one displayed, where each of the #
+#    four clusters has 100 points.#
+set.seed(0)#
+x <- c(rnorm(100,  5, 1.5), rnorm(100, 15, 1.5), #
+       rnorm(100,  5, 1.5), rnorm(100, 15, 1.5))#
+y <- c(rnorm(100, 10, 1.5), rnorm(100, 10, 1.5), #
+       rnorm(100, 20, 1.5), rnorm(100, 20, 1.5))#
+plot(x, y)#
+points <- data.frame(x = x, y = y)#
+#
+#   (a) Perform a K-means clustering with K = 4 and 1000 repetitions.#
+#
+kmeans_reps <- function(dset, centers, reps){#
+  w_ss = Inf#
+  for(i in 1:reps){#
+    k_cluster <- kmeans(x = dset, centers = centers)#
+    if((k_cluster$tot.withinss) < w_ss){#
+      ssw = k_cluster$tot.withinss#
+      my_k_cluster <- k_cluster#
+    }#
+  }#
+  return(my_k_cluster)#
+}#
+reps = 1000#
+mycluster <- kmeans_reps(points, 4, reps)#
+#
+#   (b) Plot the points and color them based on which clusters they are in.#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[mycluster$cluster],#
+                main='clusters using 1000 repetitions')#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[mycluster$cluster],#
+                main = 'clusters using 1000 repetitions with centers shown')#
+lines(mycluster$centers,type='p',pch=16,col='black', cex = 2.5)#
+#   (c) Find the total, total within, and between sums of squares#
+mycluster$totss#
+mycluster$tot.withinss#
+mycluster$betweenss#
+#
+#   (d) Find the centers of the clusters. #
+mycluster$centers#
+#
+#   (e) Suppose we want at least one of our repetitions of K-means to have #
+#       the property that every cluster contains exactly one initial centroid. #
+#       How many repetitions would be necessary to ensure that this happens #
+#       with at least 99\% probability? #
+#
+minimum_reps <- function(k, err){#
+  ceiling(log(err) / log(1 - factorial(k) / (k^k)))#
+}#
+minimum_num = minimum_reps(4, 0.01)#
+#
+#   (f) Can you find a choice of initial centers that does not result in the #
+#       optimal clusters? What is the total within sum of squares for that #
+#       clustering? #
+#
+# try with alternate centers:#
+centers05 <- cbind(c(5, 15, 15, 15), c(10, 11, 10, 20))#
+newcluster05 <- kmeans(x = points, centers = centers04)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[newcluster05$cluster],#
+                main = 'clusters using 4 centers')#
+lines(newcluster05$centers,type='p',pch=16,col='black', cex = 2.5)#
+centers04 <- cbind(c(10, 15, 10, 5), c(10, 15, 20, 15))#
+newcluster04 <- kmeans(x = points, centers = centers04)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[newcluster04$cluster],#
+                main = 'clusters using 4 centers')#
+lines(newcluster04$centers,type='p',pch=16,col='black', cex = 2.5)#
+#
+centers03 <- cbind(c(4, 15, 5, 16), c(10, 20, 10, 20))#
+newcluster03 <- kmeans(x = points, centers = centers03)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[newcluster03$cluster],#
+                main = 'clusters using 4 centers')#
+lines(newcluster03$centers,type='p',pch=16,col='black', cex = 2.5)#
+#
+centers02 <- cbind(c(5, 15, 15, 15), c(10, 15, 20, 12))#
+newcluster02 <- kmeans(x = points, centers = centers02)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[newcluster02$cluster],#
+                main = 'clusters using 4 centers')#
+lines(newcluster02$centers,type='p',pch=16,col='black', cex = 2.5)#
+#
+centers01 <- cbind(c(2, 10, 10, 20), c(2, 10, 20, 25))#
+newcluster01 <- kmeans(x = points, centers = centers01)#
+colors = 5 * c(1:50)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[newcluster01$cluster],#
+                main = 'clusters using 4 centers')#
+lines(newcluster01$centers,type='p',pch=16,col='black', cex = 2.5)#
+#
+# try with k = 1#
+newcluster1 <- kmeans(x = points, centers = 1)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[newcluster1$cluster],#
+                main = 'clusters using 1 center')#
+lines(newcluster1$centers,type='p',pch=16,col='black', cex = 2.5)#
+#
+# try with k = 2#
+newcluster2 <- kmeans(x = points, centers = 2)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[newcluster2$cluster],#
+                main = 'clusters using 2 centers')#
+lines(newcluster2$centers,type='p',pch=16,col='black', cex = 2.5)#
+#
+# try with k = 2#
+newcluster21 <- kmeans(x = points, centers = cbind(c(5, 16), c(10, 21)))#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[newcluster21$cluster],#
+                main = 'clusters using 2 centers')#
+lines(newcluster21$centers,type='p',pch=16,col='black', cex = 2.5)#
+#
+# try with k = 6#
+newcluster6 <- kmeans(x = points, centers = 6)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown',#
+                'yellow',#
+                'plum')[newcluster6$cluster],#
+                main = 'clusters using 6 centers')#
+lines(newcluster6$centers,type='p',pch=16,col='black', cex = 2.5)#
+#
+# try with k = 8#
+newcluster8 <- kmeans(x = points, centers = 8)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown',#
+                'yellow',#
+                'plum')[newcluster8$cluster],#
+                main = 'clusters using 8 centers')#
+lines(newcluster8$centers,type='p',pch=16,col='black', cex = 2.5)#
+#
+# try with k = 10#
+newcluster10 <- kmeans(x = points, centers = 10)#
+plot(x, y, col=colors[newcluster10$cluster],#
+                main = 'clusters using 10 centers')#
+lines(newcluster10$centers,type='p',pch=16,col='black', cex = 2.5)#
+#
+# 2. Perform a K-means clustering with K = 2 and 1000 repetitions for the #
+#    wdbc data set. What classification accuracy would be achieved if the #
+#    clusters were used to predict the diagnosis in this data set? #
+#
+wdbc_cluster <- kmeans_reps(wdbc[,2:ncol(wdbc)], 2, 1000)#
+acc <- confmatrix(wdbc$V2, wdbc_cluster$cluster)
+#Data Mining hw 17#
+library(stats)#
+wdbc <- read.csv('~/Dropbox/Tarleton/data_mining/dfiles/wdbc.data',#
+                 header=F,sep=',')#
+wdbc <- wdbc[,-1]#
+source('~/Dropbox/Tarleton/data_mining/generic_functions/dataset_ops.R')#
+# 1. Generate a data set similar to the one displayed, where each of the #
+#    four clusters has 100 points.#
+set.seed(0)#
+x <- c(rnorm(100,  5, 1.5), rnorm(100, 15, 1.5), #
+       rnorm(100,  5, 1.5), rnorm(100, 15, 1.5))#
+y <- c(rnorm(100, 10, 1.5), rnorm(100, 10, 1.5), #
+       rnorm(100, 20, 1.5), rnorm(100, 20, 1.5))#
+plot(x, y)#
+points <- data.frame(x = x, y = y)#
+#
+#   (a) Perform a K-means clustering with K = 4 and 1000 repetitions.#
+#
+kmeans_reps <- function(dset, centers, reps){#
+  w_ss = Inf#
+  for(i in 1:reps){#
+    k_cluster <- kmeans(x = dset, centers = centers)#
+    if((k_cluster$tot.withinss) < w_ss){#
+      ssw = k_cluster$tot.withinss#
+      my_k_cluster <- k_cluster#
+    }#
+  }#
+  return(my_k_cluster)#
+}#
+reps = 1000#
+mycluster <- kmeans_reps(points, 4, reps)#
+#
+#   (b) Plot the points and color them based on which clusters they are in.#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[mycluster$cluster],#
+                main='clusters using 1000 repetitions')#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[mycluster$cluster],#
+                main = 'clusters using 1000 repetitions with centers shown')#
+lines(mycluster$centers,type='p',pch=16,col='black', cex = 2.5)#
+#   (c) Find the total, total within, and between sums of squares#
+mycluster$totss#
+mycluster$tot.withinss#
+mycluster$betweenss#
+#
+#   (d) Find the centers of the clusters. #
+mycluster$centers#
+#
+#   (e) Suppose we want at least one of our repetitions of K-means to have #
+#       the property that every cluster contains exactly one initial centroid. #
+#       How many repetitions would be necessary to ensure that this happens #
+#       with at least 99\% probability? #
+#
+minimum_reps <- function(k, err){#
+  ceiling(log(err) / log(1 - factorial(k) / (k^k)))#
+}#
+minimum_num = minimum_reps(4, 0.01)#
+#
+#   (f) Can you find a choice of initial centers that does not result in the #
+#       optimal clusters? What is the total within sum of squares for that #
+#       clustering? #
+#
+# try with alternate centers:#
+centers05 <- cbind(c(5, 15, 15, 15), c(10, 11, 10, 20))#
+newcluster05 <- kmeans(x = points, centers = centers04)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[newcluster05$cluster],#
+                main = 'clusters using 4 centers')#
+lines(newcluster05$centers,type='p',pch=16,col='black', cex = 2.5)#
+centers04 <- cbind(c(10, 15, 10, 5), c(10, 15, 20, 15))#
+newcluster04 <- kmeans(x = points, centers = centers04)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[newcluster04$cluster],#
+                main = 'clusters using 4 centers')#
+lines(newcluster04$centers,type='p',pch=16,col='black', cex = 2.5)#
+#
+centers03 <- cbind(c(4, 15, 5, 16), c(10, 20, 10, 20))#
+newcluster03 <- kmeans(x = points, centers = centers03)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[newcluster03$cluster],#
+                main = 'clusters using 4 centers')#
+lines(newcluster03$centers,type='p',pch=16,col='black', cex = 2.5)#
+#
+centers02 <- cbind(c(5, 15, 15, 15), c(10, 15, 20, 12))#
+newcluster02 <- kmeans(x = points, centers = centers02)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[newcluster02$cluster],#
+                main = 'clusters using 4 centers')#
+lines(newcluster02$centers,type='p',pch=16,col='black', cex = 2.5)#
+#
+centers01 <- cbind(c(2, 10, 10, 20), c(2, 10, 20, 25))#
+newcluster01 <- kmeans(x = points, centers = centers01)#
+colors = 5 * c(1:50)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[newcluster01$cluster],#
+                main = 'clusters using 4 centers')#
+lines(newcluster01$centers,type='p',pch=16,col='black', cex = 2.5)#
+#
+# try with k = 1#
+newcluster1 <- kmeans(x = points, centers = 1)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[newcluster1$cluster],#
+                main = 'clusters using 1 center')#
+lines(newcluster1$centers,type='p',pch=16,col='black', cex = 2.5)#
+#
+# try with k = 2#
+newcluster2 <- kmeans(x = points, centers = 2)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[newcluster2$cluster],#
+                main = 'clusters using 2 centers')#
+lines(newcluster2$centers,type='p',pch=16,col='black', cex = 2.5)#
+#
+# try with k = 2#
+newcluster21 <- kmeans(x = points, centers = cbind(c(5, 16), c(10, 21)))#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[newcluster21$cluster],#
+                main = 'clusters using 2 centers')#
+lines(newcluster21$centers,type='p',pch=16,col='black', cex = 2.5)#
+#
+# try with k = 6#
+newcluster6 <- kmeans(x = points, centers = 6)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown',#
+                'yellow',#
+                'plum')[newcluster6$cluster],#
+                main = 'clusters using 6 centers')#
+lines(newcluster6$centers,type='p',pch=16,col='black', cex = 2.5)#
+#
+# try with k = 8#
+newcluster8 <- kmeans(x = points, centers = 8)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown',#
+                'yellow',#
+                'plum')[newcluster8$cluster],#
+                main = 'clusters using 8 centers')#
+lines(newcluster8$centers,type='p',pch=16,col='black', cex = 2.5)#
+#
+# try with k = 10#
+newcluster10 <- kmeans(x = points, centers = 10)#
+plot(x, y, col=colors[newcluster10$cluster],#
+                main = 'clusters using 10 centers')#
+lines(newcluster10$centers,type='p',pch=16,col='black', cex = 2.5)#
+#
+# 2. Perform a K-means clustering with K = 2 and 1000 repetitions for the #
+#    wdbc data set. What classification accuracy would be achieved if the #
+#    clusters were used to predict the diagnosis in this data set? #
+#
+wdbc_cluster <- kmeans_reps(wdbc[,2:ncol(wdbc)], 2, 1000)#
+acc <- confmatrix(wdbc$V2, wdbc_cluster$cluster)
+centers05 <- cbind(c(5, 5, 5, 15), c(10, 21, 11, 10))#
+newcluster05 <- kmeans(x = points, centers = centers04)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[newcluster05$cluster],#
+                main = 'clusters using 4 centers')#
+lines(newcluster05$centers,type='p',pch=16,col='black', cex = 2.5)
+newcluster05 <- kmeans(x = points, centers = 4)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[newcluster05$cluster],#
+                main = 'clusters using 4 centers')#
+lines(newcluster05$centers,type='p',pch=16,col='black', cex = 2.5)
+newcluster05 <- kmeans(x = points, centers = 4)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[newcluster05$cluster],#
+                main = 'clusters using 4 centers')#
+lines(newcluster05$centers,type='p',pch=16,col='black', cex = 2.5)
+newcluster05 <- kmeans(x = points, centers = 4)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[newcluster05$cluster],#
+                main = 'clusters using 4 centers')#
+lines(newcluster05$centers,type='p',pch=16,col='black', cex = 2.5)
+newcluster05 <- kmeans(x = points, centers = 4)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[newcluster05$cluster],#
+                main = 'clusters using 4 centers')#
+lines(newcluster05$centers,type='p',pch=16,col='black', cex = 2.5)
+newcluster05 <- kmeans(x = points, centers = 4)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[newcluster05$cluster],#
+                main = 'clusters using 4 centers')#
+lines(newcluster05$centers,type='p',pch=16,col='black', cex = 2.5)
+newcluster05 <- kmeans(x = points, centers = 4)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[newcluster05$cluster],#
+                main = 'clusters using 4 centers')#
+lines(newcluster05$centers,type='p',pch=16,col='black', cex = 2.5)
+newcluster05 <- kmeans(x = points, centers = 4)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[newcluster05$cluster],#
+                main = 'clusters using 4 centers')#
+lines(newcluster05$centers,type='p',pch=16,col='black', cex = 2.5)
+newcluster05 <- kmeans(x = points, centers = 4)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[newcluster05$cluster],#
+                main = 'clusters using 4 centers')#
+lines(newcluster05$centers,type='p',pch=16,col='black', cex = 2.5)
+newcluster05 <- kmeans(x = points, centers = 4)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[newcluster05$cluster],#
+                main = 'clusters using 4 centers')#
+lines(newcluster05$centers,type='p',pch=16,col='black', cex = 2.5)
+newcluster05 <- kmeans(x = points, centers = 4)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[newcluster05$cluster],#
+                main = 'clusters using 4 centers')#
+lines(newcluster05$centers,type='p',pch=16,col='black', cex = 2.5)
+newcluster05 <- kmeans(x = points, centers = 4)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[newcluster05$cluster],#
+                main = 'clusters using 4 centers')#
+lines(newcluster05$centers,type='p',pch=16,col='black', cex = 2.5)
+newcluster05 <- kmeans(x = points, centers = 4)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[newcluster05$cluster],#
+                main = 'clusters using 4 centers')#
+lines(newcluster05$centers,type='p',pch=16,col='black', cex = 2.5)
+newcluster05 <- kmeans(x = points, centers = 4)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[newcluster05$cluster],#
+                main = 'clusters using 4 centers')#
+lines(newcluster05$centers,type='p',pch=16,col='black', cex = 2.5)
+newcluster05 <- kmeans(x = points, centers = 4)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[newcluster05$cluster],#
+                main = 'clusters using 4 centers')#
+lines(newcluster05$centers,type='p',pch=16,col='black', cex = 2.5)
+newcluster05 <- kmeans(x = points, centers = 4)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[newcluster05$cluster],#
+                main = 'clusters using 4 centers')#
+lines(newcluster05$centers,type='p',pch=16,col='black', cex = 2.5)
+newcluster05 <- kmeans(x = points, centers = 4)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[newcluster05$cluster],#
+                main = 'clusters using 4 centers')#
+lines(newcluster05$centers,type='p',pch=16,col='black', cex = 2.5)
+newcluster05 <- kmeans(x = points, centers = 4)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[newcluster05$cluster],#
+                main = 'clusters using 4 centers')#
+lines(newcluster05$centers,type='p',pch=16,col='black', cex = 2.5)
+newcluster05 <- kmeans(x = points, centers = 4)#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[newcluster05$cluster],#
+                main = 'clusters using 4 centers')#
+lines(newcluster05$centers,type='p',pch=16,col='black', cex = 2.5)
+plot(x, y, col=c('blue',#
+                  'slategray',#
+                  'lightgreen',#
+                  'honeydew3',#
+                  'orange',#
+                  'brown')[newcluster05$cluster],#
+                  main = toString(i))#
+  lines(newcluster05$centers,type='p',pch=16,col='black', cex = 2.5)
+i = 1
+plot(x, y, col=c('blue',#
+                  'slategray',#
+                  'lightgreen',#
+                  'honeydew3',#
+                  'orange',#
+                  'brown')[newcluster05$cluster],#
+                  main = toString(i))#
+  lines(newcluster05$centers,type='p',pch=16,col='black', cex = 2.5)
+d <- function(x, y){#
+  return(sqrt(sum( (x - y)^2 )))#
+}
+sqrt(4)
+newcluster10$centers
+d <- function(x1, x2){#
+  return(sqrt(sum( (x1 - x2)^2 )))#
+}
+newcluster10$centers[1,]
+newcluster10$centers[2,]
+count = 1#
+list_of_clusters <- list()#
+keep_going = TRUE#
+for(i in 1:100){#
+  if(keep_going){#
+  newcluster05 <- kmeans(x = points, centers = 4)#
+  plot(x, y, col=c('blue',#
+                  'slategray',#
+                  'lightgreen',#
+                  'honeydew3',#
+                  'orange',#
+                  'brown')[newcluster05$cluster],#
+                  main = toString(i))#
+  lines(newcluster05$centers,type='p',pch=16,col='black', cex = 2.5)#
+  x1 <- as.numeric(newcluster05$centers[1,])#
+  x2 <- as.numeric(newcluster05$centers[2,])#
+  x3 <- as.numeric(newcluster05$centers[3,])#
+  x4 <- as.numeric(newcluster05$centers[4,])#
+  maxdist <- max(c(#
+    d(x1, x2), d(x1, x3), d(x1, x4), #
+    d(x2, x3), d(x2, x4), #
+    d(x3, x4)#
+  ))#
+  if(maxdist < 5){#
+  	list_of_clusters[[count]] <- newcluster#
+  	count = count + 1#
+  }#
+  }#
+}
+list_of_clusters
+count = 1#
+list_of_clusters <- list()#
+keep_going = TRUE#
+for(i in 1:100){#
+  if(keep_going){#
+  newcluster05 <- kmeans(x = points, centers = 4)#
+  plot(x, y, col=c('blue',#
+                  'slategray',#
+                  'lightgreen',#
+                  'honeydew3',#
+                  'orange',#
+                  'brown')[newcluster05$cluster],#
+                  main = toString(i))#
+  lines(newcluster05$centers,type='p',pch=16,col='black', cex = 2.5)#
+  x1 <- as.numeric(newcluster05$centers[1,])#
+  x2 <- as.numeric(newcluster05$centers[2,])#
+  x3 <- as.numeric(newcluster05$centers[3,])#
+  x4 <- as.numeric(newcluster05$centers[4,])#
+  maxdist <- max(c(#
+    d(x1, x2), d(x1, x3), d(x1, x4), #
+    d(x2, x3), d(x2, x4), #
+    d(x3, x4)#
+  ))#
+  if(maxdist < 5){#
+  	list_of_clusters[[count]] <- newcluster#
+  	count = count + 1#
+  }#
+  }#
+}
+list_of_clusters
+count = 1#
+list_of_clusters <- list()#
+keep_going = TRUE#
+for(i in 1:100){#
+  if(keep_going){#
+  newcluster05 <- kmeans(x = points, centers = 4)#
+  plot(x, y, col=c('blue',#
+                  'slategray',#
+                  'lightgreen',#
+                  'honeydew3',#
+                  'orange',#
+                  'brown')[newcluster05$cluster],#
+                  main = toString(i))#
+  lines(newcluster05$centers,type='p',pch=16,col='black', cex = 2.5)#
+  x1 <- as.numeric(newcluster05$centers[1,])#
+  x2 <- as.numeric(newcluster05$centers[2,])#
+  x3 <- as.numeric(newcluster05$centers[3,])#
+  x4 <- as.numeric(newcluster05$centers[4,])#
+  maxdist <- max(c(#
+    d(x1, x2), d(x1, x3), d(x1, x4), #
+    d(x2, x3), d(x2, x4), #
+    d(x3, x4)#
+  ))#
+  if(maxdist < 5){#
+  	list_of_clusters[[count]] <- newcluster05#
+  	count = count + 1#
+  }#
+  }#
+}
+list_of_clusters
+count = 1#
+list_of_clusters <- list()#
+keep_going = TRUE#
+for(i in 1:100){#
+  if(keep_going){#
+  newcluster05 <- kmeans(x = points, centers = 4)#
+  plot(x, y, col=c('blue',#
+                  'slategray',#
+                  'lightgreen',#
+                  'honeydew3',#
+                  'orange',#
+                  'brown')[newcluster05$cluster],#
+                  main = toString(i))#
+  lines(newcluster05$centers,type='p',pch=16,col='black', cex = 2.5)#
+  x1 <- as.numeric(newcluster05$centers[1,])#
+  x2 <- as.numeric(newcluster05$centers[2,])#
+  x3 <- as.numeric(newcluster05$centers[3,])#
+  x4 <- as.numeric(newcluster05$centers[4,])#
+  maxdist <- max(c(#
+    d(x1, x2), d(x1, x3), d(x1, x4), #
+    d(x2, x3), d(x2, x4), #
+    d(x3, x4)#
+  ))#
+  if(maxdist < 5){#
+  	list_of_clusters[[count]] <- newcluster05#
+  	count = count + 1#
+  	keep_going = FALSE#
+  }#
+  }#
+}
+count = 1#
+list_of_clusters <- list()#
+keep_going = TRUE#
+for(i in 1:100){#
+  if(keep_going){#
+  newcluster05 <- kmeans(x = points, centers = 4)#
+  plot(x, y, col=c('blue',#
+                  'slategray',#
+                  'lightgreen',#
+                  'honeydew3',#
+                  'orange',#
+                  'brown')[newcluster05$cluster],#
+                  main = toString(i))#
+  lines(newcluster05$centers,type='p',pch=16,col='black', cex = 2.5)#
+  x1 <- as.numeric(newcluster05$centers[1,])#
+  x2 <- as.numeric(newcluster05$centers[2,])#
+  x3 <- as.numeric(newcluster05$centers[3,])#
+  x4 <- as.numeric(newcluster05$centers[4,])#
+  mindist <- min(c(#
+    d(x1, x2), d(x1, x3), d(x1, x4), #
+    d(x2, x3), d(x2, x4), #
+    d(x3, x4)#
+  ))#
+  if(maxdist < 5){#
+  	list_of_clusters[[count]] <- newcluster05#
+  	count = count + 1#
+  	keep_going = FALSE#
+  }#
+  }#
+}
+count = 1#
+list_of_clusters <- list()#
+keep_going = TRUE#
+for(i in 1:100){#
+  if(keep_going){#
+  newcluster05 <- kmeans(x = points, centers = 4)#
+  plot(x, y, col=c('blue',#
+                  'slategray',#
+                  'lightgreen',#
+                  'honeydew3',#
+                  'orange',#
+                  'brown')[newcluster05$cluster],#
+                  main = toString(i))#
+  lines(newcluster05$centers,type='p',pch=16,col='black', cex = 2.5)#
+  x1 <- as.numeric(newcluster05$centers[1,])#
+  x2 <- as.numeric(newcluster05$centers[2,])#
+  x3 <- as.numeric(newcluster05$centers[3,])#
+  x4 <- as.numeric(newcluster05$centers[4,])#
+  mindist <- min(c(#
+    d(x1, x2), d(x1, x3), d(x1, x4), #
+    d(x2, x3), d(x2, x4), #
+    d(x3, x4)#
+  ))#
+  if(maxdist < 5){#
+  	list_of_clusters[[count]] <- newcluster05#
+  	count = count + 1#
+  	keep_going = FALSE#
+  }#
+  }#
+}
+list_of_clusters
+count = 1#
+list_of_clusters <- list()#
+keep_going = TRUE#
+for(i in 1:100){#
+  if(keep_going){#
+  newcluster05 <- kmeans(x = points, centers = 4)#
+  plot(x, y, col=c('blue',#
+                  'slategray',#
+                  'lightgreen',#
+                  'honeydew3',#
+                  'orange',#
+                  'brown')[newcluster05$cluster],#
+                  main = toString(i))#
+  lines(newcluster05$centers,type='p',pch=16,col='black', cex = 2.5)#
+  x1 <- as.numeric(newcluster05$centers[1,])#
+  x2 <- as.numeric(newcluster05$centers[2,])#
+  x3 <- as.numeric(newcluster05$centers[3,])#
+  x4 <- as.numeric(newcluster05$centers[4,])#
+  mindist <- min(c(#
+    d(x1, x2), d(x1, x3), d(x1, x4), #
+    d(x2, x3), d(x2, x4), #
+    d(x3, x4)#
+  ))#
+  if(mindist < 5){#
+  	list_of_clusters[[count]] <- newcluster05#
+  	count = count + 1#
+  	keep_going = FALSE#
+  }#
+  }#
+}
+list_of_clusters
+plot(x, y, col=c('blue',#
+                  'slategray',#
+                  'lightgreen',#
+                  'honeydew3',#
+                  'orange',#
+                  'brown')[newcluster05$cluster])
+plot(x, y, col=c('blue',#
+                  'slategray',#
+                  'lightgreen',#
+                  'honeydew3',#
+                  'orange',#
+                  'brown')[newcluster05$cluster])#
+  lines(newcluster05$centers,type='p',pch=16,col='black', cex = 2.5)
+newcluster05$tot.withinss
+plot(x, y)#
+points <- data.frame(x = x, y = y)
+#   (b) Plot the points and color them based on which clusters they are in.#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[mycluster$cluster],#
+                main='clusters using 1000 repetitions')#
+plot(x, y, col=c('blue',#
+                'slategray',#
+                'lightgreen',#
+                'honeydew3',#
+                'orange',#
+                'brown')[mycluster$cluster],#
+                main = 'clusters using 1000 repetitions with centers shown')#
+lines(mycluster$centers,type='p',pch=16,col='black', cex = 2.5)#
+#   (c) Find the total, total within, and between sums of squares#
+mycluster$totss#
+mycluster$tot.withinss#
+mycluster$betweenss
+minimum_num = minimum_reps(4, 0.01)
+minimum_num
+mycluster$centers

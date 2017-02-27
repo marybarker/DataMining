@@ -1,0 +1,771 @@
+#dataset functions: #
+#
+#splitdata - splits a dataframe into test and train sets#
+#  inputs: #
+#    1. dataset to be split#
+#    2. (decimal) percent to be used for training set#
+#    3. boolean to decide whether to take a sample with replacement#
+#  output: #
+#    list of length 3, #
+#    list[[1]] = traindata#
+#    list[[2]] = testdata#
+#    list[[3]] = train (vector of indices from original set for train)#
+#
+#kfold_val - performs cross-validation on a dataset#
+#  inputs:#
+#    1. integer (k) for how many folds to use.#
+#    2. type (0 or 1) for what type of tree to use #
+#       (ctree or rpart resp)#
+#    3. data set #
+#    4. column index for which variable is being predicted#
+#    5. optional argument if naiveBayes is used for laplace value#
+#  output: #
+#    avg. error for either ctree or rpart w.r.t. dataset#
+#
+#error_leave_one_out - performs leave-one-out cross-validation.#
+#  inputs: #
+#    1. type (0 or 1) for what type of tree to use #
+#       (ctree or rpart resp)#
+#    2. data set #
+#    3. column index for which variable is being predicted#
+#    4. column index for which variable is being predicted#
+#    5. optional argument if naiveBayes is used for laplace value#
+#  outputs: #
+#   see kfold_val#
+#
+#delete_d_cv - performs delte-d cross validation#
+#  inputs: #
+#    1. integer: number of times to iterate (m)#
+#    2. integer: number of entries to leave out (d)#
+#    3. type (0 or 1) for ctree or rpart respectively#
+#    4. data set#
+#    5. column index for which variable is being predicted#
+#  outputs: #
+#   see kfold_val#
+#
+#bootstrap - performs bootstrap validation#
+#  inputs:#
+#    1. integer: number of times to iterate (b)#
+#    2. type(0 or 1) for (ctree, rpart) resp.#
+#    3. data set#
+#    4. column index for which variable is being predicted#
+#  outputs: #
+#   see kfold_val#
+#confmatrix - compute the confusionmatrix for a tree w.r.t. #
+#             predicted variable V#
+#  inputs: #
+#    1. V the predicted variable#
+#    2. prediction method #
+#  outputs: #
+#    1. list with entries: #
+#       1.1: table of predicted vs. actual V#
+#       1.2: accuracy#
+#       1.3: error#
+#
+#standardize - scale data in set with normal #
+#  inputs #
+#
+splitdata = function(data, trainfrac, rep){#
+	if((trainfrac > 1) | (trainfrac < 0)){#
+		print("error in function splitdata: trainfrac not in [0 1]")#
+	}#
+#
+	tot_size = nrow(data)#
+	train_list = sample(tot_size, round(trainfrac * tot_size, digits=0), #
+	                    replace = rep)#
+	traindata <- data[train_list, ]#
+	testdata <- data[-train_list, ]#
+	mylist <- list(traindata = traindata, testdata = testdata, train = train_list)#
+    return(mylist)#
+}#
+#
+kfold_val = function(k, treetype, wdbc, idx = 1, val = 0){#
+  test_acc <- rep(-1, k)#
+#
+  n1 <- names(wdbc)[idx]#
+  names(wdbc)[idx] <- 'mynewtestidx'#
+  size = ceiling(nrow(wdbc)/k)#
+  folds = sample(rep(1:k,size))#
+  myvec = folds[1:nrow(wdbc)]#
+#
+  for(i in 1:k){#
+#
+    testdata <- wdbc[myvec==i,]#
+    traindata <- wdbc[myvec!=i,]#
+    if(treetype < 1){#
+      mynewtree <- ctree(mynewtestidx~., traindata)#
+      p_tree_train <- predict(mynewtree, testdata)#
+    }else if(treetype < 2){#
+      mynewtree <- rpart(mynewtestidx~., traindata)#
+      p_tree_train <- predict(mynewtree, testdata)#
+    }else if(treetype < 3){#
+      mynewtree <- naiveBayes(mynewtestidx~., traindata)#
+      p_tree_train <- predict(mynewtree, testdata)#
+    }else if(treetype < 4){#
+      mynewtree <- naiveBayes(mynewtestidx~., traindata, laplace = val)    	#
+      p_tree_train <- predict(mynewtree, testdata)#
+    }#
+    m_tree = table(testdata$mynewtestidx, p_tree_train)#
+#
+    test_acc[i] = (sum(diag(m_tree)) / sum(m_tree))#
+  }#
+  total_acc = sum(test_acc) / k#
+  names(wdbc)[idx] <- n1#
+#
+#  return(1 - total_acc)#
+  mynewlist <- list(error = 1 - total_acc, accuracy = 1 - test_acc)#
+  return(mynewlist)#
+}#
+#
+error_leave_one_out = function(treetype, wdbc, idx, val = 0){#
+	myerror = kfold_val(nrow(wdbc), treetype, wdbc, idx)#
+	return(myerror)#
+}#
+#
+delete_d_cv = function(m, d, mytree, wdbc, idx){#
+  total_acc = 0#
+  n1 <- names(wdbc)[idx]#
+  names(wdbc)[idx] <- 'mynewtestidx'#
+#
+  for(i in 1:m){#
+	splitlist <- splitdata(wdbc, 1 - d / nrow(wdbc), FALSE)#
+    traindata <- splitlist$traindata#
+    testdata <- splitlist$testdata#
+    if(mytree < 1){#
+      mynewtree = ctree(mynewtestidx~., traindata)#
+    }else{#
+      mynewtree = rpart(mynewtestidx)~., traindata, type='class')#
+    }#
+#
+    p_tree_train <- predict(mynewtree, testdata)#
+#
+    m_tree = table(testdata$mynewtestidx, p_tree_train)#
+    test_acc = (sum(diag(m_tree)) / sum(m_tree))#
+    total_acc = total_acc + test_acc#
+  }#
+  total_acc = total_acc / m#
+  names(wdbc)[idx] <- n1#
+  return(1 - total_acc)#
+}#
+#
+bootstrap = function(b, mytree, wdbc, idx){#
+	n1 <- names(wdbc)[idx]#
+	names(wdbc)[idx] <- 'mynewidx'#
+    total_acc = 0#
+    n = nrow(wdbc)#
+    for(i in 1:b){#
+      	 splitlist <- splitdata(wdbc, 1, TRUE)#
+      	 traindata <- splitlist$traindata#
+      	 testdata <- splitlist$testdata#
+      	 if(mytree < 1){#
+      	 	mynewtree = ctree(mynewidx~., traindata)#
+      	 }else{#
+      	    mynewtree = rpart(mynewidx~., traindata)	#
+      	 }#
+      	 p_tree_train <- predict(mynewtree, testdata)#
+   	     m_tree = table(testdata$mynewidx, p_tree_train)#
+   	     test_acc = sum(diag(m_tree)) / sum(m_tree)#
+   	     total_acc = total_acc + test_acc#
+    }#
+#
+    names(wdbc)[idx] <- n1#
+    total_acc = total_acc / b#
+    return(1 - total_acc)#
+}#
+#
+euclidean = function(x1, x2){#
+  return(sqrt((x1 - x2) %*% (x1 - x2)))#
+}#
+#
+confmatrix = function(predy, y){#
+  matrix = table(predy, y)#
+  accuracy = sum(diag(matrix))/sum(matrix)#
+  return(list(matrix=matrix,accuracy=accuracy,error=1 - accuracy))#
+}#
+#
+standardize = function(myset, cols){#
+#
+ xbar <- apply(myset[,cols], 2, mean) # mean for each column#
+ s <- apply(myset[,cols], 2, sd)      # standard dev. for each col.#
+#
+ xbarMatrix <- cbind(rep(1,nrow(myset))) %*% xbar # matrix with each row xbar#
+ sMatrix <- cbind(rep(1,nrow(myset))) %*% s       # matrix with each row s#
+#
+ sdized <- (myset[,cols] - xbarMatrix)#
+ sdized <- sdized / sMatrix#
+ sdized <- cbind(V2 = myset[,1], sdized[,1:ncol(sdized),drop=F])#
+#
+ return(sdized)#
+}#
+#
+w_acc = function(mytable, w){#
+  tp = as.numeric(mytable[1, 1])#
+  tn = as.numeric(mytable[2, 2])#
+  fp = as.numeric(mytable[2, 1])#
+  fn = as.numeric(mytable[1, 2])#
+#
+  return( (w[1] * tp + w[4] * tn) / #
+          (w[1] * tp + w[2] * fp + w[3] * fn + w[4] * tn) )#
+}#
+accuracy = function(mytable){#
+  w = rep(1, 4)#
+  return(w_acc(mytable, w))#
+}#
+sensitivity = function(mytable){#
+  w = c(1, 0, 1, 0)#
+  return(w_acc(mytable, w))#
+}#
+specificity = function(mytable){#
+  w = c(0, 1, 0, 1)#
+  return(w_acc(mytable, w))#
+}#
+precision = function(mytable){#
+  w = c(1, 1, 0, 0)#
+  return(w_acc(mytable, w))#
+}#
+F1 = function(mytable){#
+  w = c(2, 1, 1, 0)#
+  return(w_acc(mytable, w))#
+}
+library(e1071)#
+#
+# load and split the gernamcredit.csv into 70% and 30% training and test sets#
+gcred <- read.table("~/Dropbox/Tarleton/data_mining/dfiles/germancredit.csv", #
+                     header = T, sep=',')#
+gcred$Default <- as.factor(gcred$Default)#
+splitset <-splitdata(gcred, 0.7, FALSE)#
+train_i <- splitset$train#
+test_d <- gcred[-train_i,]#
+train_d <- gcred[train_i,]#
+#
+# Fit a naive Bayes classifier for predicting default, and calculate accuracy, #
+# sensitivity, specificity, precision, and F_1 measure on test data#
+#
+modelD <- naiveBayes(Default~., gcred[train_i,])#
+predD <- predict(modelD, gcred[-train_i,])#
+Dtable <- table(gcred$Default[-train_i], predD)
+Dtable
+library(e1071)#
+#
+# load and split the gernamcredit.csv into 70% and 30% training and test sets#
+gcred <- read.table("~/Dropbox/Tarleton/data_mining/dfiles/germancredit.csv", #
+                     header = T, sep=',')#
+idx <- (gcred$Default > 0)#
+gcred$Default[idx] <- 'y'#
+gcred$Default[-idx] <- 'n'
+head(gcred)
+idx <- (gcred$Default > 0) * 1#
+gcred$Default[idx] <- 'y'#
+gcred$Default[-idx] <- 'n'
+head(gcred)
+gcred <- read.table("~/Dropbox/Tarleton/data_mining/dfiles/germancredit.csv", #
+                     header = T, sep=',')
+head(gcred)
+library(e1071)#
+#
+# load and split the gernamcredit.csv into 70% and 30% training and test sets#
+gcred <- read.table("~/Dropbox/Tarleton/data_mining/dfiles/germancredit.csv", #
+                     header = T, sep=',')#
+idx <- (gcred$Default > 0) * 1#
+gcred$Default[idx == 1] <- 'y'#
+gcred$Default[idx != 1] <- 'n'
+head(gcred)
+splitset <-splitdata(gcred, 0.7, FALSE)#
+train_i <- splitset$train#
+test_d <- gcred[-train_i,]#
+train_d <- gcred[train_i,]
+modelD <- naiveBayes(Default~., gcred[train_i,])#
+predD <- predict(modelD, gcred[-train_i,])#
+Dtable <- table(gcred$Default[-train_i], predD)
+modelD <- naiveBayes(Default~., gcred[train_i,])
+predD <- predict(modelD, gcred[-train_i,])
+splitset <-splitdata(gcred, 0.7, FALSE)#
+train_i <- splitset$train
+modelD <- naiveBayes(Default~., gcred[train_i,])
+predD <- predict(modelD, gcred[-train_i,])
+library(e1071)#
+#
+# load and split the gernamcredit.csv into 70% and 30% training and test sets#
+gcred <- read.table("~/Dropbox/Tarleton/data_mining/dfiles/germancredit.csv", #
+                     header = T, sep=',')#
+gcred$Default <- as.factor(gcred$Default)#
+#
+splitset <-splitdata(gcred, 0.7, FALSE)#
+train_i <- splitset$train#
+test_d <- gcred[-train_i,]#
+train_d <- gcred[train_i,]#
+#
+# Fit a naive Bayes classifier for predicting default, and calculate accuracy, #
+# sensitivity, specificity, precision, and F_1 measure on test data#
+#
+modelD <- naiveBayes(Default~., gcred[train_i,])#
+predD <- predict(modelD, gcred[-train_i,])#
+Dtable <- table(gcred$Default[-train_i], predD)
+w1 <- c(accuracy(Dtable), sensitivity(Dtable), #
+        specificity(Dtable), precision(Dtable), F1(Dtable))
+w1
+gcred$Default <- as.factor(gcred$Default)#
+#
+newvec <- rep('',length(gcred$Default))#
+newvec[gcred$Default == '1'] <- 'y'#
+newvec[gcred$Default == '1'] <- 'n'
+gcred$Default <- newvec
+splitset <-splitdata(gcred, 0.7, FALSE)#
+train_i <- splitset$train#
+test_d <- gcred[-train_i,]#
+train_d <- gcred[train_i,]#
+#
+# Fit a naive Bayes classifier for predicting default, and calculate accuracy, #
+# sensitivity, specificity, precision, and F_1 measure on test data#
+#
+modelD <- naiveBayes(Default~., gcred[train_i,])#
+predD <- predict(modelD, gcred[-train_i,])#
+Dtable <- table(gcred$Default[-train_i], predD)
+newvec
+newvec <- rep('',length(gcred$Default))#
+newvec[gcred$Default == '1'] <- 'y'#
+newvec[gcred$Default != '1'] <- 'n'#
+gcred$Default <- newvec#
+#
+splitset <-splitdata(gcred, 0.7, FALSE)#
+train_i <- splitset$train#
+test_d <- gcred[-train_i,]#
+train_d <- gcred[train_i,]#
+#
+# Fit a naive Bayes classifier for predicting default, and calculate accuracy, #
+# sensitivity, specificity, precision, and F_1 measure on test data#
+#
+modelD <- naiveBayes(Default~., gcred[train_i,])#
+predD <- predict(modelD, gcred[-train_i,])#
+Dtable <- table(gcred$Default[-train_i], predD)
+newvec
+library(e1071)#
+#
+# load and split the gernamcredit.csv into 70% and 30% training and test sets#
+gcred <- read.table("~/Dropbox/Tarleton/data_mining/dfiles/germancredit.csv", #
+                     header = T, sep=',')#
+gcred$Default <- as.factor(gcred$Default)#
+#
+newvec <- rep('',length(gcred$Default))#
+newvec[gcred$Default == '1'] <- 'y'#
+newvec[gcred$Default != '1'] <- 'n'#
+gcred$Default <- newvec
+splitset <-splitdata(gcred, 0.7, FALSE)#
+train_i <- splitset$train#
+test_d <- gcred[-train_i,]#
+train_d <- gcred[train_i,]#
+#
+# Fit a naive Bayes classifier for predicting default, and calculate accuracy, #
+# sensitivity, specificity, precision, and F_1 measure on test data#
+#
+modelD <- naiveBayes(Default~., gcred[train_i,])#
+predD <- predict(modelD, gcred[-train_i,])#
+Dtable <- table(gcred$Default[-train_i], predD)
+newvec
+#Data Mining hw 9#
+library(e1071)#
+#
+# load and split the gernamcredit.csv into 70% and 30% training and test sets#
+gcred <- read.table("~/Dropbox/Tarleton/data_mining/dfiles/germancredit.csv", #
+                     header = T, sep=',')#
+gcred$Default <- as.factor(1 - gcred$Default)#
+#
+newvec <- rep('',length(gcred$Default))#
+newvec[gcred$Default == '1'] <- 'y'#
+newvec[gcred$Default != '1'] <- 'n'#
+gcred$Default <- newvec#
+#
+splitset <-splitdata(gcred, 0.7, FALSE)#
+train_i <- splitset$train#
+test_d <- gcred[-train_i,]#
+train_d <- gcred[train_i,]#
+#
+# Fit a naive Bayes classifier for predicting default, and calculate accuracy, #
+# sensitivity, specificity, precision, and F_1 measure on test data#
+#
+modelD <- naiveBayes(Default~., gcred[train_i,])#
+predD <- predict(modelD, gcred[-train_i,])#
+Dtable <- table(gcred$Default[-train_i], predD)#
+#
+w1 <- c(accuracy(Dtable), sensitivity(Dtable), #
+        specificity(Dtable), precision(Dtable), F1(Dtable))
+#Data Mining hw 9#
+library(e1071)#
+#
+# load and split the gernamcredit.csv into 70% and 30% training and test sets#
+gcred <- read.table("~/Dropbox/Tarleton/data_mining/dfiles/germancredit.csv", #
+                     header = T, sep=',')#
+gcred$Default <- as.factor(1 - gcred$Default)#
+#
+splitset <-splitdata(gcred, 0.7, FALSE)#
+train_i <- splitset$train#
+test_d <- gcred[-train_i,]#
+train_d <- gcred[train_i,]#
+#
+# Fit a naive Bayes classifier for predicting default, and calculate accuracy, #
+# sensitivity, specificity, precision, and F_1 measure on test data#
+#
+modelD <- naiveBayes(Default~., gcred[train_i,])#
+predD <- predict(modelD, gcred[-train_i,])#
+Dtable <- table(gcred$Default[-train_i], predD)#
+#
+w1 <- c(accuracy(Dtable), sensitivity(Dtable), #
+        specificity(Dtable), precision(Dtable), F1(Dtable))
+w1
+predD1 <- predict(modelD, gcred[train_i,])#
+phat <- predict(modelD, gcred[train_i,], type='raw')[,2]#
+hist(phat)#
+#
+idx = seq(from=0.1, to = 0.9, by = 0.01)#
+F1acc = rep(-1, length(idx))#
+c = 1#
+for(p0 in idx){#
+  F1acc[c] <- F1( table(predD1, (phat >= p0)) )#
+  c = c + 1#
+}#
+#
+p0 <- idx[which.max(F1acc)]
+p0
+table(gcred$Default)
+predD1 <- predict(modelD, gcred[train_i,])#
+phat <- predict(modelD, gcred[train_i,], type='raw')[,1]#
+hist(phat)#
+#
+idx = seq(from=0.1, to = 0.9, by = 0.01)#
+F1acc = rep(-1, length(idx))#
+c = 1#
+for(p0 in idx){#
+  F1acc[c] <- F1( table(predD1, (phat >= p0)) )#
+  c = c + 1#
+}#
+#
+p0 <- idx[which.max(F1acc)]
+p1
+p0
+nphat <- predict(modelD, gcred[-train_i,], type='raw')[,1]#
+newTable <- table(predD, (nphat >= p0))#
+#
+w1 <- c(accuracy(newTable), sensitivity(newTable), #
+        specificity(newTable), precision(newTable), F1(newTable))
+w1
+predD1 <- predict(modelD, gcred[train_i,])#
+phat <- predict(modelD, gcred[train_i,], type='raw')[,2]#
+hist(phat)#
+#
+idx = seq(from=0.1, to = 0.9, by = 0.01)#
+F1acc = rep(-1, length(idx))#
+c = 1#
+for(p0 in idx){#
+  F1acc[c] <- F1( table(predD1, (phat >= p0)) )#
+  c = c + 1#
+}#
+#
+p0 <- idx[which.max(F1acc)]
+p0
+nphat <- predict(modelD, gcred[-train_i,], type='raw')[,2]#
+newTable <- table(predD, (nphat >= p0))#
+#
+w1 <- c(accuracy(newTable), sensitivity(newTable), #
+        specificity(newTable), precision(newTable), F1(newTable))
+w1
+p0
+#Data Mining hw 9#
+library(e1071)#
+#
+# load and split the gernamcredit.csv into 70% and 30% training and test sets#
+gcred <- read.table("~/Dropbox/Tarleton/data_mining/dfiles/germancredit.csv", #
+                     header = T, sep=',')#
+gcred$Default <- as.factor(gcred$Default)#
+#
+splitset <-splitdata(gcred, 0.7, FALSE)#
+train_i <- splitset$train#
+test_d <- gcred[-train_i,]#
+train_d <- gcred[train_i,]#
+#
+# Fit a naive Bayes classifier for predicting default, and calculate accuracy, #
+# sensitivity, specificity, precision, and F_1 measure on test data#
+#
+modelD <- naiveBayes(Default~., gcred[train_i,])#
+predD <- predict(modelD, gcred[-train_i,])#
+Dtable <- table(gcred$Default[-train_i], predD)#
+#
+w1 <- c(accuracy(Dtable), sensitivity(Dtable), #
+        specificity(Dtable), precision(Dtable), F1(Dtable))#
+#
+# find the probability threshold p0 that optimizes the F1 measure #
+# on the training data#
+#
+predD1 <- predict(modelD, gcred[train_i,])#
+phat <- predict(modelD, gcred[train_i,], type='raw')[,2]#
+hist(phat)
+library(e1071)#
+#
+# load and split the gernamcredit.csv into 70% and 30% training and test sets#
+gcred <- read.table("~/Dropbox/Tarleton/data_mining/dfiles/germancredit.csv", #
+                     header = T, sep=',')#
+gcred$Default <- as.factor(1 - gcred$Default)#
+#
+splitset <-splitdata(gcred, 0.7, FALSE)#
+train_i <- splitset$train#
+test_d <- gcred[-train_i,]#
+train_d <- gcred[train_i,]#
+#
+# Fit a naive Bayes classifier for predicting default, and calculate accuracy, #
+# sensitivity, specificity, precision, and F_1 measure on test data#
+#
+modelD <- naiveBayes(Default~., gcred[train_i,])#
+predD <- predict(modelD, gcred[-train_i,])#
+Dtable <- table(gcred$Default[-train_i], predD)#
+#
+w1 <- c(accuracy(Dtable), sensitivity(Dtable), #
+        specificity(Dtable), precision(Dtable), F1(Dtable))#
+#
+# find the probability threshold p0 that optimizes the F1 measure #
+# on the training data#
+#
+predD1 <- predict(modelD, gcred[train_i,])#
+phat <- predict(modelD, gcred[train_i,], type='raw')[,2]#
+hist(phat)#
+#
+idx = seq(from=0.1, to = 0.9, by = 0.01)#
+F1acc = rep(-1, length(idx))#
+c = 1#
+for(p0 in idx){#
+  F1acc[c] <- F1( table(predD1, (phat >= p0)) )#
+  c = c + 1#
+}#
+#
+p0 <- idx[which.max(F1acc)]
+head(gcred)
+hist(gcred$age)
+library(e1071)#
+#
+# load and split the gernamcredit.csv into 70% and 30% training and test sets#
+gcred <- read.table("~/Dropbox/Tarleton/data_mining/dfiles/germancredit.csv", #
+                     header = T, sep=',')#
+#
+#since we're trying to predict when there IS a default, #
+# set this to be positive value#
+gcred$Default <- as.factor(1 - gcred$Default)#
+#
+splitset <-splitdata(gcred, 0.7, FALSE)#
+train_i <- splitset$train#
+test_d <- gcred[-train_i,]#
+train_d <- gcred[train_i,]
+modelD <- naiveBayes(Default~., gcred[train_i,])#
+predD <- predict(modelD, gcred[-train_i,])#
+Dtable <- table(gcred$Default[-train_i], predD)
+Dtable
+w1 <- c(accuracy(Dtable), sensitivity(Dtable), #
+        specificity(Dtable), precision(Dtable), F1(Dtable))
+w1
+predD1 <- predict(modelD, gcred[train_i,])#
+phat <- predict(modelD, gcred[train_i,], type='raw')[,2]#
+hist(phat)
+predD1 <- predict(modelD, gcred[train_i,])#
+phat <- predict(modelD, gcred[train_i,], type='raw')[,1]
+hist(phat)
+idx = seq(from=0.1, to = 0.9, by = 0.01)#
+F1acc = rep(-1, length(idx))
+c = 1#
+for(p0 in idx){#
+  F1acc[c] <- F1( table(predD1, (phat >= p0)) )#
+  c = c + 1#
+}#
+#
+p0 <- idx[which.max(F1acc)]
+p0
+which.max[F1acc]
+which.max(F1acc)
+nphat <- predict(modelD, gcred[-train_i,], type='raw')[,1]#
+newTable <- table(predD, (nphat >= p0))
+newTable
+w1 <- c(accuracy(newTable), sensitivity(newTable), #
+        specificity(newTable), precision(newTable), F1(newTable))
+w1
+predD1 <- predict(modelD, gcred[train_i,])#
+phat <- predict(modelD, gcred[train_i,], type='raw')[,2]
+idx = seq(from=0.1, to = 0.9, by = 0.01)#
+F1acc = rep(-1, length(idx))#
+c = 1#
+for(p0 in idx){#
+  F1acc[c] <- F1( table(predD1, (phat >= p0)) )#
+  c = c + 1#
+}#
+#
+p0 <- idx[which.max(F1acc)]
+nphat <- predict(modelD, gcred[-train_i,], type='raw')[,2]#
+newTable <- table(predD, (nphat >= p0))#
+#
+w1 <- c(accuracy(newTable), sensitivity(newTable), #
+        specificity(newTable), precision(newTable), F1(newTable))
+w1
+library(e1071)#
+#
+# load and split the gernamcredit.csv into 70% and 30% training and test sets#
+gcred <- read.table("~/Dropbox/Tarleton/data_mining/dfiles/germancredit.csv", #
+                     header = T, sep=',')#
+#
+#since we're trying to predict when there IS a default, #
+# set this to be positive value#
+gcred$Default <- as.factor(gcred$Default)#
+#
+splitset <-splitdata(gcred, 0.7, FALSE)#
+train_i <- splitset$train#
+#
+# Fit a naive Bayes classifier for predicting default, and calculate accuracy, #
+# sensitivity, specificity, precision, and F_1 measure on test data#
+#
+modelD <- naiveBayes(Default~., gcred[train_i,])#
+predD <- predict(modelD, gcred[-train_i,])#
+Dtable <- table(gcred$Default[-train_i], predD)#
+#
+w1 <- c(accuracy(Dtable), sensitivity(Dtable), #
+        specificity(Dtable), precision(Dtable), F1(Dtable))
+w1
+predD1 <- predict(modelD, gcred[train_i,])#
+phat <- predict(modelD, gcred[train_i,], type='raw')[,2]#
+#
+idx = seq(from=0.1, to = 0.9, by = 0.01)#
+F1acc = rep(-1, length(idx))#
+c = 1#
+for(p0 in idx){#
+  F1acc[c] <- F1( table(predD1, (phat >= p0)) )#
+  c = c + 1#
+}#
+#
+p0 <- idx[which.max(F1acc)]#
+# recalculate the accuracy, sensitivity, specificity, precision, #
+# and F1 measure on the test data using the new probability threshold.#
+#
+nphat <- predict(modelD, gcred[-train_i,], type='raw')[,2]#
+newTable <- table(predD, (nphat >= p0))#
+#
+w1 <- c(accuracy(newTable), sensitivity(newTable), #
+        specificity(newTable), precision(newTable), F1(newTable))
+#Data Mining hw 9#
+library(e1071)#
+#
+# load and split the gernamcredit.csv into 70% and 30% training and test sets#
+gcred <- read.table("~/Dropbox/Tarleton/data_mining/dfiles/germancredit.csv", #
+                     header = T, sep=',')#
+#
+#since we're trying to predict when there IS a default, #
+# set this to be positive value#
+gcred$Default <- as.factor(gcred$Default)#
+#
+splitset <-splitdata(gcred, 0.7, FALSE)#
+train_i <- splitset$train#
+#
+# Fit a naive Bayes classifier for predicting default, and calculate accuracy, #
+# sensitivity, specificity, precision, and F_1 measure on test data#
+#
+modelD <- naiveBayes(Default~., gcred[train_i,])#
+predD <- predict(modelD, gcred[-train_i,])#
+Dtable <- table(gcred$Default[-train_i], predD)#
+#
+w1 <- c(accuracy(Dtable), sensitivity(Dtable), #
+        specificity(Dtable), precision(Dtable), F1(Dtable))#
+#
+# find the probability threshold p0 that optimizes the F1 measure #
+# on the training data#
+#
+predD1 <- predict(modelD, gcred[train_i,])#
+phat <- predict(modelD, gcred[train_i,], type='raw')[,2]#
+#
+idx = seq(from=0.1, to = 0.9, by = 0.01)#
+F1acc = rep(-1, length(idx))#
+c = 1#
+for(p0 in idx){#
+  F1acc[c] <- F1( table(predD1, (phat >= p0)) )#
+  c = c + 1#
+}#
+#
+p0 <- idx[which.max(F1acc)]
+p0
+predD1 <- predict(modelD, gcred[train_i,])#
+phat <- predict(modelD, gcred[train_i,], type='raw')[,1]#
+#
+idx = seq(from=0.1, to = 0.9, by = 0.01)#
+F1acc = rep(-1, length(idx))#
+c = 1#
+for(p0 in idx){#
+  F1acc[c] <- F1( table(predD1, (phat >= p0)) )#
+  c = c + 1#
+}#
+#
+p0 <- idx[which.max(F1acc)]
+p0
+#Data Mining hw 9#
+library(e1071)#
+#
+# load and split the gernamcredit.csv into 70% and 30% training and test sets#
+gcred <- read.table("~/Dropbox/Tarleton/data_mining/dfiles/germancredit.csv", #
+                     header = T, sep=',')#
+#
+#since we're trying to predict when there IS a default, #
+# set this to be positive value#
+gcred$Default <- as.factor(1 - gcred$Default)#
+#
+splitset <-splitdata(gcred, 0.7, FALSE)#
+train_i <- splitset$train#
+#
+# Fit a naive Bayes classifier for predicting default, and calculate accuracy, #
+# sensitivity, specificity, precision, and F_1 measure on test data#
+#
+modelD <- naiveBayes(Default~., gcred[train_i,])#
+predD <- predict(modelD, gcred[-train_i,])#
+Dtable <- table(gcred$Default[-train_i], predD)#
+#
+w1 <- c(accuracy(Dtable), sensitivity(Dtable), #
+        specificity(Dtable), precision(Dtable), F1(Dtable))#
+#
+# find the probability threshold p0 that optimizes the F1 measure #
+# on the training data#
+#
+predD1 <- predict(modelD, gcred[train_i,])#
+phat <- predict(modelD, gcred[train_i,], type='raw')[,2]#
+#
+idx = seq(from=0.1, to = 0.9, by = 0.01)#
+F1acc = rep(-1, length(idx))#
+c = 1#
+for(p0 in idx){#
+  F1acc[c] <- F1( table(predD1, (phat >= p0)) )#
+  c = c + 1#
+}#
+#
+p0 <- idx[which.max(F1acc)]#
+# recalculate the accuracy, sensitivity, specificity, precision, #
+# and F1 measure on the test data using the new probability threshold.#
+#
+nphat <- predict(modelD, gcred[-train_i,], type='raw')[,2]#
+newTable <- table(predD, (nphat >= p0))#
+#
+w1 <- c(accuracy(newTable), sensitivity(newTable), #
+        specificity(newTable), precision(newTable), F1(newTable))
+w1
+p0
+#Data Mining hw 9#
+library(e1071)#
+#
+# load and split the gernamcredit.csv into 70% and 30% training and test sets#
+gcred <- read.table("~/Dropbox/Tarleton/data_mining/dfiles/germancredit.csv", #
+                     header = T, sep=',')#
+#
+#since we're trying to predict when there IS a default, #
+# set this to be positive value#
+gcred$Default <- as.factor(1 - gcred$Default)#
+#
+splitset <-splitdata(gcred, 0.7, FALSE)#
+train_i <- splitset$train#
+#
+# Fit a naive Bayes classifier for predicting default, and calculate accuracy, #
+# sensitivity, specificity, precision, and F_1 measure on test data#
+#
+modelD <- naiveBayes(Default~., gcred[train_i,])#
+predD <- predict(modelD, gcred[-train_i,])#
+Dtable <- table(gcred$Default[-train_i], predD)#
+#
+w1 <- c(accuracy(Dtable), sensitivity(Dtable), #
+        specificity(Dtable), precision(Dtable), F1(Dtable))
+w1

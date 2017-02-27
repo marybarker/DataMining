@@ -1,0 +1,107 @@
+
+*1 The file Hw31data.txt contains SAS code for generating two data sets. 
+	The first data set provides the correlation matrix of six measurement 
+	made on white leghorn fowls, including skull length(SL), skull 
+	breadth (SB), humerus length (HS), ulna length (UL), femur length 
+	(FL), and tibia length(TL);
+
+	%include '/folders/myshortcuts/sas_folder/Hw31Data.txt';
+
+	*a Perform a principal components analysis for this data set, and 
+		report the resulting eigenvalues and eigenvectors;
+
+		proc princomp data = leghorn;
+		run;
+
+	*b How many principal components are required to explain at least 
+		90% of the total variation in the data? ;
+
+		*3;
+
+	*c Provide an intuitive interpretation for the principal components 
+		accounting for 90% of the total variation. (For example, the 
+		first principal component has large positive coefficients for 
+		all of the variables in the data set, so it roughly measure 
+		the overall size of a white leghorn fowl.);
+
+			* The first principal component has relatively uniform values 
+				for coefficients, giving overall an indication of how big 
+				each animal is;
+			* The second principal component has large coefficients for 
+				SB and SL, and negative, not to say small coefficients 
+				for the other variables, indicating a description of 
+				just how big the skull is;
+			* The third component has larger absolute values for SB and SL, 
+				as with the second, but the value for SL is negative, so 
+				this seems to evaluate the difference between skull width 
+				and height;
+
+*2 Perform a factor analysis on the leghorn data;
+
+	proc factor data=leghorn res;
+	run;
+
+	*a How many factors are retained using the MINEIGEN criterion? ;
+		proc factor data=leghorn mineigen=0.05;
+		run;
+
+	*b What is the overall RMS off-diagonal residuals in this case? ;
+
+*3 Continuing with the leghorn data set, increase the number of factors 
+	until the overall residual RMS is less than 0.05;
+
+		proc factor data=leghorn nfact=3 res;
+		run;
+
+	*a How many factors are required to achieve this? ;
+
+	*b Report the estimated matrices hatL and hat Phi;
+
+	*c What is the communality for skull length? ;
+
+	*d Find the unique variance of ulna length;
+
+	*e. What is the correlation between femur length and the 2nd factor? ;
+
+*4 The second data set in Hw31data.txt contains responses of 122 
+	diabetes patients to 25 survey questions, on a Likert scale 
+	(a scale typically used on surveys, where 
+		1 = Strongly Disagree, 
+		2 = Somewhat Disagree, 
+		3 = Neither DIsagree Nor Agree, 
+		4 = Somewhat Agree, and 
+		5 = Strongly Agree
+	).; 
+
+	*a Perform a factor analysis with nfact=17 on this data and store 
+		the factor scores in a data set. ;
+
+			proc factor data=diabetes score nfact=17 res out = fact_scores;
+			run;
+
+	*b One of the assumptions of the factor model is that 
+		cov(f) = identity. Verify that the sample covariance matrix of 
+		the factor scores is equal to I (This occurs exactly, because 
+		we are using the principal component method for this factor 
+		analysis. There are other methods where this does not occur.) ;
+
+			proc corr data=fact_scores cov;
+				var Factor1-Factor17;
+			run;
+
+	*c What does cov(f) = I say about the correlation between the two 
+		different factors? What would you expect the scatter plot of 
+		the two different factors to look like? ;
+
+	*d Create a scatter plot of f1 vs f2. Does this plot agree with 
+		your expectations? ;
+
+		proc plot data=fact_scores;
+			plot Factor1*Factor2;
+		run;
+
+	*e It would be interesting to interpret the factors in this 
+		problem, but in order to do that, we will need to consider 
+		rotations of the factors, so this will have to wait until a 
+		future homework assignment. 
+

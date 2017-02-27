@@ -1,0 +1,165 @@
+\documentclass[11pt]{article}
+\usepackage{fullpage}
+\usepackage{setspace}
+\usepackage{amsmath}
+\usepackage{fancyvrb}
+\usepackage{enumerate}
+\usepackage{listings}
+\usepackage{pgfplots}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{multirow}
+\usepackage[format=hang,labelsep=quad]{caption}
+\usepackage{subfig}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage[final]{pdfpages}
+
+\renewcommand\thesubfigure{\roman{subfigure}}
+
+
+\begin{document}
+\noindent\large{Math 5364}\\
+\large{Data Mining 2}\\
+\large{Homework 28}\\
+\large{Mary Barker}
+
+\begin{enumerate}
+\item The data set cows.txt contains milk production 
+	values for 300 (hypothetical) cows, 100 from 
+	the Andrews farm, 100 from the Bailey farm, and 
+	100 from the Carter farm. 
+	
+	\begin{enumerate}
+	\item Import the data into SAS, and find the 
+		average milk production, stratified by farm. 
+		Also, obtain a histogram and qqplot of the 
+		milk production values at each farm;
+
+\begin{Verbatim}
+data milkdata;
+    infile '/folders/myshortcuts/sas_folder/cows.txt' dlm=',';
+    input milk farm $;
+    IF farm = 'Andrews' THEN Afarm = milk;
+    IF farm = 'Bailey' THEN Bfarm = milk;
+    IF farm = 'Carter' THEN Cfarm = milk;
+proc means data=milkdata mean;
+	var Afarm Bfarm Cfarm;
+run;
+\end{Verbatim}
+
+	\item Perform and ANOVA to test whether the average 
+		milk production at the three farms is the same;
+
+\begin{Verbatim}
+proc anova data=milkdata;
+	class farm;
+	model milk=farm;
+run;
+\end{Verbatim}
+
+
+	\item Test whether the average milk production is 
+		the same using PROC GLM;
+
+\begin{Verbatim}
+proc glm data=milkdata;
+	class farm;
+	model milk=farm;
+run;
+\end{Verbatim}
+	\end{enumerate}
+
+%$
+\item Let $U(a, b)$ denote a uniform distribution on the 
+	interval [a, b], and $N(\mu, \sigma^2)$ denote a normal 
+	distribution with mean $\mu$ and variance $\sigma^2$. Let 
+	$X_{i1} \mathtt{\sim} U(0, 100)$, $X_{i2} \mathtt{\sim} U(30, 70)$, and 
+	$\epsilon_i \mathtt{\sim} N(0, 1) for i = 1, ... , 1000$. Also, suppose 
+	$X_{i3}$ is a categorical variable taking the values ``A'', 
+	``B'', and ``C'' with probabilities 0.5, 0.35, and 0.15 
+	respectively. Finally, assume that all of the random 
+	variables $X_{ij}$ and $\epsilon_i$ are statistically independent 
+	and define 
+
+	\begin{equation*}
+	Y_i = 150 + 8 X_{i1} + 6 X_{i2} + 0.25 X_{i2}^2 - 7 X_{i1} X_{i2}
+			  + 5I(X_{i3} = "B") + 10I(X_{i3} = "C") + \epsilon_i
+	\end{equation*}
+  
+	Recall that $I$ is the indeicator function. 
+	e.g., $I(X_{i3} = 'B') = 1$ if $X_{i3} = 'B'$, and 0 otherwise;
+
+	\begin{enumerate}
+	\item Use SAS to simulate values of all random variables 
+		described above;
+
+\begin{Verbatim}
+data simdata;
+call streaminit(123);
+do i = 1 to 1000;
+	x1 = rand('UNIFORM');
+	x2 = 30 + 70 * rand('UNIFORM');
+	u = rand('UNIFORM');
+	if u <= 0.5 then do;
+		x3 = 'A';
+		I_b = 0;
+		I_c = 0;
+	end;
+	else if u <= 0.85 then do;
+		x3 = 'B';
+		I_b = 1;
+		I_c = 0;
+	end;
+	else do;
+		x3 = 'C';
+		I_b = 0;
+		I_c = 1;
+	end;
+	eps = rand('NORMAL');
+	y = 150. + 8 * x1 + 6 * x2 + 0.25 * x2**2 - 7 * x1 * x2 + 
+			5 * I_b + 10 * I_c + eps;
+	output;
+end;
+run;
+\end{Verbatim}
+
+	\item Verify that $X_{i1}$, $X_{i2}$, and $e_i$ have the 
+		distributions given above by plotting histograms 
+		for these variables;
+
+\begin{Verbatim}
+proc univariate data=simdata;
+	histogram x1;
+	histogram x2;
+	histogram eps/normal;
+run;
+\end{Verbatim}
+		
+	\item Verify that the observed frequencies of the different 
+		levels of $X_{i3}$ are approximately equal to those stated 
+		in the problem;
+
+\begin{Verbatim}
+proc freq data=simdata;
+	tables x3;
+run;
+\end{Verbatim}
+
+	\item Fit the given regression equation to your simulated 
+		data, and verify that the estimated coefficients agree 
+		with those stated in the problem; 
+
+
+\begin{Verbatim}
+proc glmselect data=simdata;
+	class x3;
+	model y = x1 x2 x2*x2 x1*x2 x3;
+run;
+\end{Verbatim}
+
+\end{enumerate}
+\end{enumerate}
+
+\includepdf[pages={1-}]{hw28_output.pdf}
+\end{document}

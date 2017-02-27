@@ -1,0 +1,4 @@
+auto <- read.table("http://archive.ics.uci.edu/ml/machine-learning-databases/auto-mpg/auto-mpg.data", header=F,sep=' ')
+auto <- read.table("http://archive.ics.uci.edu/ml/machine-learning-databases/auto-mpg/auto-mpg.data", header=F,sep=' ', na.strings='?', dec='.', strip.white=T)
+auto <- read.table("http://archive.ics.uci.edu/ml/machine-learning-databases/auto-mpg/auto-mpg.data", header=F,  na.strings='?', dec='.', strip.white=T)
+head(auto)

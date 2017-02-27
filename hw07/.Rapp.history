@@ -1,0 +1,828 @@
+kfold_val = function(k, treetype, wdbc, idx){#
+    library(rpart)#
+	total_acc = 0#
+	size = ceiling(nrow(wdbc)/k)#
+    folds = sample(rep(1:k,size))#
+    myvec = folds[1:nrow(wdbc)]#
+#
+	for(i in 1:k){#
+#
+        testdata <- wdbc[myvec==i,]#
+#
+        traindata <- wdbc[myvec!=i,]#
+#        if(treetype == 0){#
+#            mynewtree = ctree(myname~., traindata)#
+#        } else if(treetype == 1){#
+           f <- paste(names(wdbc)[idx], "~.")#
+           mynewtree <- rpart(as.formula(f), data=traindata)#
+#        }#
+#
+        p_tree_train <- predict(mynewtree, testdata)#
+        print(p_tree_train)#
+        print(c(length(p_tree_train), nrow(testdata)))#
+#
+        m_tree = table(testdata[,idx], p_tree_train)#
+        test_acc = (sum(diag(m_tree)) / sum(m_tree))#
+        total_acc = total_acc + test_acc#
+	}#
+	total_acc = total_acc / k#
+	return(1 - total_acc)#
+}
+# tests d_ops#
+#
+x <- runif(120, 0, 20)#
+b <- runif(120, 100, 900)#
+d <- c(rep("B", 90), rep("A", 30))#
+#
+newtest <- data.frame(d = d, b = b, x = x)#
+t = kfold_val(2, 1, newtest, 1)
+kfold_val = function(k, treetype, wdbc, idx){#
+    library(rpart)#
+	total_acc = 0#
+	size = ceiling(nrow(wdbc)/k)#
+    folds = sample(rep(1:k,size))#
+    myvec = folds[1:nrow(wdbc)]#
+#
+	for(i in 1:k){#
+#
+        testdata <- wdbc[myvec==i,]#
+#
+        traindata <- wdbc[myvec!=i,]#
+#        if(treetype == 0){#
+#            mynewtree = ctree(myname~., traindata)#
+#        } else if(treetype == 1){#
+           f <- paste(names(wdbc)[idx], "~.")#
+           mynewtree <- rpart(as.formula(f), data=traindata)#
+           mynewtree1 <- rpart(d ~., traindata)#
+#        }#
+#
+        print(mynewtree)#
+        print(mynewtree1)#
+        p_tree_train <- predict(mynewtree, testdata)#
+        print(p_tree_train)#
+        print(c(length(p_tree_train), nrow(testdata)))#
+#
+        m_tree = table(testdata[,idx], p_tree_train)#
+        test_acc = (sum(diag(m_tree)) / sum(m_tree))#
+        total_acc = total_acc + test_acc#
+	}#
+	total_acc = total_acc / k#
+	return(1 - total_acc)#
+}
+# tests d_ops#
+#
+x <- runif(120, 0, 20)#
+b <- runif(120, 100, 900)#
+d <- c(rep("B", 90), rep("A", 30))#
+#
+newtest <- data.frame(d = d, b = b, x = x)#
+t = kfold_val(2, 1, newtest, 1)
+kfold_val = function(k, treetype, wdbc, idx){#
+    library(rpart)#
+	total_acc = 0#
+	size = ceiling(nrow(wdbc)/k)#
+    folds = sample(rep(1:k,size))#
+    myvec = folds[1:nrow(wdbc)]#
+#
+	for(i in 1:k){#
+#
+        testdata <- wdbc[myvec==i,]#
+#
+        traindata <- wdbc[myvec!=i,]#
+#        if(treetype == 0){#
+#            mynewtree = ctree(myname~., traindata)#
+#        } else if(treetype == 1){#
+           f <- paste(names(wdbc)[idx], "~.")#
+           mynewtree <- rpart(as.formula(f), data=traindata)#
+           mynewtree1 <- rpart(d ~., traindata)#
+#        }#
+#
+        print(mynewtree)#
+        print(mynewtree1)#
+#
+        p_tree_train <- predict(mynewtree, testdata)#
+        p_tree_train1 <- predict(mynewtree1, testdata)#
+        print(p_tree_train)#
+        print(p_tree_train1)#
+        print(c(length(p_tree_train), nrow(testdata)))#
+#
+        m_tree = table(testdata[,idx], p_tree_train)#
+        test_acc = (sum(diag(m_tree)) / sum(m_tree))#
+        total_acc = total_acc + test_acc#
+	}#
+	total_acc = total_acc / k#
+	return(1 - total_acc)#
+}
+# tests d_ops#
+#
+x <- runif(120, 0, 20)#
+b <- runif(120, 100, 900)#
+d <- c(rep("B", 90), rep("A", 30))#
+#
+newtest <- data.frame(d = d, b = b, x = x)#
+t = kfold_val(2, 1, newtest, 1)
+kfold_val = function(k, treetype, wdbc, idx){#
+    library(rpart)#
+	total_acc = 0#
+	size = ceiling(nrow(wdbc)/k)#
+    folds = sample(rep(1:k,size))#
+    myvec = folds[1:nrow(wdbc)]#
+#
+	for(i in 1:k){#
+#
+        testdata <- wdbc[myvec==i,]#
+#
+        traindata <- wdbc[myvec!=i,]#
+#        if(treetype == 0){#
+#            mynewtree = ctree(myname~., traindata)#
+#        } else if(treetype == 1){#
+           f <- paste(names(wdbc)[idx], "~.")#
+           mynewtree <- rpart(as.formula(f), data=traindata)#
+           mynewtree1 <- rpart(d ~., traindata)#
+#        }#
+#
+        print(mynewtree)#
+        print(mynewtree1)#
+#
+        p_tree_train <- predict(mynewtree, testdata)#
+        p_tree_train1 <- predict(mynewtree1, testdata)#
+        print(p_tree_train)#
+        print(p_tree_train1)#
+        print(c(length(p_tree_train), nrow(testdata)))#
+#
+        m_tree = table(as.formula(wdbc[myvec == i,]), p_tree_train)#
+        test_acc = (sum(diag(m_tree)) / sum(m_tree))#
+        total_acc = total_acc + test_acc#
+	}#
+	total_acc = total_acc / k#
+	return(1 - total_acc)#
+}
+# tests d_ops#
+#
+x <- runif(120, 0, 20)#
+b <- runif(120, 100, 900)#
+d <- c(rep("B", 90), rep("A", 30))#
+#
+newtest <- data.frame(d = d, b = b, x = x)#
+t = kfold_val(2, 1, newtest, 1)
+kfold_val = function(k, treetype, wdbc, idx){#
+    library(rpart)#
+	total_acc = 0#
+	size = ceiling(nrow(wdbc)/k)#
+    folds = sample(rep(1:k,size))#
+    myvec = folds[1:nrow(wdbc)]#
+#
+	for(i in 1:k){#
+#
+        testdata <- wdbc[myvec==i,]#
+#
+        traindata <- wdbc[myvec!=i,]#
+#        if(treetype == 0){#
+#            mynewtree = ctree(myname~., traindata)#
+#        } else if(treetype == 1){#
+           f <- paste(names(wdbc)[idx], "~.")#
+           mynewtree <- rpart(as.formula(f), data=traindata)#
+           mynewtree1 <- rpart(d ~., traindata)#
+#        }#
+#
+        print(mynewtree)#
+        print(mynewtree1)#
+#
+        p_tree_train <- predict(mynewtree, testdata)#
+        p_tree_train1 <- predict(mynewtree1, testdata)#
+        print(p_tree_train)#
+        print(p_tree_train1)#
+        print(c(length(p_tree_train), nrow(testdata)))#
+#
+        m_tree = table(wdbc[myvec == i,], p_tree_train)#
+        test_acc = (sum(diag(m_tree)) / sum(m_tree))#
+        total_acc = total_acc + test_acc#
+	}#
+	total_acc = total_acc / k#
+	return(1 - total_acc)#
+}
+# tests d_ops#
+#
+x <- runif(120, 0, 20)#
+b <- runif(120, 100, 900)#
+d <- c(rep("B", 90), rep("A", 30))#
+#
+newtest <- data.frame(d = d, b = b, x = x)#
+t = kfold_val(2, 1, newtest, 1)
+kfold_val = function(k, treetype, wdbc, idx){#
+    library(rpart)#
+	total_acc = 0#
+	size = ceiling(nrow(wdbc)/k)#
+    folds = sample(rep(1:k,size))#
+    myvec = folds[1:nrow(wdbc)]#
+#
+	for(i in 1:k){#
+#
+        testdata <- wdbc[myvec==i,]#
+#
+        traindata <- wdbc[myvec!=i,]#
+#        if(treetype == 0){#
+#            mynewtree = ctree(myname~., traindata)#
+#        } else if(treetype == 1){#
+           f <- paste(names(wdbc)[idx], "~.")#
+           mynewtree <- rpart(as.formula(f), data=traindata)#
+           mynewtree1 <- rpart(d ~., traindata)#
+#        }#
+#
+        print(mynewtree)#
+        print(mynewtree1)#
+#
+        p_tree_train <- predict(mynewtree, testdata)#
+        p_tree_train1 <- predict(mynewtree1, testdata)#
+        print(p_tree_train)#
+        print(p_tree_train1)#
+        print(c(length(p_tree_train), nrow(testdata)))#
+#
+        m_tree = table(wdbc[myvec == i,idx], p_tree_train)#
+        test_acc = (sum(diag(m_tree)) / sum(m_tree))#
+        total_acc = total_acc + test_acc#
+	}#
+	total_acc = total_acc / k#
+	return(1 - total_acc)#
+}
+# tests d_ops#
+#
+x <- runif(120, 0, 20)#
+b <- runif(120, 100, 900)#
+d <- c(rep("B", 90), rep("A", 30))#
+#
+newtest <- data.frame(d = d, b = b, x = x)#
+t = kfold_val(2, 1, newtest, 1)
+kfold_val = function(k, treetype, wdbc, idx){#
+    library(rpart)#
+	total_acc = 0#
+	size = ceiling(nrow(wdbc)/k)#
+    folds = sample(rep(1:k,size))#
+    myvec = folds[1:nrow(wdbc)]#
+#
+	for(i in 1:k){#
+#
+        testdata <- wdbc[myvec==i,]#
+#
+        traindata <- wdbc[myvec!=i,]#
+#        if(treetype == 0){#
+#            mynewtree = ctree(myname~., traindata)#
+#        } else if(treetype == 1){#
+           f <- paste(names(wdbc)[idx], "~.")#
+           mynewtree <- rpart(as.formula(f), data=traindata)#
+           mynewtree1 <- rpart(d ~., traindata)#
+#        }#
+#
+        print(mynewtree)#
+        print(mynewtree1)#
+#
+        p_tree_train <- predict(mynewtree, testdata)#
+        p_tree_train1 <- predict(mynewtree1, testdata)#
+        print(p_tree_train)#
+        print(p_tree_train1)#
+        print(c(length(p_tree_train), nrow(testdata)))#
+#
+        n1 = paste('wdbc$',names(wdbc)[idx],'[myvec==i]')#
+        m_tree = table(as.formula(n1), p_tree_train)#
+        test_acc = (sum(diag(m_tree)) / sum(m_tree))#
+        total_acc = total_acc + test_acc#
+	}#
+	total_acc = total_acc / k#
+	return(1 - total_acc)#
+}
+# tests d_ops#
+#
+x <- runif(120, 0, 20)#
+b <- runif(120, 100, 900)#
+d <- c(rep("B", 90), rep("A", 30))#
+#
+newtest <- data.frame(d = d, b = b, x = x)#
+t = kfold_val(2, 1, newtest, 1)
+kfold_val = function(k, treetype, wdbc, idx){#
+    library(rpart)#
+	total_acc = 0#
+	size = ceiling(nrow(wdbc)/k)#
+    folds = sample(rep(1:k,size))#
+    myvec = folds[1:nrow(wdbc)]#
+#
+	for(i in 1:k){#
+#
+        testdata <- wdbc[myvec==i,]#
+#
+        traindata <- wdbc[myvec!=i,]#
+#        if(treetype == 0){#
+#            mynewtree = ctree(myname~., traindata)#
+#        } else if(treetype == 1){#
+           f <- paste(names(wdbc)[idx], "~.")#
+           mynewtree <- rpart(as.formula(f), data=traindata)#
+           mynewtree1 <- rpart(d ~., traindata)#
+#        }#
+#
+        print(mynewtree)#
+        print(mynewtree1)#
+#
+        p_tree_train <- predict(mynewtree, testdata)#
+        p_tree_train1 <- predict(mynewtree1, testdata)#
+        print(p_tree_train)#
+        print(p_tree_train1)#
+        print(c(length(p_tree_train), nrow(testdata)))#
+#
+        n1 = paste('wdbc$',names(wdbc)[idx],'[myvec==i]')#
+        print(n1)#
+        m_tree = table(as.formula(n1), p_tree_train)#
+        test_acc = (sum(diag(m_tree)) / sum(m_tree))#
+        total_acc = total_acc + test_acc#
+	}#
+	total_acc = total_acc / k#
+	return(1 - total_acc)#
+}
+# tests d_ops#
+#
+x <- runif(120, 0, 20)#
+b <- runif(120, 100, 900)#
+d <- c(rep("B", 90), rep("A", 30))#
+#
+newtest <- data.frame(d = d, b = b, x = x)#
+t = kfold_val(2, 1, newtest, 1)
+kfold_val = function(k, treetype, wdbc, idx){#
+    library(rpart)#
+	total_acc = 0#
+	size = ceiling(nrow(wdbc)/k)#
+    folds = sample(rep(1:k,size))#
+    myvec = folds[1:nrow(wdbc)]#
+#
+	for(i in 1:k){#
+#
+        testdata <- wdbc[myvec==i,]#
+#
+        traindata <- wdbc[myvec!=i,]#
+#        if(treetype == 0){#
+#            mynewtree = ctree(myname~., traindata)#
+#        } else if(treetype == 1){#
+           f <- paste(names(wdbc)[idx], "~.")#
+           mynewtree <- rpart(as.formula(f), data=traindata)#
+           mynewtree1 <- rpart(d ~., traindata)#
+#        }#
+#
+        print(mynewtree)#
+        print(mynewtree1)#
+#
+        p_tree_train <- predict(mynewtree, testdata)#
+        p_tree_train1 <- predict(mynewtree1, testdata)#
+        print(p_tree_train)#
+        print(p_tree_train1)#
+        print(c(length(p_tree_train), nrow(testdata)))#
+#
+        n1 = paste(trim('wdbc$')),names(wdbc)[idx],trim('[myvec==i]'))#
+        print(n1)#
+        m_tree = table(as.formula(n1), p_tree_train)#
+        test_acc = (sum(diag(m_tree)) / sum(m_tree))#
+        total_acc = total_acc + test_acc#
+	}#
+	total_acc = total_acc / k#
+	return(1 - total_acc)#
+}
+kfold_val = function(k, treetype, wdbc, idx){#
+    library(rpart)#
+	total_acc = 0#
+	size = ceiling(nrow(wdbc)/k)#
+    folds = sample(rep(1:k,size))#
+    myvec = folds[1:nrow(wdbc)]#
+#
+	for(i in 1:k){#
+#
+        testdata <- wdbc[myvec==i,]#
+#
+        traindata <- wdbc[myvec!=i,]#
+#        if(treetype == 0){#
+#            mynewtree = ctree(myname~., traindata)#
+#        } else if(treetype == 1){#
+           f <- paste(names(wdbc)[idx], "~.")#
+           mynewtree <- rpart(as.formula(f), data=traindata)#
+           mynewtree1 <- rpart(d ~., traindata)#
+#        }#
+#
+        print(mynewtree)#
+        print(mynewtree1)#
+#
+        p_tree_train <- predict(mynewtree, testdata)#
+        p_tree_train1 <- predict(mynewtree1, testdata)#
+        print(p_tree_train)#
+        print(p_tree_train1)#
+        print(c(length(p_tree_train), nrow(testdata)))#
+#
+        n1 = paste(trim('wdbc$'),names(wdbc)[idx],trim('[myvec==i]'))#
+        print(n1)#
+        m_tree = table(as.formula(n1), p_tree_train)#
+        test_acc = (sum(diag(m_tree)) / sum(m_tree))#
+        total_acc = total_acc + test_acc#
+	}#
+	total_acc = total_acc / k#
+	return(1 - total_acc)#
+}
+# tests d_ops#
+#
+x <- runif(120, 0, 20)#
+b <- runif(120, 100, 900)#
+d <- c(rep("B", 90), rep("A", 30))#
+#
+newtest <- data.frame(d = d, b = b, x = x)#
+t = kfold_val(2, 1, newtest, 1)
+trim <- function (x) gsub("^\\s+|\\s+$", "", x)
+kfold_val = function(k, treetype, wdbc, idx){#
+    library(rpart)#
+	total_acc = 0#
+	size = ceiling(nrow(wdbc)/k)#
+    folds = sample(rep(1:k,size))#
+    myvec = folds[1:nrow(wdbc)]#
+#
+	for(i in 1:k){#
+#
+        testdata <- wdbc[myvec==i,]#
+#
+        traindata <- wdbc[myvec!=i,]#
+#        if(treetype == 0){#
+#            mynewtree = ctree(myname~., traindata)#
+#        } else if(treetype == 1){#
+           f <- paste(names(wdbc)[idx], "~.")#
+           mynewtree <- rpart(as.formula(f), data=traindata)#
+           mynewtree1 <- rpart(d ~., traindata)#
+#        }#
+#
+        print(mynewtree)#
+        print(mynewtree1)#
+#
+        p_tree_train <- predict(mynewtree, testdata)#
+        p_tree_train1 <- predict(mynewtree1, testdata)#
+        print(p_tree_train)#
+        print(p_tree_train1)#
+        print(c(length(p_tree_train), nrow(testdata)))#
+#
+        n1 = paste(trim('wdbc$'),names(wdbc)[idx],trim('[myvec==i]'))#
+        print(n1)#
+        m_tree = table(as.formula(n1), p_tree_train)#
+        test_acc = (sum(diag(m_tree)) / sum(m_tree))#
+        total_acc = total_acc + test_acc#
+	}#
+	total_acc = total_acc / k#
+	return(1 - total_acc)#
+}
+# tests d_ops#
+#
+x <- runif(120, 0, 20)#
+b <- runif(120, 100, 900)#
+d <- c(rep("B", 90), rep("A", 30))#
+#
+newtest <- data.frame(d = d, b = b, x = x)#
+t = kfold_val(2, 1, newtest, 1)
+kfold_val = function(k, treetype, wdbc, idx){#
+    library(rpart)#
+	total_acc = 0#
+	size = ceiling(nrow(wdbc)/k)#
+    folds = sample(rep(1:k,size))#
+    myvec = folds[1:nrow(wdbc)]#
+#
+	for(i in 1:k){#
+#
+        testdata <- wdbc[myvec==i,]#
+#
+        traindata <- wdbc[myvec!=i,]#
+#        if(treetype == 0){#
+#            mynewtree = ctree(myname~., traindata)#
+#        } else if(treetype == 1){#
+           f <- paste(names(wdbc)[idx], "~.")#
+           mynewtree <- rpart(as.formula(f), data=traindata)#
+           mynewtree1 <- rpart(d ~., traindata)#
+#        }#
+#
+        print(mynewtree)#
+        print(mynewtree1)#
+#
+        p_tree_train <- predict(mynewtree, testdata)#
+        p_tree_train1 <- predict(mynewtree1, testdata)#
+        print(p_tree_train)#
+        print(p_tree_train1)#
+        print(c(length(p_tree_train), nrow(testdata)))#
+#
+        n1 = paste(trim('wdbc$'),trim(names(wdbc)[idx]),trim('[myvec==i]'))#
+        print(n1)#
+        m_tree = table(as.formula(n1), p_tree_train)#
+        test_acc = (sum(diag(m_tree)) / sum(m_tree))#
+        total_acc = total_acc + test_acc#
+	}#
+	total_acc = total_acc / k#
+	return(1 - total_acc)#
+}
+# tests d_ops#
+#
+x <- runif(120, 0, 20)#
+b <- runif(120, 100, 900)#
+d <- c(rep("B", 90), rep("A", 30))#
+#
+newtest <- data.frame(d = d, b = b, x = x)#
+t = kfold_val(2, 1, newtest, 1)
+kfold_val = function(k, treetype, wdbc, idx){#
+    library(rpart)#
+	total_acc = 0#
+	size = ceiling(nrow(wdbc)/k)#
+    folds = sample(rep(1:k,size))#
+    myvec = folds[1:nrow(wdbc)]#
+#
+	for(i in 1:k){#
+#
+        testdata <- wdbc[myvec==i,]#
+#
+        traindata <- wdbc[myvec!=i,]#
+#        if(treetype == 0){#
+#            mynewtree = ctree(myname~., traindata)#
+#        } else if(treetype == 1){#
+           f <- paste(names(wdbc)[idx], "~.")#
+           mynewtree <- rpart(as.formula(f), data=traindata)#
+           mynewtree1 <- rpart(d ~., traindata)#
+#        }#
+#
+        print(mynewtree)#
+        print(mynewtree1)#
+#
+        p_tree_train <- predict(mynewtree, testdata)#
+        p_tree_train1 <- predict(mynewtree1, testdata)#
+        print(p_tree_train)#
+        print(p_tree_train1)#
+        print(c(length(p_tree_train), nrow(testdata)))#
+#
+        n1 = paste(trim('wdbc$'),trim(names(wdbc)[idx]),trim('[myvec==i]'),sep="")#
+        print(n1)#
+        m_tree = table(as.formula(n1), p_tree_train)#
+        test_acc = (sum(diag(m_tree)) / sum(m_tree))#
+        total_acc = total_acc + test_acc#
+	}#
+	total_acc = total_acc / k#
+	return(1 - total_acc)#
+}
+# tests d_ops#
+#
+x <- runif(120, 0, 20)#
+b <- runif(120, 100, 900)#
+d <- c(rep("B", 90), rep("A", 30))#
+#
+newtest <- data.frame(d = d, b = b, x = x)#
+t = kfold_val(2, 1, newtest, 1)
+kfold_val = function(k, treetype, wdbc, idx){#
+    library(rpart)#
+	total_acc = 0#
+	size = ceiling(nrow(wdbc)/k)#
+    folds = sample(rep(1:k,size))#
+    myvec = folds[1:nrow(wdbc)]#
+#
+	for(i in 1:k){#
+#
+        testdata <- wdbc[myvec==i,]#
+#
+        traindata <- wdbc[myvec!=i,]#
+#        if(treetype == 0){#
+#            mynewtree = ctree(myname~., traindata)#
+#        } else if(treetype == 1){#
+           f <- paste(names(wdbc)[idx], "~.")#
+           mynewtree <- rpart(as.formula(f), data=traindata)#
+           mynewtree1 <- rpart(d ~., traindata)#
+#        }#
+#
+        print(mynewtree)#
+        print(mynewtree1)#
+#
+        p_tree_train <- predict(mynewtree, testdata)#
+        p_tree_train1 <- predict(mynewtree1, testdata)#
+        print(p_tree_train)#
+        print(p_tree_train1)#
+        print(c(length(p_tree_train), nrow(testdata)))#
+        attach(wdbc)#
+        n1 = paste(trim(names(wdbc)[idx]),trim('[myvec==i]'),sep="")#
+        print(n1)#
+        m_tree = table(as.formula(n1), p_tree_train)#
+        test_acc = (sum(diag(m_tree)) / sum(m_tree))#
+        total_acc = total_acc + test_acc#
+	}#
+	total_acc = total_acc / k#
+	return(1 - total_acc)#
+}
+# tests d_ops#
+#
+x <- runif(120, 0, 20)#
+b <- runif(120, 100, 900)#
+d <- c(rep("B", 90), rep("A", 30))#
+#
+newtest <- data.frame(d = d, b = b, x = x)#
+t = kfold_val(2, 1, newtest, 1)
+kfold_val = function(k, treetype, wdbc, idx){#
+    library(rpart)#
+	total_acc = 0#
+	size = ceiling(nrow(wdbc)/k)#
+    folds = sample(rep(1:k,size))#
+    myvec = folds[1:nrow(wdbc)]#
+#
+	for(i in 1:k){#
+#
+        testdata <- wdbc[myvec==i,]#
+#
+        traindata <- wdbc[myvec!=i,]#
+#        if(treetype == 0){#
+#            mynewtree = ctree(myname~., traindata)#
+#        } else if(treetype == 1){#
+           f <- paste(names(wdbc)[idx], "~.")#
+           mynewtree <- rpart(as.formula(f), data=traindata)#
+           mynewtree1 <- rpart(d ~., traindata)#
+#        }#
+#
+        print(mynewtree)#
+        print(mynewtree1)#
+#
+        p_tree_train <- predict(mynewtree, testdata)#
+        p_tree_train1 <- predict(mynewtree1, testdata)#
+        print(p_tree_train)#
+        print(p_tree_train1)#
+        print(c(length(p_tree_train), nrow(testdata)))#
+        attach(wdbc)#
+ #       n1 = paste(trim(names(wdbc)[idx]),trim('[myvec==i]'),sep="")#
+ #       print(n1)#
+        m_tree = table(as.formula(names(wdbc)[idx])[myvec==i], p_tree_train)#
+        test_acc = (sum(diag(m_tree)) / sum(m_tree))#
+        total_acc = total_acc + test_acc#
+	}#
+	total_acc = total_acc / k#
+	return(1 - total_acc)#
+}
+# tests d_ops#
+#
+x <- runif(120, 0, 20)#
+b <- runif(120, 100, 900)#
+d <- c(rep("B", 90), rep("A", 30))#
+#
+newtest <- data.frame(d = d, b = b, x = x)#
+t = kfold_val(2, 1, newtest, 1)
+kfold_val = function(k, treetype, wdbc, idx){#
+    library(rpart)#
+	total_acc = 0#
+	size = ceiling(nrow(wdbc)/k)#
+    folds = sample(rep(1:k,size))#
+    myvec = folds[1:nrow(wdbc)]#
+#
+	for(i in 1:k){#
+#
+        testdata <- wdbc[myvec==i,]#
+#
+        traindata <- wdbc[myvec!=i,]#
+#        if(treetype == 0){#
+#            mynewtree = ctree(myname~., traindata)#
+#        } else if(treetype == 1){#
+           f <- paste(names(wdbc)[idx], "~.")#
+           mynewtree <- rpart(as.formula(f), data=traindata)#
+           mynewtree1 <- rpart(d ~., traindata)#
+#        }#
+#
+        print(mynewtree)#
+        print(mynewtree1)#
+#
+        p_tree_train <- predict(mynewtree, testdata)#
+        p_tree_train1 <- predict(mynewtree1, testdata)#
+        print(p_tree_train)#
+        print(p_tree_train1)#
+        print(c(length(p_tree_train), nrow(testdata)))#
+#        attach(wdbc)#
+        m_tree = table(as.formula(names(wdbc)[idx])[myvec==i], p_tree_train)#
+        test_acc = (sum(diag(m_tree)) / sum(m_tree))#
+        total_acc = total_acc + test_acc#
+	}#
+	total_acc = total_acc / k#
+	return(1 - total_acc)#
+}
+x <- runif(120, 0, 20)#
+b <- runif(120, 100, 900)#
+d <- c(rep("B", 90), rep("A", 30))#
+#
+newtest <- data.frame(d = d, b = b, x = x)#
+t = kfold_val(2, 1, newtest, 1)
+kfold_val = function(k, treetype, wdbc, idx){#
+    library(rpart)#
+	total_acc = 0#
+	size = ceiling(nrow(wdbc)/k)#
+    folds = sample(rep(1:k,size))#
+    myvec = folds[1:nrow(wdbc)]#
+#
+	for(i in 1:k){#
+#
+        testdata <- wdbc[myvec==i,]#
+#
+        traindata <- wdbc[myvec!=i,]#
+#        if(treetype == 0){#
+#            mynewtree = ctree(myname~., traindata)#
+#        } else if(treetype == 1){#
+           f <- paste(names(wdbc)[idx], "~.")#
+           mynewtree <- rpart(as.formula(f), data=traindata)#
+           mynewtree1 <- rpart(d ~., traindata)#
+#        }#
+#
+        print(mynewtree)#
+        print(mynewtree1)#
+#
+        p_tree_train <- predict(mynewtree, testdata)#
+        p_tree_train1 <- predict(mynewtree1, testdata)#
+        print(p_tree_train)#
+        print(p_tree_train1)#
+        print(c(length(p_tree_train), nrow(testdata)))#
+#        attach(wdbc)#
+print(idx)#
+        m_tree = table(as.formula(names(wdbc)[idx])[myvec==i], p_tree_train)#
+        test_acc = (sum(diag(m_tree)) / sum(m_tree))#
+        total_acc = total_acc + test_acc#
+	}#
+	total_acc = total_acc / k#
+	return(1 - total_acc)#
+}
+x <- runif(120, 0, 20)#
+b <- runif(120, 100, 900)#
+d <- c(rep("B", 90), rep("A", 30))#
+#
+newtest <- data.frame(d = d, b = b, x = x)#
+t = kfold_val(2, 1, newtest, 1)
+kfold_val = function(k, treetype, wdbc, idx){#
+    library(rpart)#
+	total_acc = 0#
+	size = ceiling(nrow(wdbc)/k)#
+    folds = sample(rep(1:k,size))#
+    myvec = folds[1:nrow(wdbc)]#
+#
+	for(i in 1:k){#
+#
+        testdata <- wdbc[myvec==i,]#
+#
+        traindata <- wdbc[myvec!=i,]#
+#        if(treetype == 0){#
+#            mynewtree = ctree(myname~., traindata)#
+#        } else if(treetype == 1){#
+           f <- paste(names(wdbc)[idx], "~.")#
+           mynewtree <- rpart(as.formula(f), data=traindata)#
+           mynewtree1 <- rpart(d ~., traindata)#
+#        }#
+#
+        print(mynewtree)#
+        print(mynewtree1)#
+#
+        p_tree_train <- predict(mynewtree, testdata)#
+        p_tree_train1 <- predict(mynewtree1, testdata)#
+        print(p_tree_train)#
+        print(p_tree_train1)#
+        print(c(length(p_tree_train), nrow(testdata)))#
+        m_tree = table(wdbc$d[myvec==i], p_tree_train1)#
+        test_acc = (sum(diag(m_tree)) / sum(m_tree))#
+        total_acc = total_acc + test_acc#
+	}#
+	total_acc = total_acc / k#
+	return(1 - total_acc)#
+}
+x <- runif(120, 0, 20)#
+b <- runif(120, 100, 900)#
+d <- c(rep("B", 90), rep("A", 30))#
+#
+newtest <- data.frame(d = d, b = b, x = x)#
+t = kfold_val(2, 1, newtest, 1)
+kfold_val = function(k, treetype, wdbc, idx){#
+    library(rpart)#
+	total_acc = 0#
+	size = ceiling(nrow(wdbc)/k)#
+    folds = sample(rep(1:k,size))#
+    myvec = folds[1:nrow(wdbc)]#
+#
+	for(i in 1:k){#
+#
+        testdata <- wdbc[myvec==i,]#
+#
+        traindata <- wdbc[myvec!=i,]#
+#        if(treetype == 0){#
+#            mynewtree = ctree(myname~., traindata)#
+#        } else if(treetype == 1){#
+           f <- paste(names(wdbc)[idx], "~.")#
+           mynewtree <- rpart(as.formula(f), data=traindata)#
+           mynewtree1 <- rpart(d ~., traindata)#
+#        }#
+#
+        print(mynewtree)#
+        print(mynewtree1)#
+#
+        p_tree_train <- predict(mynewtree, testdata)#
+        p_tree_train1 <- predict(mynewtree1, testdata)#
+        print(p_tree_train)#
+        print(p_tree_train1)#
+        print(c(length(p_tree_train), nrow(testdata)))#
+        m_tree = table(d[myvec==i], p_tree_train1)#
+        test_acc = (sum(diag(m_tree)) / sum(m_tree))#
+        total_acc = total_acc + test_acc#
+	}#
+	total_acc = total_acc / k#
+	return(1 - total_acc)#
+}
+x <- runif(120, 0, 20)#
+b <- runif(120, 100, 900)#
+d <- c(rep("B", 90), rep("A", 30))#
+#
+newtest <- data.frame(d = d, b = b, x = x)#
+t = kfold_val(2, 1, newtest, 1)
